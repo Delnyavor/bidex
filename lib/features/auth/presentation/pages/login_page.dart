@@ -1,6 +1,6 @@
 import 'package:bidex/common/app_colors.dart';
 import 'package:bidex/common/app_routes.dart';
-import 'package:bidex/common/route_transitions.dart';
+import 'package:bidex/common/transitions/route_transitions.dart';
 import 'package:bidex/common/widgets/translucent_app_bar.dart';
 import 'package:bidex/features/auth/presentation/login_bloc/login_bloc.dart';
 import 'package:bidex/features/auth/presentation/widgets/auth_button.dart';

@@ -1,5 +1,5 @@
 import 'package:bidex/common/app_colors.dart';
-import 'package:bidex/common/scroll_behaviour.dart';
+import 'package:bidex/common/transitions/scroll_behaviour.dart';
 import 'package:bidex/common/widgets/page_indicator.dart';
 import 'package:bidex/common/widgets/translucent_app_bar.dart';
 import 'package:flutter/material.dart';

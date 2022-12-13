@@ -1,9 +1,11 @@
 import 'package:bidex/common/app_themes.dart';
-import 'package:bidex/common/route_transitions.dart';
+import 'package:bidex/common/transitions/route_transitions.dart';
 import 'package:bidex/features/auth/domain/usecases/sign_in.dart';
 import 'package:bidex/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bidex/di/injection_container.dart';
 import 'package:bidex/features/auth/presentation/pages/registration_page.dart';
+import 'package:bidex/features/scaffolding/presentation/bloc/navigation_bloc.dart/bloc/navigation_bloc.dart';
+import 'package:bidex/features/scaffolding/presentation/pages/scaffolding_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'features/auth/presentation/login_bloc/login_bloc.dart';
@@ -37,6 +39,9 @@ class MyApp extends StatelessWidget {
             signIn: SignIn(sl()),
           ),
         ),
+        BlocProvider<NavigationBloc>(
+          create: (BuildContext context) => NavigationBloc(),
+        ),
       ],
       child: MaterialApp(
         title: 'Bidex',
@@ -53,7 +58,7 @@ class Landing extends StatelessWidget {
   void push(context) {
     Navigator.push(
       context,
-      slideInRoute(const RegistrationPage()),
+      fadeInRoute(const PageScaffolding()),
     );
   }
 

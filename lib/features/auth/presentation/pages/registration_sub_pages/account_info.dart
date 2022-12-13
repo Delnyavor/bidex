@@ -1,6 +1,6 @@
 import 'package:bidex/common/app_colors.dart';
-import 'package:bidex/common/route_transitions.dart';
-import 'package:bidex/common/scroll_behaviour.dart';
+import 'package:bidex/common/transitions/route_transitions.dart';
+import 'package:bidex/common/transitions/scroll_behaviour.dart';
 import 'package:bidex/features/auth/data/models/email.dart';
 import 'package:bidex/features/auth/data/models/password.dart';
 import 'package:bidex/features/auth/presentation/bloc/auth_bloc.dart';
