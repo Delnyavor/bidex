@@ -60,7 +60,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(state.copyWith(status: LoginPageStatus.loading));
 
       final result = await _signIn(event.email, event.password);
-
       result!.fold((failure) {
         emit(
           state.copyWith(

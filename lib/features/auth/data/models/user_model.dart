@@ -1,13 +1,41 @@
-class UserModel {
-  final String name;
+import 'package:bidex/features/auth/domain/entities/user.dart';
+import 'package:firebase_database/firebase_database.dart';
 
-  const UserModel({required this.name});
+class UserModel extends User {
+  const UserModel({
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String username,
+    required String photoUrl,
+    required String phoneNumber,
+  }) : super(
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            username: username,
+            photoUrl: photoUrl,
+            phoneNumber: phoneNumber);
 
-  factory UserModel.fromMap(Map<String, dynamic> data) {
-    return UserModel(name: data['name']);
+  factory UserModel.fromMap(Map data) {
+    return UserModel(
+      firstName: data['first_name'],
+      lastName: data['last_name'],
+      email: data['email'],
+      username: data['username'],
+      photoUrl: data['photoUrl'] ?? '',
+      phoneNumber: data['phone'],
+    );
   }
 
   Map<String, dynamic> toMap() {
-    return {'name': name};
+    return {
+      'first_name': firstName,
+      'last_name': lastName,
+      'email': email,
+      'username': username,
+      'photoUrl': photoUrl,
+      'phoneNumber': phoneNumber
+    };
   }
 }

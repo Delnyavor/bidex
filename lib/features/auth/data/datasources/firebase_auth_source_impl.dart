@@ -24,7 +24,7 @@ class FirebaseAuthDataSourceImpl implements FirebaseAuthDataSource {
   Future<User?> signIn(String email, String password) async {
     UserCredential credential = await firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
-
+    print('Cred: $credential');
     return credential.user;
   }
 }

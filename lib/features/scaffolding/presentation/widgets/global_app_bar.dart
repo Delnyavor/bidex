@@ -39,7 +39,8 @@ class _GlobalAppBarState extends State<GlobalAppBar> {
   }
 
   Widget title() {
-    return const Text('Bidex');
+    return Transform.scale(
+        scale: 0.45, child: Image.asset('assets/images/logo.png'));
   }
 
   List<Widget> actions() {

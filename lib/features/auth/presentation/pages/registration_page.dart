@@ -6,6 +6,7 @@ import 'package:bidex/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bidex/features/auth/presentation/pages/registration_sub_pages/account_info.dart';
 import 'package:bidex/features/auth/presentation/pages/registration_sub_pages/personal_info_form.dart';
 import 'package:bidex/features/auth/presentation/pages/registration_sub_pages/personal_info_identity_form.dart';
+import 'package:bidex/features/scaffolding/presentation/pages/scaffolding_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -81,8 +82,7 @@ class RegistrationPageState extends State<RegistrationPage> {
         ),
       );
     Future.delayed(const Duration(seconds: 2), () {
-      //TODO: chagnge to pushreplacement
-      Navigator.push(context, slideInRoute(const Scaffold()));
+      Navigator.pushReplacement(context, slideInRoute(const PageScaffolding()));
     });
   }
 
@@ -118,10 +118,7 @@ class RegistrationPageState extends State<RegistrationPage> {
   Widget body() {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 50, bottom: 75),
-          child: logo(),
-        ),
+        logo(),
         Flexible(
           child: PageView(
             controller: controller,
@@ -134,10 +131,14 @@ class RegistrationPageState extends State<RegistrationPage> {
   }
 
   Widget logo() {
-    return const Center(
-      child: Text(
-        'bidex',
-        style: TextStyle(fontSize: 80, letterSpacing: -10),
+    return AspectRatio(
+      aspectRatio: 1.6,
+      child: Transform.scale(
+        scale: 0.7,
+        child: Image.asset(
+          'assets/images/logo.png',
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }

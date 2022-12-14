@@ -48,7 +48,6 @@ class _PageHandlerState extends State<PageHandler>
       child: Container(
         margin: const EdgeInsets.only(top: 10),
         decoration: decoration(),
-        // child: builder()
         child: AnimatedBuilder(
           animation: fadeInOut,
           builder: (context, child) {
@@ -65,36 +64,24 @@ class _PageHandlerState extends State<PageHandler>
     );
   }
 
-  Widget body() {
-    return PageView(
-      controller: pageController,
-      children: widget.pages,
-    );
-  }
-
   Widget builder() {
     return BlocListener<NavigationBloc, NavigationState>(
-        listener: (context, state) {
-          controller.forward().whenComplete(() {
-            setState(() {
-              child = widget.pages[state.page];
-            });
-            controller.reverse();
+      listener: (context, state) {
+        controller.forward().whenComplete(() {
+          setState(() {
+            child = widget.pages[state.page];
           });
-        },
-        child: child
-        // child: BlocBuilder<NavigationBloc, NavigationState>(
-        //   builder: (context, state) {
-        //     return widget.pages[state.page];
-        //   },
-        // ),
-        );
+          controller.reverse();
+        });
+      },
+      child: child,
+    );
   }
 
   BoxDecoration decoration() {
     return BoxDecoration(
       color: Colors.white,
-      borderRadius: BorderRadius.circular(32),
+      borderRadius: BorderRadius.circular(45),
       boxShadow: [
         const BoxShadow(
           color: Colors.black12,
@@ -103,11 +90,11 @@ class _PageHandlerState extends State<PageHandler>
           offset: Offset(0, 0),
         ),
         BoxShadow(
-          color: Colors.black12.withOpacity(0.1),
-          spreadRadius: -3,
-          blurRadius: 15,
+          color: Colors.black12.withOpacity(0.05),
+          spreadRadius: -2,
+          blurRadius: 5,
           offset: Offset(0, 2),
-        )
+        ),
       ],
     );
   }

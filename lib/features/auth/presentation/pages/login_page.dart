@@ -1,10 +1,11 @@
 import 'package:bidex/common/app_colors.dart';
-import 'package:bidex/common/app_routes.dart';
 import 'package:bidex/common/transitions/route_transitions.dart';
 import 'package:bidex/common/widgets/translucent_app_bar.dart';
 import 'package:bidex/features/auth/presentation/login_bloc/login_bloc.dart';
+import 'package:bidex/features/auth/presentation/pages/registration_page.dart';
 import 'package:bidex/features/auth/presentation/widgets/auth_button.dart';
 import 'package:bidex/features/auth/presentation/widgets/auth_input.dart';
+import 'package:bidex/features/scaffolding/presentation/pages/scaffolding_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -50,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void handleUnsiccessfulState(String error) {
+  void handleUnsuccessfulState(String error) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(
@@ -65,13 +66,18 @@ class _LoginPageState extends State<LoginPage> {
         const SnackBar(
           content: Text(
             'Welcome to Bidex',
-            style: TextStyle(color: AppColors.blue),
+            style: TextStyle(color: AppColors.appWhite),
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: AppColors.darkBlue,
         ),
       );
     Future.delayed(const Duration(seconds: 2), () {
-      Navigator.push(context, slideInRoute(const LoginPage()));
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+      Future.delayed(const Duration(milliseconds: 700), () {
+        Navigator.pushReplacement(
+            context, fadeInRoute(const PageScaffolding()));
+      });
     });
   }
 
@@ -91,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
       bloc: bloc,
       listener: (context, state) {
         if (state.status == LoginPageStatus.failed) {
-          handleUnsiccessfulState(state.error);
+          handleUnsuccessfulState(state.error);
         }
         if (state.status == LoginPageStatus.successful) {
           handleSuccessfulState();
@@ -111,10 +117,7 @@ class _LoginPageState extends State<LoginPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 55),
-          child: logo(),
-        ),
+        logo(),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32),
           child: formTitle(),
@@ -152,10 +155,14 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget logo() {
-    return const Center(
-      child: Text(
-        'bidex',
-        style: TextStyle(fontSize: 80, letterSpacing: -10),
+    return AspectRatio(
+      aspectRatio: 1.6,
+      child: Transform.scale(
+        scale: 0.7,
+        child: Image.asset(
+          'assets/images/logo.png',
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
@@ -309,7 +316,8 @@ class _LoginPageState extends State<LoginPage> {
       label: 'Register',
       light: true,
       onPressed: () {
-        Navigator.pushReplacementNamed(context, Routes.signup);
+        Navigator.pushReplacement(
+            context, slideInRoute(const RegistrationPage()));
       },
       flex: true,
     );

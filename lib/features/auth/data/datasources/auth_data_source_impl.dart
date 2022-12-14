@@ -1,4 +1,5 @@
 import 'package:bidex/features/auth/data/datasources/auth_data_source.dart';
+import 'package:bidex/features/auth/data/models/user_model.dart';
 import 'package:bidex/features/auth/domain/entities/user.dart';
 import 'package:bidex/features/auth/domain/entities/user_data.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -46,7 +47,7 @@ class AuthDataSourceImpl implements AuthDataSource {
     try {
       DataSnapshot result = await ref.get();
 
-      //TODO: create userdata to user method
+      return UserModel.fromMap(result.value as Map);
     } on FirebaseException {
       return null;
     }

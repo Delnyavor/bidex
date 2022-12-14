@@ -23,7 +23,6 @@ class _PageScaffolding extends State<PageScaffolding> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: CustomAppBar.translucentStatusAppBar,
       body: body(),
       bottomNavigationBar: const GlobalBottomNavBar(),
