@@ -12,7 +12,7 @@ class GlobalBottomNavBar extends StatefulWidget {
 class _GlobalBottomNavBarState extends State<GlobalBottomNavBar> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

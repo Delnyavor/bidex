@@ -66,7 +66,7 @@ class _LoadingPageState extends State<LoadingPage>
       ignoring: ignoring,
       child: SizedBox.expand(
         child: Container(
-          color: Colors.grey[200],
+          color: Colors.white,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [

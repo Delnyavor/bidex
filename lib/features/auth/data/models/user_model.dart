@@ -1,5 +1,4 @@
 import 'package:bidex/features/auth/domain/entities/user.dart';
-import 'package:firebase_database/firebase_database.dart';
 
 class UserModel extends User {
   const UserModel({
