@@ -5,7 +5,7 @@ abstract class BarterRemoteDataSource {
   ///gets the cached [BarterItem] saved on the local device
   ///
   ///Throws [CacheException] if not data is present
-  Future<List<BarterItem>?>? getAllItems();
+  Future<List<BarterItem>?>? getAllItems(int index);
 
   ///saves the [BarterItem] onto the local device
   ///

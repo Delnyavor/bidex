@@ -37,12 +37,13 @@ class BarterRepositoryImpl extends BarterRepository {
   }
 
   @override
-  Future<Either<Failure, List<BarterItem?>?>>? getAllBarterItems() async {
+  Future<Either<Failure, List<BarterItem>?>>? getAllBarterItems(
+      [int index = 0]) async {
     try {
-      final result = await dataSource.getAllItems();
+      final result = await dataSource.getAllItems(index);
       return Right(result);
     } on ServerException catch (_) {
-      return const Left(ServerFailure(message: ''));
+      return const Left(ServerFailure(message: 'Something went wrong'));
     } on CacheException catch (_) {
       return const Left(CacheFailure(message: ''));
     }

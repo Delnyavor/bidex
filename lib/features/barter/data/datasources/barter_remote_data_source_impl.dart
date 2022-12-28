@@ -49,11 +49,11 @@ class BarterRemoteDataSourceImpl extends BarterRemoteDataSource {
   }
 
   @override
-  Future<List<BarterItemModel>?>? getAllItems() async {
+  Future<List<BarterItemModel>?>? getAllItems([int index = 0]) async {
     http.Response response = await httpClient.get(Uri.parse('www.example.com/'),
         headers: {'Content-Type': 'application/json'});
     try {
-      if (response.statusCode == 200) {
+      if (response.body.isNotEmpty) {
         return compute(_parseItems, response.body);
       } else {
         throw ServerException(code: response.statusCode);
