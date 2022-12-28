@@ -4,7 +4,7 @@ import 'package:bidex/features/auth/domain/usecases/sign_in.dart';
 import 'package:bidex/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bidex/di/injection_container.dart';
 import 'package:bidex/features/auth/presentation/pages/login_page.dart';
-import 'package:bidex/features/auth/presentation/pages/registration_page.dart';
+import 'package:bidex/features/barter/presentation/bloc/bloc/barter_bloc.dart';
 import 'package:bidex/features/scaffolding/presentation/bloc/navigation_bloc.dart/bloc/navigation_bloc.dart';
 import 'package:bidex/features/scaffolding/presentation/pages/scaffolding_page.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +43,15 @@ class MyApp extends StatelessWidget {
         BlocProvider<NavigationBloc>(
           create: (BuildContext context) => NavigationBloc(),
         ),
+        BlocProvider<BarterBloc>(
+          create: (BuildContext context) => BarterBloc(
+            createBarter: sl(),
+            getAllBarters: sl(),
+            getBarter: sl(),
+            updateBarter: sl(),
+            deleteBarter: sl(),
+          ),
+        ),
       ],
       child: MaterialApp(
         title: 'Bidex',
@@ -59,7 +68,7 @@ class Landing extends StatelessWidget {
   void push(context) {
     Navigator.push(
       context,
-      fadeInRoute(const LoginPage()),
+      fadeInRoute(const PageScaffolding()),
     );
   }
 

@@ -12,9 +12,9 @@ import 'barter_remote_data_source.dart';
 
 // TODO: clarify the endpoint return types for each function
 class BarterRemoteDataSourceImpl extends BarterRemoteDataSource {
-  final http.Client httpClient;
+  final http.Client httpClient = http.Client();
 
-  BarterRemoteDataSourceImpl(this.httpClient);
+  BarterRemoteDataSourceImpl();
 
   @override
   Future<BarterItemModel?>? createBarterItem(BarterItem barterItem) async {

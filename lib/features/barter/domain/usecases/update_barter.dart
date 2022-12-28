@@ -4,10 +4,10 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/error/failures.dart';
 import '../entities/barter_item.dart';
 
-class UpdateBarterItem {
+class UpdateBarter {
   final BarterRepository repository;
 
-  UpdateBarterItem({required this.repository});
+  UpdateBarter({required this.repository});
 
   Future<Either<Failure, BarterItem?>?>? call(
       {required BarterItem barterItem}) async {

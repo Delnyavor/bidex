@@ -2,25 +2,29 @@ import 'package:bidex/core/error/failures.dart';
 import 'package:bidex/features/barter/domain/entities/barter_item.dart';
 import 'package:bidex/features/barter/domain/usecases/get_all_barters.dart';
 import 'package:bidex/features/barter/domain/usecases/get_barter.dart';
+import 'package:bidex/features/barter/domain/usecases/update_barter.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+
+import '../../../domain/usecases/create_barter.dart';
+import '../../../domain/usecases/delete_barter.dart';
 
 part 'barter_event.dart';
 part 'barter_state.dart';
 
 class BarterBloc extends Bloc<BarterEvent, BarterState> {
   final GetAllBarters getAllBarters;
-  final GetBarterItem getBarterItem;
-  final CreateBarterItem createBarterItem;
-  final DeleteBarterItem deleteBarterItem;
-  final UpdateBarterItem updateBarterItem;
+  final GetBarter getBarter;
+  final CreateBarter createBarter;
+  final DeleteBarter deleteBarter;
+  final UpdateBarter updateBarter;
 
   BarterBloc({
     required this.getAllBarters,
-    required this.getBarterItem,
-    required this.createBarterItem,
-    required this.deleteBarterItem,
-    required this.updateBarterItem,
+    required this.getBarter,
+    required this.createBarter,
+    required this.deleteBarter,
+    required this.updateBarter,
   }) : super(const BarterState()) {
     on<FetchBarterItems>((event, emit) {});
   }

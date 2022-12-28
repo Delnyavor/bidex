@@ -10,7 +10,6 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
   }
 
   void onPageChanged(PageChanged event, Emitter<NavigationState> emit) {
-    print(event.page);
     emit(state.copyWith(page: event.page));
   }
 }

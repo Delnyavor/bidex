@@ -4,10 +4,10 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/error/failures.dart';
 import '../entities/barter_item.dart';
 
-class GetBarterItem {
+class GetBarter {
   final BarterRepository repository;
 
-  GetBarterItem({required this.repository});
+  GetBarter({required this.repository});
 
   Future<Either<Failure, BarterItem?>?>? call({required int id}) async {
     return await repository.getBarterItem(id);
