@@ -1,49 +1,28 @@
+import 'package:bidex/common/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class LoadingPage extends StatefulWidget {
-  final bool loading;
-  const LoadingPage({Key? key, required this.loading}) : super(key: key);
+  final AnimationController controller;
+  const LoadingPage({Key? key, required this.controller}) : super(key: key);
 
   @override
   State<LoadingPage> createState() => _LoadingPageState();
 }
 
-class _LoadingPageState extends State<LoadingPage>
-    with TickerProviderStateMixin {
+class _LoadingPageState extends State<LoadingPage> {
   bool ignoring = true;
-  late AnimationController controller;
   late Animation<double> fadeIn;
 
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 500));
-    fadeIn = Tween<double>(begin: 0, end: 1).animate(
+    fadeIn = Tween<double>(begin: 1, end: 0).animate(
       CurvedAnimation(
-        parent: controller,
-        curve: const Interval(0, 0.7, curve: Curves.fastOutSlowIn),
-        reverseCurve: const Interval(0, 0.7, curve: Curves.easeInCubic),
+        parent: widget.controller,
+        curve: const Interval(0, 1, curve: Curves.fastOutSlowIn),
+        reverseCurve: const Interval(0, 1, curve: Curves.easeInCubic),
       ),
     );
-
-    runAnimation();
-  }
-
-  void runAnimation() {
-    if (widget.loading == true) {
-      if (!(controller.isAnimating || controller.isCompleted)) {
-        setState(() {
-          controller.forward();
-        });
-      }
-    } else {
-      if (!controller.isAnimating || controller.value != 0) {
-        setState(() {
-          controller.reverse();
-        });
-      }
-    }
   }
 
   @override
@@ -55,18 +34,18 @@ class _LoadingPageState extends State<LoadingPage>
     return AnimatedBuilder(
       animation: fadeIn,
       builder: (context, child) {
-        return FadeTransition(opacity: fadeIn, child: child!);
+        return FadeTransition(opacity: fadeIn, child: loadingWidget());
       },
-      child: loadingWidget(),
+      // child: loadingWidget(),
     );
   }
 
   Widget loadingWidget() {
     return IgnorePointer(
-      ignoring: ignoring,
+      ignoring: widget.controller.isCompleted,
       child: SizedBox.expand(
         child: Container(
-          color: Colors.white,
+          color: AppColors.appWhite,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [

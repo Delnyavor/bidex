@@ -14,19 +14,44 @@ class BarterPage extends StatefulWidget {
   createState() => _BarterPage();
 }
 
-class _BarterPage extends State<BarterPage> with AutomaticKeepAliveClientMixin {
+class _BarterPage extends State<BarterPage>
+    with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
   @override
   bool get wantKeepAlive => true;
 
-  bool loading = true;
+  late BarterBloc bloc;
+  late AnimationController controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+  }
+
+  int counter = 0;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    bloc = BlocProvider.of(context);
+    bloc.add(const FetchBarterItems());
+  }
 
   void listen(BarterState state) {
-    setState(() {
-      if (state.barterPageStatus == BarterPageStatus.loading) {
-      } else {
-        loading = false;
-      }
-    });
+    print(counter);
+
+    if (state.barterPageStatus != BarterPageStatus.loading) {
+      ++counter;
+      controller.forward();
+    } else {
+      ++counter;
+      controller.reverse();
+    }
   }
 
   @override
@@ -45,17 +70,28 @@ class _BarterPage extends State<BarterPage> with AutomaticKeepAliveClientMixin {
   Widget buildStack() {
     return Stack(
       children: [
-        LoadingPage(loading: loading),
         body(),
+        loadingBuilder(),
       ],
     );
   }
 
+  Widget loadingBuilder() {
+    return LoadingPage(controller: controller);
+  }
+
   Widget body() {
-    return ListView.builder(
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      itemBuilder: (context, index) => const BarterItemWidget(),
-      itemCount: 5,
+    return BlocBuilder<BarterBloc, BarterState>(
+      bloc: bloc,
+      builder: (context, state) {
+        return ListView.builder(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          itemBuilder: (context, index) => BarterItemWidget(
+            barterItem: state.items[index],
+          ),
+          itemCount: state.items.length,
+        );
+      },
     );
   }
 }

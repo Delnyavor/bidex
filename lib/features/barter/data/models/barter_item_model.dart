@@ -19,7 +19,7 @@ class BarterItemModel extends BarterItem {
 
   factory BarterItemModel.fromMap(Map data) {
     return BarterItemModel(
-        userId: data['userid'],
+        userId: data['userId'],
         username: data['username'],
         location: data['location'],
         rating: data['rating'],

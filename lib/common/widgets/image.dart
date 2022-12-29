@@ -2,24 +2,22 @@ import 'package:flutter/material.dart';
 
 class DisplayImage extends StatelessWidget {
   final String path;
-  final double height;
-  final double width;
+  final int height;
+  final int width;
   const DisplayImage({
     Key? key,
     required this.path,
-    required num height,
-    required num width,
-  })  : width = width * 1.0,
-        height = height * 1.0,
-        super(key: key);
+    required this.height,
+    required this.width,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Image(
-      width: width,
-      height: height,
+      width: width * 1.0,
+      height: height * 1.0,
       fit: BoxFit.cover,
-      image: AssetImage(path),
+      image: ResizeImage(AssetImage(path), width: width, height: height),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bidex/api/fixtures/fixture_reader.dart';
 import 'package:bidex/features/barter/domain/entities/barter_item.dart';
 import 'package:bidex/features/barter/data/models/barter_item_model.dart';
 import 'package:flutter/foundation.dart';
@@ -50,13 +51,29 @@ class BarterRemoteDataSourceImpl extends BarterRemoteDataSource {
 
   @override
   Future<List<BarterItemModel>?>? getAllItems([int index = 0]) async {
-    http.Response response = await httpClient.get(Uri.parse('www.example.com/'),
-        headers: {'Content-Type': 'application/json'});
+    //TODO: revert these changes
+
+    // http.Response response = await httpClient.get(Uri.parse('www.example.com/'),
+    //     headers: {'Content-Type': 'application/json'});
     try {
-      if (response.body.isNotEmpty) {
-        return compute(_parseItems, response.body);
+      // if (response.body.isNotEmpty) {}
+
+      if (true) {
+        // var res = jsonDecode(readFixture('barter_fixture.json'));
+        // return compute(_parseItems, response.body);
+        var item = BarterItemModel.fromMap({
+          "userId": "userId",
+          "username": "username",
+          "location": "location",
+          "rating": 4.5,
+          "imageUrls": ["stock0.jpg", "stock1.jpg", "stock2.jpg", "stock3.jpg"],
+          "tags": ["ps5", "ps4", "gaming pc", "xbox series"]
+        });
+
+        await Future.delayed(const Duration(seconds: 2), () {});
+        return List<BarterItemModel>.generate(15, (index) => item);
       } else {
-        throw ServerException(code: response.statusCode);
+        // throw ServerException(code: response.statusCode);
       }
     } on PlatformException {
       return null;

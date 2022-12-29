@@ -9,7 +9,7 @@ class GetAllBarters {
 
   GetAllBarters({required this.repository});
 
-  Future<Either<Failure, List<BarterItem>?>?>? call() async {
-    return await repository.getAllBarterItems();
+  Future<Either<Failure, List<BarterItem>?>?>? call([int index = 0]) async {
+    return await repository.getAllBarterItems(index);
   }
 }

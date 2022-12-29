@@ -1,9 +1,13 @@
 import 'package:bidex/common/widgets/image.dart';
+import 'package:bidex/features/barter/domain/entities/barter_item.dart';
 import 'package:bidex/features/barter/presentation/widgets/carousel.dart';
+import 'package:bidex/features/barter/presentation/widgets/tags_widget.dart';
 import 'package:flutter/material.dart';
 
 class BarterItemWidget extends StatefulWidget {
-  const BarterItemWidget({Key? key}) : super(key: key);
+  final BarterItem barterItem;
+  const BarterItemWidget({Key? key, required this.barterItem})
+      : super(key: key);
 
   @override
   State<BarterItemWidget> createState() => _BarterItemWidgetState();
@@ -21,7 +25,12 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
       decoration: decoration(),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: [itemHeader(), center(), controls()],
+        children: [
+          itemHeader(),
+          center(),
+          controls(),
+          tags(),
+        ],
       ),
     );
   }
@@ -45,14 +54,14 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'User name',
+                  widget.barterItem.username,
                   style: Theme.of(context).textTheme.caption!.copyWith(
                         fontWeight: FontWeight.w600,
                         color: Colors.black87,
                       ),
                 ),
                 Text(
-                  'Location',
+                  widget.barterItem.location,
                   style: Theme.of(context).textTheme.caption!.copyWith(
                         color: Colors.black87,
                       ),
@@ -69,7 +78,7 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
                   size: 20,
                 ),
                 Text(
-                  '4.5',
+                  widget.barterItem.rating.toString(),
                   style: Theme.of(context).textTheme.caption,
                 )
               ],
@@ -85,7 +94,9 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
       aspectRatio: 1,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
-        child: const Carousel(),
+        child: Carousel(
+          images: widget.barterItem.imageUrls,
+        ),
       ),
     );
   }
@@ -143,6 +154,13 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
           offset: Offset(0, 1),
         ),
       ],
+    );
+  }
+
+  Widget tags() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(15, 0, 15, 20),
+      child: TagsWidget(tags: widget.barterItem.tags),
     );
   }
 }

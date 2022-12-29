@@ -26,14 +26,15 @@ class BarterBloc extends Bloc<BarterEvent, BarterState> {
     required this.deleteBarter,
     required this.updateBarter,
   }) : super(const BarterState()) {
-    on<FetchBarterItems>((event, emit) {});
+    on<FetchBarterItems>(onFetchItemsEvent);
   }
 
-  void onFetchItemsEvent(BarterEvent event, Emitter<BarterState> emit) async {
+  void onFetchItemsEvent(
+      FetchBarterItems event, Emitter<BarterState> emit) async {
     emit(
       state.copyWith(barterPageStatus: BarterPageStatus.loading),
     );
-    final result = await getAllBarters();
+    final result = await getAllBarters(state.items.length);
 
     result!.fold((l) async {}, (r) async {
       //handle the initial or empty state
@@ -41,7 +42,13 @@ class BarterBloc extends Bloc<BarterEvent, BarterState> {
         handleInitial(r, emit);
       } else {
         //handle the loaded state
-        handleNonInitial(r, emit);
+        // handleNonInitial(r, emit);
+        emit(
+          state.copyWith(
+            barterPageStatus: BarterPageStatus.loaded,
+            items: r,
+          ),
+        );
       }
     });
   }
@@ -79,6 +86,7 @@ class BarterBloc extends Bloc<BarterEvent, BarterState> {
         ),
       );
     } else if (result.isNotEmpty) {
+      print(result);
       emit(
         state.copyWith(
           barterPageStatus: BarterPageStatus.loaded,

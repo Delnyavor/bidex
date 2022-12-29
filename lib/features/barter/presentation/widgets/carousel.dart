@@ -3,7 +3,8 @@ import 'package:bidex/features/barter/presentation/widgets/carousel_indicator.da
 import 'package:flutter/material.dart';
 
 class Carousel extends StatefulWidget {
-  const Carousel({Key? key}) : super(key: key);
+  final List<String> images;
+  const Carousel({Key? key, required this.images}) : super(key: key);
 
   @override
   State<Carousel> createState() => _CarouselState();
@@ -18,22 +19,23 @@ class _CarouselState extends State<Carousel> {
       children: [
         PageView.builder(
           controller: controller,
-          itemBuilder: (context, index) => child(),
-          itemCount: 5,
+          itemBuilder: (context, index) => child(widget.images[index]),
+          itemCount: widget.images.length,
         ),
         CarouselIndicator(
           controller: controller,
-          count: 5,
+          count: widget.images.length,
         )
       ],
     );
   }
 
-  Widget child() {
-    return const DisplayImage(
-      path: 'assets/images/stock2.jpg',
-      height: 500,
-      width: 700,
+  Widget child(String path) {
+    return DisplayImage(
+      // TODO: make this a clean url
+      path: 'assets/images/$path',
+      height: 675,
+      width: 676,
     );
   }
 }

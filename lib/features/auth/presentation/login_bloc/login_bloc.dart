@@ -29,7 +29,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       state.copyWith(
           email: email,
           formzStatus: Formz.validate([state.password, email]),
-          status: LoginPageStatus.none),
+          status: LoginPageStatus.none,),
     );
   }
 

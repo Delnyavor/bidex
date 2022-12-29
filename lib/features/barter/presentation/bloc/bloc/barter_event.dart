@@ -7,7 +7,9 @@ abstract class BarterEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class FetchBarterItems extends BarterEvent {}
+class FetchBarterItems extends BarterEvent {
+  const FetchBarterItems();
+}
 
 class FetchBarterItem extends BarterEvent {
   final int id;
