@@ -138,23 +138,24 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
 
   BoxDecoration decoration() {
     return BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(16),
-      boxShadow: [
-        const BoxShadow(
-          color: Colors.black38,
-          spreadRadius: -1,
-          blurRadius: 1,
-          offset: Offset(0, 0.5),
-        ),
-        BoxShadow(
-          color: Colors.black12.withOpacity(0.2),
-          spreadRadius: -5,
-          blurRadius: 8,
-          offset: Offset(0, 1),
-        ),
-      ],
-    );
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.grey.shade300, width: 0.5)
+        // boxShadow: [
+        //   const BoxShadow(
+        //     color: Colors.black38,
+        //     spreadRadius: -1,
+        //     blurRadius: 1,
+        //     offset: Offset(0, 0.5),
+        //   ),
+        //   BoxShadow(
+        //     color: Colors.black12.withOpacity(0.2),
+        //     spreadRadius: -5,
+        //     blurRadius: 8,
+        //     offset: Offset(0, 1),
+        //   ),
+        // ],
+        );
   }
 
   Widget tags() {

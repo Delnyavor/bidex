@@ -1,3 +1,4 @@
+import 'package:bidex/common/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class TagsWidget extends StatelessWidget {
@@ -15,7 +16,16 @@ class TagsWidget extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(e, style: style()),
-              const Text(' || '),
+              const Padding(
+                padding: EdgeInsets.only(left: 3, right: 5),
+                child: Text(
+                  '|',
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    color: AppColors.errorRed,
+                  ),
+                ),
+              ),
             ],
           );
         }
@@ -25,10 +35,11 @@ class TagsWidget extends StatelessWidget {
   }
 
   TextStyle style() {
-    return const TextStyle(
+    return TextStyle(
       fontSize: 12,
       fontWeight: FontWeight.bold,
-      fontStyle: FontStyle.italic,
+      // fontStyle: FontStyle.italic,
+      color: Colors.grey[700],
     );
   }
 }

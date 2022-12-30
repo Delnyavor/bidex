@@ -59,7 +59,7 @@ class _PageHandlerState extends State<PageHandler>
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 10),
+      margin: const EdgeInsets.only(top: 8, bottom: 8),
       decoration: decoration(),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(30),
@@ -92,8 +92,23 @@ class _PageHandlerState extends State<PageHandler>
 
   BoxDecoration decoration() {
     return BoxDecoration(
-      color: Color(0xFFF9F9F9),
+      // color: Color(0xFFF9F9F9),
+      color: Colors.white,
       borderRadius: BorderRadius.circular(30),
+      boxShadow: [
+        const BoxShadow(
+          spreadRadius: -5,
+          blurRadius: 10,
+          color: Colors.black12,
+          offset: Offset(0, 7),
+        ),
+        BoxShadow(
+          spreadRadius: -2,
+          blurRadius: 4,
+          color: Colors.black12.withOpacity(0.05),
+          offset: Offset(0, -2),
+        ),
+      ],
     );
   }
 }

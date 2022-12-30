@@ -39,8 +39,10 @@ class _GlobalAppBarState extends State<GlobalAppBar> {
   }
 
   Widget title() {
-    return Transform.scale(
-        scale: 0.45, child: Image.asset('assets/images/logo.png'));
+    return Image.asset(
+      'assets/images/logo.png',
+      height: 100,
+    );
   }
 
   List<Widget> actions() {

@@ -126,7 +126,7 @@ class _BottomNavButtonState extends State<BottomNavButton>
       animation: controller,
       builder: (context, child) {
         return Container(
-          padding: const EdgeInsets.symmetric(vertical: 8),
+          padding: const EdgeInsets.symmetric(vertical: 7),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: bgColorAnimation.value,
