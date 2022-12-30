@@ -95,18 +95,18 @@ class _PageHandlerState extends State<PageHandler>
       // color: Color(0xFFF9F9F9),
       color: Colors.white,
       borderRadius: BorderRadius.circular(30),
-      boxShadow: [
-        const BoxShadow(
+      boxShadow: const [
+        BoxShadow(
           spreadRadius: -5,
-          blurRadius: 10,
-          color: Colors.black12,
-          offset: Offset(0, 7),
+          blurRadius: 12,
+          color: Colors.black26,
+          offset: Offset(0, 2),
         ),
         BoxShadow(
-          spreadRadius: -2,
-          blurRadius: 4,
-          color: Colors.black12.withOpacity(0.05),
-          offset: Offset(0, -2),
+          spreadRadius: 0,
+          blurRadius: 1,
+          color: Colors.black12,
+          offset: Offset(0, 1),
         ),
       ],
     );
