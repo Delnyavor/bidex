@@ -1,4 +1,6 @@
-class BarterItem {
+import 'package:equatable/equatable.dart';
+
+class BarterItem extends Equatable {
   final String userId;
   final String username;
   final String location;
@@ -13,4 +15,8 @@ class BarterItem {
       required this.rating,
       required this.imageUrls,
       required this.tags});
+
+  @override
+  List<Object?> get props =>
+      [userId, username, location, rating, imageUrls, tags];
 }

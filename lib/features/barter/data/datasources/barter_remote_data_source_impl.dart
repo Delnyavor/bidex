@@ -71,7 +71,7 @@ class BarterRemoteDataSourceImpl extends BarterRemoteDataSource {
         });
 
         await Future.delayed(const Duration(seconds: 2), () {});
-        return List<BarterItemModel>.generate(15, (index) => item);
+        return List<BarterItemModel>.generate(2, (index) => item);
       } else {
         // throw ServerException(code: response.statusCode);
       }

@@ -8,6 +8,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../../domain/usecases/create_barter.dart';
 import '../../../domain/usecases/delete_barter.dart';
+import 'package:stream_transform/stream_transform.dart';
 
 part 'barter_event.dart';
 part 'barter_state.dart';
@@ -26,14 +27,26 @@ class BarterBloc extends Bloc<BarterEvent, BarterState> {
     required this.deleteBarter,
     required this.updateBarter,
   }) : super(const BarterState()) {
-    on<FetchBarterItems>(onFetchItemsEvent);
+    on<FetchBarterItems>(onFetchItemsEvent, transformer: (events, mapper) {
+      return events
+          .debounce(
+            const Duration(milliseconds: 1000),
+            // leading: false,
+          )
+          .asyncExpand((mapper));
+    });
   }
 
   void onFetchItemsEvent(
       FetchBarterItems event, Emitter<BarterState> emit) async {
-    emit(
-      state.copyWith(barterPageStatus: BarterPageStatus.loading),
-    );
+    print('called');
+    if (state.items.isEmpty) {
+      emit(
+        state.copyWith(
+          barterPageStatus: BarterPageStatus.loading,
+        ),
+      );
+    }
     final result = await getAllBarters(state.items.length);
 
     result!.fold((l) async {}, (r) async {
@@ -42,19 +55,13 @@ class BarterBloc extends Bloc<BarterEvent, BarterState> {
         handleInitial(r, emit);
       } else {
         //handle the loaded state
-        // handleNonInitial(r, emit);
-        emit(
-          state.copyWith(
-            barterPageStatus: BarterPageStatus.loaded,
-            items: r,
-          ),
-        );
+        handleNonInitial(r, emit);
       }
     });
   }
 
   void handleFailure(Failure failure, Emitter<BarterState> emit) {
-    if (state.barterPageStatus == BarterPageStatus.initial) {
+    if (state.items.isEmpty) {
       emit(
         state.copyWith(
           barterPageStatus: BarterPageStatus.initialError,
@@ -86,7 +93,6 @@ class BarterBloc extends Bloc<BarterEvent, BarterState> {
         ),
       );
     } else if (result.isNotEmpty) {
-      print(result);
       emit(
         state.copyWith(
           barterPageStatus: BarterPageStatus.loaded,
@@ -113,9 +119,10 @@ class BarterBloc extends Bloc<BarterEvent, BarterState> {
       emit(
         state.copyWith(
           barterPageStatus: BarterPageStatus.loaded,
-          items: state.items..addAll(result),
+          items: state.items + result,
         ),
       );
+      print(state.items.length);
     }
   }
 }

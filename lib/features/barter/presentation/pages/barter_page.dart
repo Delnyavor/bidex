@@ -21,6 +21,7 @@ class _BarterPage extends State<BarterPage>
 
   late BarterBloc bloc;
   late AnimationController controller;
+  ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
@@ -30,26 +31,43 @@ class _BarterPage extends State<BarterPage>
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
-  }
 
-  int counter = 0;
+    scrollController.addListener(scrollListener);
+  }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    bloc = BlocProvider.of(context);
+    bloc = BlocProvider.of<BarterBloc>(context);
     bloc.add(const FetchBarterItems());
   }
 
-  void listen(BarterState state) {
-    print(counter);
+  @override
+  void dispose() {
+    scrollController
+      ..removeListener(scrollListener)
+      ..dispose();
+    super.dispose();
+  }
 
+  void scrollListener() {
+    if (_isBottom) {
+      bloc.add(const FetchBarterItems());
+    }
+  }
+
+  bool get _isBottom {
+    if (!scrollController.hasClients) return false;
+    final maxScroll = scrollController.position.maxScrollExtent;
+    final currentScroll = scrollController.offset;
+    return currentScroll >= (maxScroll - 45);
+  }
+
+  void stateListener(BarterState state) {
     if (state.barterPageStatus != BarterPageStatus.loading) {
-      ++counter;
       controller.forward();
     } else {
-      ++counter;
       controller.reverse();
     }
   }
@@ -60,7 +78,7 @@ class _BarterPage extends State<BarterPage>
       backgroundColor: Colors.transparent,
       body: BlocListener<BarterBloc, BarterState>(
         listener: (context, state) {
-          listen(state);
+          stateListener(state);
         },
         child: buildStack(),
       ),
@@ -85,13 +103,33 @@ class _BarterPage extends State<BarterPage>
       bloc: bloc,
       builder: (context, state) {
         return ListView.builder(
+          controller: scrollController,
           padding: const EdgeInsets.symmetric(vertical: 20),
-          itemBuilder: (context, index) => BarterItemWidget(
-            barterItem: state.items[index],
-          ),
-          itemCount: state.items.length,
+          itemBuilder: (context, index) {
+            return index >= state.items.length
+                ? bottomLoader()
+                : BarterItemWidget(
+                    barterItem: state.items[index],
+                  );
+          },
+          itemCount:
+              state.hasReachedMax ? state.items.length : state.items.length + 1,
         );
       },
+    );
+  }
+
+  Widget bottomLoader() {
+    return const SizedBox(
+      height: 40,
+      width: 40,
+      child: Center(
+        child: SizedBox(
+          height: 24,
+          width: 24,
+          child: CircularProgressIndicator(strokeWidth: 1.5),
+        ),
+      ),
     );
   }
 }
