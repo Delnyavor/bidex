@@ -78,7 +78,7 @@ class _BottomNavButtonState extends State<BottomNavButton>
   }
 
   void setRoute() {
-    bloc.add(PageChanged(widget.position));
+    bloc.add(PageChanged(page: widget.position));
   }
 
   void activateRoute(NavigationState state) {

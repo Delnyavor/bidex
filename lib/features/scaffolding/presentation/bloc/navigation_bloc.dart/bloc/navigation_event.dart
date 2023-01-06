@@ -8,10 +8,14 @@ abstract class NavigationEvent extends Equatable {
 }
 
 class PageChanged extends NavigationEvent {
-  const PageChanged(this.page);
+  const PageChanged({
+    required this.page,
+    this.shouldDisplayPrimary = true,
+  });
 
   final int page;
+  final bool shouldDisplayPrimary;
 
   @override
-  List<Object> get props => [page];
+  List<Object> get props => [page, shouldDisplayPrimary];
 }

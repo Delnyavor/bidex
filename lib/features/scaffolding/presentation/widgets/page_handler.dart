@@ -75,18 +75,14 @@ class _PageHandlerState extends State<PageHandler>
       listener: (context, state) {
         pageController.jumpToPage(state.page);
       },
-      child: pageView(),
-    );
-  }
-
-  Widget pageView() {
-    return PageView.builder(
-      controller: pageController,
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (context, count) {
-        return pages[count];
-      },
-      itemCount: pages.length,
+      child: PageView.builder(
+        controller: pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, count) {
+          return pages[count];
+        },
+        itemCount: pages.length,
+      ),
     );
   }
 
