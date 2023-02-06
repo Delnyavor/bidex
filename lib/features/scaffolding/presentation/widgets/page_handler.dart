@@ -4,6 +4,8 @@ import 'package:bidex/features/scaffolding/presentation/bloc/navigation_bloc.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../giftings/presentation/pages/giftings_page.dart';
+
 class PageHandler extends StatefulWidget {
   const PageHandler({Key? key}) : super(key: key);
 
@@ -39,8 +41,9 @@ class _PageHandlerState extends State<PageHandler>
       ),
     );
 
-    pages = List.generate(3, (index) => card(index));
+    pages = List.generate(2, (index) => card(index));
     pages.insert(0, const BarterPage());
+    pages.insert(2, const GiftingsPage());
     // child = pages[0];
   }
 

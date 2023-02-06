@@ -1,36 +1,40 @@
 import 'package:bidex/common/widgets/image.dart';
-import 'package:bidex/features/barter/domain/entities/barter_item.dart';
-import 'package:bidex/common/widgets/carousel.dart';
-import 'package:bidex/features/barter/presentation/widgets/tags_widget.dart';
+
 import 'package:flutter/material.dart';
 
-class BarterItemWidget extends StatefulWidget {
-  final BarterItem barterItem;
-  const BarterItemWidget({Key? key, required this.barterItem})
+import '../../../../common/widgets/carousel.dart';
+import '../../domain/entities/gift_item.dart';
+
+class GiftWidget extends StatefulWidget {
+  final Gift gift;
+  final void Function()? ontap;
+  const GiftWidget({Key? key, required this.gift, this.ontap})
       : super(key: key);
 
   @override
-  State<BarterItemWidget> createState() => _BarterItemWidgetState();
+  State<GiftWidget> createState() => _GiftWidgetState();
 }
 
-class _BarterItemWidgetState extends State<BarterItemWidget> {
+class _GiftWidgetState extends State<GiftWidget> {
   @override
   Widget build(BuildContext context) {
     return body();
   }
 
   Widget body() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      decoration: decoration(),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          itemHeader(),
-          center(),
-          controls(),
-          tags(),
-        ],
+    return GestureDetector(
+      onTap: widget.ontap,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        decoration: decoration(),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            itemHeader(),
+            center(),
+            controls(),
+          ],
+        ),
       ),
     );
   }
@@ -54,14 +58,14 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.barterItem.username,
+                  widget.gift.username,
                   style: Theme.of(context).textTheme.caption!.copyWith(
                         fontWeight: FontWeight.w600,
                         color: Colors.black87,
                       ),
                 ),
                 Text(
-                  widget.barterItem.location,
+                  widget.gift.location,
                   style: Theme.of(context).textTheme.caption!.copyWith(
                         color: Colors.black87,
                       ),
@@ -78,7 +82,7 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
                   size: 20,
                 ),
                 Text(
-                  widget.barterItem.rating.toString(),
+                  widget.gift.rating.toString(),
                   style: Theme.of(context).textTheme.caption,
                 )
               ],
@@ -95,7 +99,7 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
         child: Carousel(
-          images: widget.barterItem.imageUrls,
+          images: widget.gift.imageUrls,
         ),
       ),
     );
@@ -156,12 +160,5 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
         //   ),
         // ],
         );
-  }
-
-  Widget tags() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(15, 0, 15, 20),
-      child: TagsWidget(tags: widget.barterItem.tags),
-    );
   }
 }

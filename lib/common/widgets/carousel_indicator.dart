@@ -47,14 +47,15 @@ class _CarouselIndicatorState extends State<CarouselIndicator> {
       padding: const EdgeInsets.symmetric(horizontal: 3.5),
       child: AnimatedContainer(
         decoration: BoxDecoration(
-          color: currentIndex == index
-              ? Colors.white
-              : Colors.yellow.withOpacity(0.9),
-          borderRadius: BorderRadius.circular(20),
-        ),
+            color: currentIndex == index
+                ? Colors.white
+                : Colors.white.withOpacity(0.6),
+            borderRadius: BorderRadius.circular(4),
+            border:
+                Border.all(color: Colors.black.withOpacity(0.1), width: 0.1)),
         duration: const Duration(milliseconds: 150),
-        height: currentIndex == index ? 9 : 5,
-        width: currentIndex == index ? 9 : 5,
+        height: 5,
+        width: currentIndex == index ? 13 : 5,
       ),
     );
   }

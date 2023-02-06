@@ -3,11 +3,11 @@ import 'package:bidex/features/barter/domain/entities/barter_item.dart';
 import 'package:bidex/features/barter/domain/usecases/get_all_barters.dart';
 import 'package:bidex/features/barter/domain/usecases/get_barter.dart';
 import 'package:bidex/features/barter/domain/usecases/update_barter.dart';
+import 'package:bidex/features/barter/domain/usecases/create_barter.dart';
+import 'package:bidex/features/barter/domain/usecases/delete_barter.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../domain/usecases/create_barter.dart';
-import '../../../domain/usecases/delete_barter.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 part 'barter_event.dart';
@@ -39,7 +39,6 @@ class BarterBloc extends Bloc<BarterEvent, BarterState> {
 
   void onFetchItemsEvent(
       FetchBarterItems event, Emitter<BarterState> emit) async {
-    print('called');
     if (state.items.isEmpty) {
       emit(
         state.copyWith(

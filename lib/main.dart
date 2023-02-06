@@ -3,13 +3,13 @@ import 'package:bidex/common/transitions/route_transitions.dart';
 import 'package:bidex/features/auth/domain/usecases/sign_in.dart';
 import 'package:bidex/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bidex/di/injection_container.dart';
-import 'package:bidex/features/auth/presentation/pages/login_page.dart';
-import 'package:bidex/features/barter/presentation/bloc/bloc/barter_bloc.dart';
+import 'package:bidex/features/barter/presentation/bloc/barter_bloc.dart';
 import 'package:bidex/features/scaffolding/presentation/bloc/navigation_bloc.dart/bloc/navigation_bloc.dart';
 import 'package:bidex/features/scaffolding/presentation/pages/scaffolding_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'features/auth/presentation/login_bloc/login_bloc.dart';
+import 'features/giftings/presentation/bloc/giftings_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,6 +50,15 @@ class MyApp extends StatelessWidget {
             getBarter: sl(),
             updateBarter: sl(),
             deleteBarter: sl(),
+          ),
+        ),
+        BlocProvider<GiftingsBloc>(
+          create: (BuildContext context) => GiftingsBloc(
+            createGift: sl(),
+            getAllGifts: sl(),
+            getGift: sl(),
+            updateGift: sl(),
+            deleteGift: sl(),
           ),
         ),
       ],

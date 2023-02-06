@@ -1,5 +1,5 @@
 import 'package:bidex/common/widgets/image.dart';
-import 'package:bidex/features/barter/presentation/widgets/carousel_indicator.dart';
+import 'package:bidex/common/widgets/carousel_indicator.dart';
 import 'package:flutter/material.dart';
 
 class Carousel extends StatefulWidget {

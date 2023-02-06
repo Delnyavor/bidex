@@ -24,6 +24,16 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 
+import '../features/giftings/data/datasources/gift_remote_data_source.dart';
+import '../features/giftings/data/datasources/gift_remote_data_source_impl.dart';
+import '../features/giftings/data/repositories/gift_repository_impl.dart';
+import '../features/giftings/domain/repositories/gift_repository.dart';
+import '../features/giftings/domain/usecases/create_gift.dart';
+import '../features/giftings/domain/usecases/delete_gift.dart';
+import '../features/giftings/domain/usecases/get_all_barters.dart';
+import '../features/giftings/domain/usecases/get_gift.dart';
+import '../features/giftings/domain/usecases/update_gift.dart';
+
 final sl = GetIt.instance;
 Future<void> initDependencies() async {
   initFeatures();
@@ -34,8 +44,10 @@ void initFeatures() {
   sl.registerLazySingleton(() => http.Client);
   initAuthFeature();
   initBarterFeature();
+  initGiftingsFeature();
 }
 
+// INITIALISE AUTH
 void initAuthFeature() {
   sl.registerLazySingleton(() => CreateUser(sl()));
   sl.registerLazySingleton(() => DeleteUser(sl()));
@@ -55,6 +67,7 @@ void initAuthFeature() {
       () => FirebaseAuthDataSourceImpl(firebaseAuth: sl()));
 }
 
+// INITIALISE BARTERS
 void initBarterFeature() {
   sl.registerLazySingleton<BarterRemoteDataSource>(
       () => BarterRemoteDataSourceImpl());
@@ -69,6 +82,22 @@ void initBarterFeature() {
   sl.registerLazySingleton(() => DeleteBarter(repository: sl()));
 }
 
+// INITIALISE GIFTINGS
+void initGiftingsFeature() {
+  sl.registerLazySingleton<GiftRemoteDataSource>(
+      () => GiftRemoteDataSourceImpl());
+
+  sl.registerLazySingleton<GiftRepository>(
+      () => GiftRepositoryImpl(dataSource: sl()));
+
+  sl.registerLazySingleton(() => GetAllGifts(repository: sl()));
+  sl.registerLazySingleton(() => GetGift(repository: sl()));
+  sl.registerLazySingleton(() => CreateGift(repository: sl()));
+  sl.registerLazySingleton<UpdateGift>(() => UpdateGift(repository: sl()));
+  sl.registerLazySingleton(() => DeleteGift(repository: sl()));
+}
+
+// INITIALISE EXTERNAL DEPENDENCIES
 Future<void> initExternal() async {
   await Firebase.initializeApp();
   sl.registerLazySingleton(() => FirebaseAuth.instance);

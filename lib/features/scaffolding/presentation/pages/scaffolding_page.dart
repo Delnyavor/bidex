@@ -1,5 +1,4 @@
 import 'package:bidex/common/widgets/translucent_app_bar.dart';
-import 'package:bidex/features/barter/presentation/pages/barter_page.dart';
 import 'package:bidex/features/scaffolding/presentation/widgets/global_app_bar.dart';
 import 'package:bidex/features/scaffolding/presentation/widgets/global_bottom_bar.dart';
 import 'package:bidex/features/scaffolding/presentation/widgets/page_handler.dart';

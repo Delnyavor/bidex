@@ -5,7 +5,7 @@ import 'package:bidex/features/barter/presentation/widgets/barter_item_widget.da
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/bloc/barter_bloc.dart';
+import '../bloc/barter_bloc.dart';
 
 class BarterPage extends StatefulWidget {
   const BarterPage({Key? key}) : super(key: key);
