@@ -1,3 +1,4 @@
+import 'package:bidex/features/auction/presentation/pages/auction_page.dart';
 import 'package:bidex/features/barter/presentation/pages/barter_page.dart';
 import 'package:bidex/features/scaffolding/presentation/bloc/navigation_bloc.dart/bloc/navigation_bloc.dart';
 
@@ -21,7 +22,7 @@ class _PageHandlerState extends State<PageHandler>
   late PageController pageController;
   late Animation<double> fadeInOut;
   late NavigationBloc bloc;
-  List<Widget> pages = [];
+  List<Widget> pages = const [BarterPage(), AuctionsPage(), GiftingsPage()];
   int position = 0;
 
   @override
@@ -40,11 +41,6 @@ class _PageHandlerState extends State<PageHandler>
         curve: const Interval(0.0, 0.95, curve: Curves.easeIn),
       ),
     );
-
-    pages = List.generate(2, (index) => card(index));
-    pages.insert(0, const BarterPage());
-    pages.insert(2, const GiftingsPage());
-    // child = pages[0];
   }
 
   @override

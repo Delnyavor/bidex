@@ -24,6 +24,15 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 
+import '../features/auction/data/datasources/auction_remote_data_source.dart';
+import '../features/auction/data/datasources/auction_remote_data_source_impl.dart';
+import '../features/auction/data/repositories/auction_repository_impl.dart';
+import '../features/auction/domain/repositories/auction_repository.dart';
+import '../features/auction/domain/usecases/create_auction.dart';
+import '../features/auction/domain/usecases/delete_auction.dart';
+import '../features/auction/domain/usecases/get_all_auctions.dart';
+import '../features/auction/domain/usecases/get_auction.dart';
+import '../features/auction/domain/usecases/update_auction.dart';
 import '../features/giftings/data/datasources/gift_remote_data_source.dart';
 import '../features/giftings/data/datasources/gift_remote_data_source_impl.dart';
 import '../features/giftings/data/repositories/gift_repository_impl.dart';
@@ -43,10 +52,16 @@ Future<void> initDependencies() async {
 void initFeatures() {
   sl.registerLazySingleton(() => http.Client);
   initAuthFeature();
+  initAuctionsFeature();
   initBarterFeature();
   initGiftingsFeature();
 }
 
+//
+//
+//
+//
+//
 // INITIALISE AUTH
 void initAuthFeature() {
   sl.registerLazySingleton(() => CreateUser(sl()));
@@ -67,6 +82,30 @@ void initAuthFeature() {
       () => FirebaseAuthDataSourceImpl(firebaseAuth: sl()));
 }
 
+//
+//
+//
+//
+// INITIALISE AUCTIONS
+void initAuctionsFeature() {
+  sl.registerLazySingleton<AuctionRemoteDataSource>(
+      () => AuctionRemoteDataSourceImpl());
+
+  sl.registerLazySingleton<AuctionRepository>(
+      () => AuctionRepositoryImpl(dataSource: sl<AuctionRemoteDataSource>()));
+
+  sl.registerLazySingleton(() => GetAllAuctions(repository: sl()));
+  sl.registerLazySingleton(() => GetAuction(repository: sl()));
+  sl.registerLazySingleton(() => CreateAuction(repository: sl()));
+  sl.registerLazySingleton<UpdateAuction>(
+      () => UpdateAuction(repository: sl()));
+  sl.registerLazySingleton(() => DeleteAuction(repository: sl()));
+}
+
+//
+//
+//
+//
 // INITIALISE BARTERS
 void initBarterFeature() {
   sl.registerLazySingleton<BarterRemoteDataSource>(
@@ -82,6 +121,10 @@ void initBarterFeature() {
   sl.registerLazySingleton(() => DeleteBarter(repository: sl()));
 }
 
+//
+//
+//
+//
 // INITIALISE GIFTINGS
 void initGiftingsFeature() {
   sl.registerLazySingleton<GiftRemoteDataSource>(
@@ -97,6 +140,10 @@ void initGiftingsFeature() {
   sl.registerLazySingleton(() => DeleteGift(repository: sl()));
 }
 
+//
+//
+//
+//
 // INITIALISE EXTERNAL DEPENDENCIES
 Future<void> initExternal() async {
   await Firebase.initializeApp();
