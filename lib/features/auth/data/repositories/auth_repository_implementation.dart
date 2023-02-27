@@ -29,7 +29,7 @@ class AuthRepositoryImplementation implements AuthRepository {
         return const Left(AuthFailure(message: 'An error occurred'));
       }
     } on Exception catch (e) {
-      return handleException(e);
+      return Left(handleException(e));
     }
   }
 
@@ -45,7 +45,7 @@ class AuthRepositoryImplementation implements AuthRepository {
         return const Left(AuthFailure(message: ''));
       }
     } on Exception catch (e) {
-      return handleException(e);
+      return Left(handleException(e));
     }
   }
 
@@ -66,37 +66,49 @@ class AuthRepositoryImplementation implements AuthRepository {
     // TODO: implement updateUser
     throw UnimplementedError();
   }
+
+  @override
+  Future<Either<Failure, bool?>>? verify(String password) async {
+    try {
+      final bool? result = await authDataSource.verify(password);
+      if (result != null) {
+        return Right(result);
+      } else {
+        return const Left(AuthFailure(message: ''));
+      }
+    } on Exception catch (e) {
+      return Left(handleException(e));
+    }
+  }
 }
 
 //TODO: test the error messages
-Either<Failure, User?> handleException(Exception e) {
-  Left<Failure, User> result;
+Failure handleException(Exception e) {
+  Failure result;
   switch (e.runtimeType) {
     case ServerException:
       {
-        result = const Left(ServerFailure(message: 'Could not reach servers'));
+        result = const ServerFailure(message: 'Could not reach servers');
       }
       break;
     case CacheException:
       {
-        result = Left(CacheFailure(message: e.toString()));
+        result = CacheFailure(message: e.toString());
       }
       break;
     case auth.FirebaseAuthException:
       {
-        result = Left(ServerFailure(message: e.toString()));
+        result = ServerFailure(message: e.toString());
       }
       break;
     case FirebaseException:
       {
-        result = Left(ServerFailure(message: e.toString()));
+        result = ServerFailure(message: e.toString());
       }
       break;
     default:
       {
-        result =
-            const Left(GenericOperationFailure(message: 'An error occurred'));
-        print('something');
+        result = const GenericOperationFailure(message: 'An error occurred');
       }
   }
   return result;

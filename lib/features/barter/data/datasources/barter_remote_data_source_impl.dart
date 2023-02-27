@@ -70,7 +70,7 @@ class BarterRemoteDataSourceImpl extends BarterRemoteDataSource {
         // return compute(_parseItems, response.body);
         var item = BarterItemModel.fromMap(sampleData);
 
-        await Future.delayed(const Duration(seconds: 2), () {});
+        await Future.delayed(const Duration(seconds: 0), () {});
         return List<BarterItemModel>.generate(2, (index) => item);
       } else {
         // throw ServerException(code: response.statusCode);

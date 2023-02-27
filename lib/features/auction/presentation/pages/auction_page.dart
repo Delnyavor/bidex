@@ -1,7 +1,10 @@
+import 'package:bidex/common/widgets/modal_form/bottom_modal.dart';
+import 'package:bidex/features/auction/presentation/widgets/verification_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/widgets/loading_page.dart';
+import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../bloc/auction_bloc.dart';
 import '../widgets/auction_widget.dart';
 
@@ -18,6 +21,7 @@ class _AuctionsPageState extends State<AuctionsPage>
   bool get wantKeepAlive => true;
 
   late AuctionBloc bloc;
+  late AuthBloc authBloc;
   late AnimationController controller;
   ScrollController scrollController = ScrollController();
   PageController pageController = PageController();
@@ -38,6 +42,7 @@ class _AuctionsPageState extends State<AuctionsPage>
   void didChangeDependencies() {
     super.didChangeDependencies();
 
+    authBloc = BlocProvider.of<AuthBloc>(context);
     bloc = BlocProvider.of<AuctionBloc>(context);
     bloc.add(const FetchAuctionsEvent());
   }
@@ -72,8 +77,16 @@ class _AuctionsPageState extends State<AuctionsPage>
   }
 
   void onTap(int id) {
-    jumpToPage(1);
-    bloc.add(FetchAuctionEvent(id: id));
+    // jumpToPage(1);
+    checkIsVerified();
+    // bloc.add(FetchAuctionEvent(id: id));
+  }
+
+  void checkIsVerified() {
+    // TODO: undo this
+    // if (!authBloc.state.hasBeenVerified) {
+    showFormDialog(context, const VerificationForm(), true);
+    // }
   }
 
   void jumpToPage(int page) {

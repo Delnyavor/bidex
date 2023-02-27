@@ -9,6 +9,7 @@ import 'package:bidex/features/auth/domain/usecases/delete_user.dart';
 import 'package:bidex/features/auth/domain/usecases/get_user.dart';
 import 'package:bidex/features/auth/domain/usecases/sign_in.dart';
 import 'package:bidex/features/auth/domain/usecases/update_user.dart';
+import 'package:bidex/features/auth/domain/usecases/verify_user.dart';
 import 'package:bidex/features/barter/data/datasources/barter_remote_data_source.dart';
 import 'package:bidex/features/barter/data/datasources/barter_remote_data_source_impl.dart';
 import 'package:bidex/features/barter/data/repositories/barter_repository_impl.dart';
@@ -69,6 +70,7 @@ void initAuthFeature() {
   sl.registerLazySingleton(() => GetUser(sl()));
   sl.registerLazySingleton(() => UpdateUser(sl()));
   sl.registerLazySingleton(() => SignIn(sl()));
+  sl.registerLazySingleton(() => Verify(sl()));
 
   sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImplementation(
         authDataSource: sl(),

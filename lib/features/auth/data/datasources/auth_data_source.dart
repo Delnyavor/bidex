@@ -1,6 +1,5 @@
 import 'package:bidex/features/auth/domain/entities/user.dart';
 import 'package:bidex/features/auth/domain/entities/user_data.dart';
-import 'package:bidex/features/auth/domain/usecases/delete_user.dart';
 
 abstract class AuthDataSource {
   ///Queries the Users list for a user
@@ -32,4 +31,9 @@ abstract class AuthDataSource {
   ///
   ///Throws a [ServerException] for all error codes
   Future<dynamic> deleteUser();
+
+  ///Calls the [Auction endpoint]
+  ///
+  ///Throws a [ServerException] for all error codes
+  Future<bool?> verify(String password);
 }

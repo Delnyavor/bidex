@@ -23,13 +23,15 @@ class _PageScaffolding extends State<PageScaffolding> {
   }
 
   Widget body() {
-    return Column(
-      children: const [
-        GlobalAppBar(),
-        Flexible(
-          child: PageHandler(),
-        ),
-      ],
+    return SafeArea(
+      child: Column(
+        children: const [
+          GlobalAppBar(),
+          Flexible(
+            child: PageHandler(),
+          ),
+        ],
+      ),
     );
   }
 }

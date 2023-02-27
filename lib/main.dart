@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
             getUser: sl(),
             deleteUser: sl(),
             updateUser: sl(),
+            verify: sl(),
           ),
         ),
         BlocProvider<LoginBloc>(

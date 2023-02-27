@@ -10,4 +10,5 @@ abstract class AuthRepository {
   Future<dartz.Either<Failure, User?>>? updateUser(UserData user);
   Future<dartz.Either<Failure, bool?>>? deleteUser(String id);
   Future<dartz.Either<Failure, User?>>? signIn(String email, String password);
+  Future<dartz.Either<Failure, bool?>>? verify(String password);
 }

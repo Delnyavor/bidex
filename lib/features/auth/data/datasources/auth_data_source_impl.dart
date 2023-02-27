@@ -70,4 +70,11 @@ class AuthDataSourceImpl implements AuthDataSource {
     // TODO: implement deleteUser
     throw UnimplementedError();
   }
+
+  @override
+  Future<bool?> verify(String password) async {
+    // TODO: implement verify
+    await Future.delayed(const Duration(seconds: 2));
+    return true;
+  }
 }

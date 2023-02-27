@@ -60,7 +60,7 @@ class AuctionRemoteDataSourceImpl extends AuctionRemoteDataSource {
         // return compute(_parseItems, response.body);
         var item = AuctionItemModel.fromMap(sampleData);
 
-        await Future.delayed(const Duration(seconds: 1), () {});
+        await Future.delayed(const Duration(seconds: 0), () {});
         return List<AuctionItemModel>.generate(2, (index) => item);
       } else {
         // throw ServerException(code: response.statusCode);

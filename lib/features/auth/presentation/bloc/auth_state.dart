@@ -1,21 +1,23 @@
 part of 'auth_bloc.dart';
 
 class AuthState extends Equatable {
-  const AuthState(
-      {this.pageStatus = RegistrationPageStatus.none,
-      this.formzStatus = FormzStatus.pure,
-      this.email = const Email.pure(),
-      this.password = const Password.pure(),
-      this.confirmPassword = const Password.pure(),
-      this.firstName = const Name.pure(),
-      this.lastName = const Name.pure(),
-      this.username = const Username.pure(),
-      this.image = const Image.pure(),
-      this.phone = const Phone.pure(),
-      this.shouldChangePage = false,
-      this.page = 0,
-      this.error = ''})
-      : super();
+  const AuthState({
+    this.pageStatus = RegistrationPageStatus.none,
+    this.formzStatus = FormzStatus.pure,
+    this.email = const Email.pure(),
+    this.password = const Password.pure(),
+    this.confirmPassword = const Password.pure(),
+    this.firstName = const Name.pure(),
+    this.lastName = const Name.pure(),
+    this.username = const Username.pure(),
+    this.image = const Image.pure(),
+    this.phone = const Phone.pure(),
+    this.shouldChangePage = false,
+    this.page = 0,
+    this.error = '',
+    this.hasBeenVerified = false,
+    this.verificationPageStatus = VerificationPageStatus.none,
+  }) : super();
   final RegistrationPageStatus pageStatus;
   final FormzStatus formzStatus;
   final Email email;
@@ -29,6 +31,8 @@ class AuthState extends Equatable {
   final bool shouldChangePage;
   final String error;
   final int page;
+  final bool hasBeenVerified;
+  final VerificationPageStatus verificationPageStatus;
 
   AuthState copyWith({
     RegistrationPageStatus? pageStatus,
@@ -44,6 +48,8 @@ class AuthState extends Equatable {
     bool? shouldChangePage,
     String? error,
     int? page,
+    bool? hasBeenVerified,
+    VerificationPageStatus? verificationPageStatus,
   }) {
     return AuthState(
       pageStatus: pageStatus ?? this.pageStatus,
@@ -59,6 +65,9 @@ class AuthState extends Equatable {
       shouldChangePage: shouldChangePage ?? this.shouldChangePage,
       error: error ?? this.error,
       page: page ?? this.page,
+      hasBeenVerified: hasBeenVerified ?? this.hasBeenVerified,
+      verificationPageStatus:
+          verificationPageStatus ?? this.verificationPageStatus,
     );
   }
 
@@ -77,7 +86,11 @@ class AuthState extends Equatable {
         shouldChangePage,
         error,
         page,
+        hasBeenVerified,
+        verificationPageStatus,
       ];
 }
 
 enum RegistrationPageStatus { loading, successful, failed, none }
+
+enum VerificationPageStatus { loading, successful, failed, none }

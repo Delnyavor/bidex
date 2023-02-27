@@ -11,6 +11,7 @@ import 'package:bidex/features/auth/domain/usecases/create_user.dart';
 import 'package:bidex/features/auth/domain/usecases/delete_user.dart';
 import 'package:bidex/features/auth/domain/usecases/get_user.dart';
 import 'package:bidex/features/auth/domain/usecases/update_user.dart';
+import 'package:bidex/features/auth/domain/usecases/verify_user.dart';
 // ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -24,12 +25,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final GetUser getUser;
   final DeleteUser deleteUser;
   final UpdateUser updateUser;
+  final Verify verify;
 
   AuthBloc({
     required this.createUser,
     required this.getUser,
     required this.deleteUser,
     required this.updateUser,
+    required this.verify,
   }) : super(const AuthState()) {
     // on<CreateUserEvent>(onCreateUserEvent);
     on<EmailChanged>(_onEmailChanged);
@@ -41,6 +44,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<PhoneChanged>(_onPhoneChanged);
     on<RegistrationSubmitted>(_onSubmitted);
     on<PageChanged>(_onPageChanged);
+    on<VerifyEvent>(_verify);
+  }
+
+  void _verify(VerifyEvent event, Emitter<AuthState> emit) async {
+    emit(
+        state.copyWith(verificationPageStatus: VerificationPageStatus.loading));
+    final result = await verify(event.password);
+
+    result!.fold((l) {
+      emit(state.copyWith(
+          verificationPageStatus: VerificationPageStatus.failed));
+    }, (r) {
+      emit(state.copyWith(
+          hasBeenVerified: true,
+          verificationPageStatus: VerificationPageStatus.successful));
+    });
   }
 
   void _onEmailChanged(EmailChanged event, emit) {

@@ -90,3 +90,11 @@ class PageChanged extends AuthEvent {
 }
 
 class RegistrationSubmitted extends AuthEvent {}
+
+class VerifyEvent extends AuthEvent {
+  final String password;
+  const VerifyEvent(this.password);
+
+  @override
+  List<Object> get props => [password];
+}
