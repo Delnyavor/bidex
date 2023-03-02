@@ -100,6 +100,7 @@ class BottomBarInputState extends State<BottomBarInput> {
       controller: widget.controller,
       style: const TextStyle(fontSize: 12, color: AppColors.darkBlue),
       maxLines: 1,
+      keyboardType: TextInputType.number,
       decoration: InputDecoration(
         hintText: 'Enter the amount you\'d like to bid',
         hintStyle: const TextStyle(color: AppColors.darkBlue),

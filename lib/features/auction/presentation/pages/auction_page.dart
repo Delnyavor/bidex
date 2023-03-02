@@ -7,6 +7,7 @@ import '../../../../common/widgets/loading_page.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../bloc/auction_bloc.dart';
 import '../widgets/auction_widget.dart';
+import 'bidding_page.dart';
 
 class AuctionsPage extends StatefulWidget {
   const AuctionsPage({Key? key}) : super(key: key);
@@ -77,24 +78,16 @@ class _AuctionsPageState extends State<AuctionsPage>
   }
 
   void onTap(int id) {
-    // jumpToPage(1);
     checkIsVerified();
-    // bloc.add(FetchAuctionEvent(id: id));
   }
 
   void checkIsVerified() {
-    // TODO: undo this
-    // if (!authBloc.state.hasBeenVerified) {
-    showFormDialog(context, const VerificationForm(), true);
-    // }
-  }
-
-  void jumpToPage(int page) {
-    pageController.animateToPage(
-      page,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    );
+    if (!authBloc.state.hasBeenVerified) {
+      showFormDialog(context, const VerificationForm(), true);
+    } else {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const BiddingPage()));
+    }
   }
 
   @override

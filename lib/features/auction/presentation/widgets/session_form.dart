@@ -146,7 +146,7 @@ class _SessionFormState extends State<SessionForm> {
 
   void validate() {
     // authBloc.add(VerifyEvent(controller.text));
-    Navigator.push(
+    Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => const BiddingPage()));
   }
 }
