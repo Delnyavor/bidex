@@ -1,5 +1,6 @@
 import 'package:bidex/common/app_colors.dart';
 import 'package:bidex/common/widgets/carousel.dart';
+import 'package:bidex/common/widgets/navbar/nav_action_button.dart';
 import 'package:bidex/features/auction/presentation/widgets/auction_details.dart';
 import 'package:bidex/features/auction/presentation/widgets/bid_count.dart';
 import 'package:bidex/features/auction/presentation/widgets/bottom_nav_form.dart';
@@ -79,7 +80,7 @@ class _BiddingPageState extends State<BiddingPage>
   }
 
   Widget chatButton() {
-    return iconButton(
+    return NavAction(
       onPressed: () {},
       child: const Icon(
         CupertinoIcons.chat_bubble_2,
@@ -89,23 +90,11 @@ class _BiddingPageState extends State<BiddingPage>
   }
 
   Widget search() {
-    return iconButton(
+    return NavAction(
       onPressed: () {},
       child: const Icon(
         CupertinoIcons.search,
         size: 22,
-      ),
-    );
-  }
-
-  Widget iconButton({required Function() onPressed, required Widget child}) {
-    return Flexible(
-      child: GestureDetector(
-        onTap: onPressed,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5),
-          child: child,
-        ),
       ),
     );
   }

@@ -5,11 +5,13 @@ import 'package:bidex/features/auth/domain/usecases/sign_in.dart';
 import 'package:bidex/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bidex/di/injection_container.dart';
 import 'package:bidex/features/barter/presentation/bloc/barter_bloc.dart';
+import 'package:bidex/features/direct_messages/presentation/pages/direct_messages_page.dart';
 import 'package:bidex/features/scaffolding/presentation/bloc/navigation_bloc.dart/bloc/navigation_bloc.dart';
 import 'package:bidex/features/scaffolding/presentation/pages/scaffolding_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'features/auth/presentation/login_bloc/login_bloc.dart';
+import 'features/direct_messages/presentation/bloc/chat_bloc.dart';
 import 'features/giftings/presentation/bloc/giftings_bloc.dart';
 
 void main() async {
@@ -71,6 +73,9 @@ class MyApp extends StatelessWidget {
             updateAuction: sl(),
             deleteAuction: sl(),
           ),
+        ),
+        BlocProvider<ChatBloc>(
+          create: (context) => ChatBloc(),
         )
       ],
       child: MaterialApp(
@@ -88,7 +93,7 @@ class Landing extends StatelessWidget {
   void push(context) {
     Navigator.push(
       context,
-      fadeInRoute(const PageScaffolding()),
+      fadeInRoute(const DirectMessagesPage()),
     );
   }
 
