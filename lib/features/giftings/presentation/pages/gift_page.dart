@@ -60,8 +60,11 @@ class GiftDisplay extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       children: [
         profile(),
+        const SizedBox(height: 8),
         userdetails(context),
+        const SizedBox(height: 20),
         itemTitle(context),
+        const SizedBox(height: 6),
         slideshow(),
         description(context),
       ],
@@ -72,7 +75,7 @@ class GiftDisplay extends StatelessWidget {
     return AspectRatio(
       aspectRatio: 1,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(18),
         child: Carousel(
           images: gift.imageUrls,
         ),
@@ -81,18 +84,10 @@ class GiftDisplay extends StatelessWidget {
   }
 
   Widget profile() {
-    return const ClipRRect(
-      child: AspectRatio(
-        aspectRatio: 1,
-        child: SizedBox(
-          height: 60,
-          width: 60,
-          child: DisplayImage(
-            height: 220,
-            width: 180,
-            path: 'assets/images/prof.jpg',
-          ),
-        ),
+    return const CircleAvatar(
+      radius: 50,
+      backgroundImage: AssetImage(
+        'assets/images/prof.jpg',
       ),
     );
   }
@@ -105,10 +100,11 @@ class GiftDisplay extends StatelessWidget {
           'Nii Kpapo',
           style: Theme.of(context).textTheme.bodyText2!.copyWith(
                 color: Colors.black87,
+                fontWeight: FontWeight.bold,
               ),
         ),
         Text(
-          'labone, accra',
+          'Labone, accra',
           style: Theme.of(context).textTheme.caption!.copyWith(
                 color: Colors.black54,
               ),
@@ -119,10 +115,11 @@ class GiftDisplay extends StatelessWidget {
 
   Widget itemTitle(BuildContext context) {
     return Text(
-      'custom built desktop',
+      'Custom built desktop',
       style: Theme.of(context).textTheme.bodyText1!.copyWith(
             color: Colors.black87,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w900,
+            fontSize: 18,
           ),
     );
   }

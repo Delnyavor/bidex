@@ -7,7 +7,9 @@ import 'package:bidex/features/auction/presentation/widgets/bottom_nav_form.dart
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../common/transitions/route_transitions.dart';
 import '../../../../common/widgets/translucent_app_bar.dart';
+import '../../../direct_messages/presentation/pages/direct_messages_page.dart';
 import '../../../scaffolding/presentation/widgets/global_app_bar.dart';
 
 class BiddingPage extends StatefulWidget {
@@ -81,7 +83,12 @@ class _BiddingPageState extends State<BiddingPage>
 
   Widget chatButton() {
     return NavAction(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(
+          context,
+          slideInRoute(const DirectMessagesPage()),
+        );
+      },
       child: const Icon(
         CupertinoIcons.chat_bubble_2,
         size: 22,

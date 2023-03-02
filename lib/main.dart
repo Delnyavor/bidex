@@ -93,7 +93,7 @@ class Landing extends StatelessWidget {
   void push(context) {
     Navigator.push(
       context,
-      fadeInRoute(const DirectMessagesPage()),
+      fadeInRoute(const PageScaffolding()),
     );
   }
 

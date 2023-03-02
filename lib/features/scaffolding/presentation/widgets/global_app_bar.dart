@@ -1,4 +1,6 @@
+import 'package:bidex/common/transitions/route_transitions.dart';
 import 'package:bidex/common/widgets/translucent_app_bar.dart';
+import 'package:bidex/features/direct_messages/presentation/pages/direct_messages_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -61,7 +63,12 @@ class _GlobalAppBarState extends State<GlobalAppBar> {
 
   Widget chatButton() {
     return iconButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(
+          context,
+          slideInRoute(const DirectMessagesPage()),
+        );
+      },
       child: const Icon(
         CupertinoIcons.chat_bubble_2,
         size: 22,
