@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 
 class TagsWidget extends StatelessWidget {
   final List<String> tags;
-  const TagsWidget({Key? key, required this.tags}) : super(key: key);
+  final bool tilt;
+  const TagsWidget({Key? key, required this.tags, this.tilt = true})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +18,12 @@ class TagsWidget extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(e, style: style()),
-              const Padding(
-                padding: EdgeInsets.only(left: 3, right: 5),
+              Padding(
+                padding: const EdgeInsets.only(left: 3, right: 5),
                 child: Text(
                   '|',
                   style: TextStyle(
-                    fontStyle: FontStyle.italic,
+                    fontStyle: tilt ? FontStyle.italic : FontStyle.normal,
                     color: AppColors.errorRed,
                   ),
                 ),

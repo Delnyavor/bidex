@@ -5,6 +5,7 @@ import 'package:bidex/common/widgets/modal_form/form_input.dart';
 import 'package:bidex/common/widgets/modal_form/heading.dart';
 import 'package:bidex/common/widgets/modal_form/title.dart' as ttl;
 import 'package:bidex/common/widgets/modal_form/top_section.dart';
+import 'package:bidex/features/auction/presentation/pages/bidding_page.dart';
 import 'package:bidex/features/auction/presentation/widgets/payment_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -137,14 +138,15 @@ class _SessionFormState extends State<SessionForm> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           const CancelButton(text: 'CANCEL'),
-          ProceedButton(text: 'PROCEED', onPressed: verify)
+          ProceedButton(text: 'PROCEED', onPressed: validate)
         ],
       ),
     );
   }
 
-  void verify() {
-    print(controller.text);
-    authBloc.add(VerifyEvent(controller.text));
+  void validate() {
+    // authBloc.add(VerifyEvent(controller.text));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const BiddingPage()));
   }
 }

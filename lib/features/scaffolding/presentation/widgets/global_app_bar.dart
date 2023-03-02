@@ -3,7 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class GlobalAppBar extends StatefulWidget {
-  const GlobalAppBar({Key? key}) : super(key: key);
+  final bool implyLeading;
+  const GlobalAppBar({Key? key, this.implyLeading = false}) : super(key: key);
 
   @override
   State<GlobalAppBar> createState() => _GlobalAppBarState();
@@ -30,9 +31,15 @@ class _GlobalAppBarState extends State<GlobalAppBar> {
 
   Widget leading() {
     return IconButton(
-      onPressed: () {},
-      icon: const Icon(
-        CupertinoIcons.plus_square,
+      onPressed: () {
+        if (widget.implyLeading) {
+          Navigator.pop(context);
+        }
+      },
+      icon: Icon(
+        widget.implyLeading
+            ? CupertinoIcons.chevron_back
+            : CupertinoIcons.plus_square,
         size: 22,
       ),
     );

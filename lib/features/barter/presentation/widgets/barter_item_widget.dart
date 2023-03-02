@@ -1,7 +1,7 @@
 import 'package:bidex/common/widgets/image.dart';
 import 'package:bidex/features/barter/domain/entities/barter_item.dart';
 import 'package:bidex/common/widgets/carousel.dart';
-import 'package:bidex/features/barter/presentation/widgets/tags_widget.dart';
+import 'package:bidex/common/widgets/tags_widget.dart';
 import 'package:flutter/material.dart';
 
 class BarterItemWidget extends StatefulWidget {

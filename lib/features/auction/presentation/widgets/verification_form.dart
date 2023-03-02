@@ -36,7 +36,7 @@ class _VerificationFormState extends State<VerificationForm> {
         padding:
             EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: SizedBox(
-          height: 300,
+          height: 350,
           child: Column(
             children: [top(), bottom()],
           ),

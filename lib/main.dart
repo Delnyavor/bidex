@@ -1,6 +1,7 @@
 import 'package:bidex/common/app_themes.dart';
 import 'package:bidex/common/transitions/route_transitions.dart';
 import 'package:bidex/features/auction/presentation/bloc/auction_bloc.dart';
+import 'package:bidex/features/auction/presentation/pages/bidding_page.dart';
 import 'package:bidex/features/auth/domain/usecases/sign_in.dart';
 import 'package:bidex/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bidex/di/injection_container.dart';
@@ -88,7 +89,7 @@ class Landing extends StatelessWidget {
   void push(context) {
     Navigator.push(
       context,
-      fadeInRoute(const PageScaffolding()),
+      fadeInRoute(const BiddingPage()),
     );
   }
 
