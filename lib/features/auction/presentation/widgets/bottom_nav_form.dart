@@ -21,7 +21,7 @@ class _BottomNavBidFormState extends State<BottomNavBidForm> {
           BoxShadow(
             offset: Offset(0, 2),
             blurRadius: 4,
-            spreadRadius: -3,
+            spreadRadius: -2,
           )
         ],
       ),

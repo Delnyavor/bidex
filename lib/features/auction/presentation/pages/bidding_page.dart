@@ -1,9 +1,9 @@
 import 'package:bidex/common/app_colors.dart';
 import 'package:bidex/common/widgets/carousel.dart';
-import 'package:bidex/common/widgets/slivers.dart';
 import 'package:bidex/features/auction/presentation/widgets/auction_details.dart';
 import 'package:bidex/features/auction/presentation/widgets/bid_count.dart';
 import 'package:bidex/features/auction/presentation/widgets/bottom_nav_form.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/widgets/translucent_app_bar.dart';
@@ -30,33 +30,94 @@ class _BiddingPageState extends State<BiddingPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: CustomAppBar.translucentStatusAppBar,
-      body: body(),
-      resizeToAvoidBottomInset: true,
-      extendBody: false,
+      body: Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            elevation: 0,
+            systemOverlayStyle:
+                CustomAppBar.translucentStatusAppBar.systemOverlayStyle,
+            backgroundColor: Colors.transparent,
+            centerTitle: true,
+            leading: leading(),
+            title: title(),
+            actions: actions(),
+          ),
+          body: body(),
+          bottomNavigationBar: const BottomNavBidForm(),
+          resizeToAvoidBottomInset: true),
+    );
+  }
+
+  Widget leading() {
+    return IconButton(
+      onPressed: () {
+        // if (widget.implyLeading) {
+        Navigator.pop(context);
+      },
+      icon: const Icon(
+        // widget.implyLeading
+        CupertinoIcons.chevron_back,
+        // : CupertinoIcons.plus_square,
+        size: 22,
+      ),
+    );
+  }
+
+  Widget title() {
+    return Image.asset(
+      'assets/images/logo.png',
+      height: 100,
+    );
+  }
+
+  List<Widget> actions() {
+    return [
+      chatButton(),
+      search(),
+    ];
+  }
+
+  Widget chatButton() {
+    return iconButton(
+      onPressed: () {},
+      child: const Icon(
+        CupertinoIcons.chat_bubble_2,
+        size: 22,
+      ),
+    );
+  }
+
+  Widget search() {
+    return iconButton(
+      onPressed: () {},
+      child: const Icon(
+        CupertinoIcons.search,
+        size: 22,
+      ),
+    );
+  }
+
+  Widget iconButton({required Function() onPressed, required Widget child}) {
+    return Flexible(
+      child: GestureDetector(
+        onTap: onPressed,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          child: child,
+        ),
+      ),
     );
   }
 
   Widget body() {
-    return SafeArea(
+    return SingleChildScrollView(
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          const GlobalAppBar(
-            implyLeading: true,
-          ),
-          Expanded(
-              child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                image(),
-                tabs(),
-                views(),
-              ],
-            ),
-          )),
-          const BottomNavBidForm(),
+          image(),
+          tabs(),
+          views(),
         ],
       ),
     );
