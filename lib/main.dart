@@ -5,7 +5,6 @@ import 'package:bidex/features/auth/domain/usecases/sign_in.dart';
 import 'package:bidex/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bidex/di/injection_container.dart';
 import 'package:bidex/features/barter/presentation/bloc/barter_bloc.dart';
-import 'package:bidex/features/direct_messages/presentation/pages/direct_messages_page.dart';
 import 'package:bidex/features/scaffolding/presentation/bloc/navigation_bloc.dart/bloc/navigation_bloc.dart';
 import 'package:bidex/features/scaffolding/presentation/pages/scaffolding_page.dart';
 import 'package:flutter/material.dart';
@@ -82,7 +81,7 @@ class MyApp extends StatelessWidget {
         title: 'Bidex',
         theme: lightTheme,
         themeMode: ThemeMode.light,
-        home: const Landing(),
+        home: const PageScaffolding(),
       ),
     );
   }

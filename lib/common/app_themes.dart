@@ -12,18 +12,11 @@ ThemeData _buildLightTheme() {
         onPrimary: AppColors.darkBlue,
         secondary: AppColors.buttonLightBlue,
         error: AppColors.errorRed),
-    // TODO: Add the text themes (103)
+    // TODO: Add the text themes
 
-    textTheme: GoogleFonts.latoTextTheme(const TextTheme(
-      overline: TextStyle(color: AppColors.darkBlue, letterSpacing: 0.8),
-      caption: TextStyle(color: AppColors.darkBlue),
-      bodyText2: TextStyle(color: AppColors.darkBlue),
-      bodyText1: TextStyle(color: AppColors.darkBlue),
-      subtitle2: TextStyle(color: AppColors.darkBlue),
-      subtitle1: TextStyle(color: AppColors.darkBlue),
-    )),
+    textTheme: GoogleFonts.latoTextTheme(const TextTheme()),
 
-    // TODO: Add the icon themes (103)
+    // TODO: Add the icon themes
     buttonTheme: ButtonThemeData(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     ),

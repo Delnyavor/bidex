@@ -8,9 +8,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/transitions/route_transitions.dart';
+import '../../../../common/widgets/carousel_indicator.dart';
 import '../../../../common/widgets/translucent_app_bar.dart';
 import '../../../direct_messages/presentation/pages/direct_messages_page.dart';
-import '../../../scaffolding/presentation/widgets/global_app_bar.dart';
 
 class BiddingPage extends StatefulWidget {
   const BiddingPage({Key? key}) : super(key: key);
@@ -23,6 +23,7 @@ class _BiddingPageState extends State<BiddingPage>
     with TickerProviderStateMixin {
   late TabController controller;
 
+  PageController pageController = PageController();
   bool showFirst = true;
   @override
   void initState() {
@@ -140,15 +141,21 @@ class _BiddingPageState extends State<BiddingPage>
         ],
       ),
       child: AspectRatio(
-        aspectRatio: 0.9,
+        aspectRatio: 1,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(18),
-          child: const Carousel(
-            images: [
-              'stock2.jpg',
-              'stock3.jpg',
-              'stock1.jpg',
-              'stock0.jpg',
+          borderRadius: BorderRadius.circular(8),
+          child: Stack(
+            children: [
+              Carousel(
+                controller: pageController,
+                images: [
+                  'stock2.jpg',
+                  'stock3.jpg',
+                  'stock1.jpg',
+                  'stock0.jpg',
+                ],
+              ),
+              CarouselIndicator(controller: pageController, count: 4)
             ],
           ),
         ),

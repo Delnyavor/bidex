@@ -1,5 +1,6 @@
 // ignore: depend_on_referenced_packages
 
+// ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:stream_transform/stream_transform.dart';
@@ -147,5 +148,4 @@ class GiftingsBloc extends Bloc<GiftingsEvent, GiftingsState> {
   }
 
   // FETCH SINGLE GIFT
-
 }

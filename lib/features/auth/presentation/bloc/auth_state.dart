@@ -3,7 +3,7 @@ part of 'auth_bloc.dart';
 class AuthState extends Equatable {
   const AuthState({
     this.pageStatus = RegistrationPageStatus.none,
-    this.formzStatus = FormzStatus.pure,
+    // this.formzStatus = FormzStatus.pure,
     this.email = const Email.pure(),
     this.password = const Password.pure(),
     this.confirmPassword = const Password.pure(),
@@ -19,7 +19,7 @@ class AuthState extends Equatable {
     this.verificationPageStatus = VerificationPageStatus.none,
   }) : super();
   final RegistrationPageStatus pageStatus;
-  final FormzStatus formzStatus;
+  // final FormzStatus formzStatus;
   final Email email;
   final Password password;
   final Password confirmPassword;
@@ -36,7 +36,7 @@ class AuthState extends Equatable {
 
   AuthState copyWith({
     RegistrationPageStatus? pageStatus,
-    FormzStatus? formzStatus,
+    // FormzStatus? formzStatus,
     Email? email,
     Password? password,
     Password? confirmPassword,
@@ -53,7 +53,7 @@ class AuthState extends Equatable {
   }) {
     return AuthState(
       pageStatus: pageStatus ?? this.pageStatus,
-      formzStatus: formzStatus ?? this.formzStatus,
+      // formzStatus: formzStatus ?? this.formzStatus,
       email: email ?? this.email,
       password: password ?? this.password,
       confirmPassword: confirmPassword ?? this.confirmPassword,
@@ -74,7 +74,7 @@ class AuthState extends Equatable {
   @override
   List<Object> get props => [
         pageStatus,
-        formzStatus,
+        // formzStatus,
         email,
         password,
         confirmPassword,

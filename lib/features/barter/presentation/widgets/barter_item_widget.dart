@@ -1,3 +1,4 @@
+import 'package:bidex/common/widgets/carousel_indicator.dart';
 import 'package:bidex/common/widgets/image.dart';
 import 'package:bidex/features/barter/domain/entities/barter_item.dart';
 import 'package:bidex/common/widgets/carousel.dart';
@@ -14,6 +15,8 @@ class BarterItemWidget extends StatefulWidget {
 }
 
 class _BarterItemWidgetState extends State<BarterItemWidget> {
+  PageController controller = PageController();
+
   @override
   Widget build(BuildContext context) {
     return body();
@@ -55,14 +58,14 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
               children: [
                 Text(
                   widget.barterItem.username,
-                  style: Theme.of(context).textTheme.caption!.copyWith(
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         fontWeight: FontWeight.w600,
                         color: Colors.black87,
                       ),
                 ),
                 Text(
                   widget.barterItem.location,
-                  style: Theme.of(context).textTheme.caption!.copyWith(
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: Colors.black87,
                       ),
                 ),
@@ -79,7 +82,7 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
                 ),
                 Text(
                   widget.barterItem.rating.toString(),
-                  style: Theme.of(context).textTheme.caption,
+                  style: Theme.of(context).textTheme.bodySmall,
                 )
               ],
             ),
@@ -94,8 +97,16 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
       aspectRatio: 1,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
-        child: Carousel(
-          images: widget.barterItem.imageUrls,
+        child: Stack(
+          children: [
+            Carousel(
+              images: widget.barterItem.imageUrls,
+              controller: controller,
+            ),
+            CarouselIndicator(
+                controller: controller,
+                count: widget.barterItem.imageUrls.length)
+          ],
         ),
       ),
     );

@@ -8,7 +8,7 @@ class Heading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       heading,
-      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+      style: Theme.of(context).textTheme.bodySmall!.copyWith(
             fontWeight: FontWeight.w600,
             color: Colors.black87,
             // fontSize: 13,

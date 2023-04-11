@@ -1,6 +1,7 @@
 import 'package:bidex/features/auction/presentation/pages/auction_page.dart';
 import 'package:bidex/features/barter/presentation/pages/barter_page.dart';
 import 'package:bidex/features/scaffolding/presentation/bloc/navigation_bloc.dart/bloc/navigation_bloc.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,7 +23,14 @@ class _PageHandlerState extends State<PageHandler>
   late PageController pageController;
   late Animation<double> fadeInOut;
   late NavigationBloc bloc;
-  List<Widget> pages = const [BarterPage(), AuctionsPage(), GiftingsPage()];
+  List<Widget> pages = const [
+    BarterPage(),
+    AuctionsPage(),
+    GiftingsPage(),
+    Center(
+      child: Icon(CupertinoIcons.person_alt_circle),
+    )
+  ];
   int position = 0;
 
   @override

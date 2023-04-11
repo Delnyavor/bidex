@@ -1,3 +1,4 @@
+import 'package:bidex/common/widgets/carousel_indicator.dart';
 import 'package:bidex/common/widgets/image.dart';
 
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class AuctionWidget extends StatefulWidget {
 }
 
 class _AuctionWidgetState extends State<AuctionWidget> {
+  PageController controller = PageController();
   @override
   Widget build(BuildContext context) {
     return body();
@@ -98,8 +100,15 @@ class _AuctionWidgetState extends State<AuctionWidget> {
       aspectRatio: 1,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
-        child: Carousel(
-          images: widget.auction.imageUrls,
+        child: Stack(
+          children: [
+            Carousel(
+              controller: controller,
+              images: widget.auction.imageUrls,
+            ),
+            CarouselIndicator(
+                controller: controller, count: widget.auction.imageUrls.length)
+          ],
         ),
       ),
     );

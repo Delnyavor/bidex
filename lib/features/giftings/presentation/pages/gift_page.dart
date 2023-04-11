@@ -4,6 +4,7 @@ import 'package:bidex/features/giftings/presentation/bloc/giftings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../common/widgets/carousel_indicator.dart';
 import '../../domain/entities/gift_item.dart';
 
 class GiftPage extends StatefulWidget {
@@ -15,6 +16,7 @@ class GiftPage extends StatefulWidget {
 
 class _GiftPageState extends State<GiftPage> {
   late GiftingsBloc bloc;
+  PageController controller = PageController();
 
   @override
   void didChangeDependencies() {
@@ -34,7 +36,10 @@ class _GiftPageState extends State<GiftPage> {
           } else {
             if (state.giftPageStatus == GiftingsPageStatus.giftLoaded) {
               if (state.item != null) {
-                return GiftDisplay(gift: state.item!);
+                return GiftDisplay(
+                  gift: state.item!,
+                  controller: controller,
+                );
               }
             }
           }
@@ -49,9 +54,11 @@ class _GiftPageState extends State<GiftPage> {
 
 class GiftDisplay extends StatelessWidget {
   final Gift gift;
+  final PageController controller;
   const GiftDisplay({
     Key? key,
     required this.gift,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -75,9 +82,18 @@ class GiftDisplay extends StatelessWidget {
     return AspectRatio(
       aspectRatio: 1,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(18),
-        child: Carousel(
-          images: gift.imageUrls,
+        borderRadius: BorderRadius.circular(8),
+        child: Stack(
+          children: [
+            Carousel(
+              images: gift.imageUrls,
+              controller: controller,
+            ),
+            CarouselIndicator(
+              controller: controller,
+              count: gift.imageUrls.length,
+            )
+          ],
         ),
       ),
     );

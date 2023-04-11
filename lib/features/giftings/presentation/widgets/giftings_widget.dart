@@ -1,3 +1,4 @@
+import 'package:bidex/common/widgets/carousel_indicator.dart';
 import 'package:bidex/common/widgets/image.dart';
 
 import 'package:flutter/material.dart';
@@ -16,6 +17,8 @@ class GiftWidget extends StatefulWidget {
 }
 
 class _GiftWidgetState extends State<GiftWidget> {
+  PageController controller = PageController();
+
   @override
   Widget build(BuildContext context) {
     return body();
@@ -59,14 +62,14 @@ class _GiftWidgetState extends State<GiftWidget> {
               children: [
                 Text(
                   widget.gift.username,
-                  style: Theme.of(context).textTheme.caption!.copyWith(
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         fontWeight: FontWeight.w600,
                         color: Colors.black87,
                       ),
                 ),
                 Text(
                   widget.gift.location,
-                  style: Theme.of(context).textTheme.caption!.copyWith(
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: Colors.black87,
                       ),
                 ),
@@ -83,7 +86,7 @@ class _GiftWidgetState extends State<GiftWidget> {
                 ),
                 Text(
                   widget.gift.rating.toString(),
-                  style: Theme.of(context).textTheme.caption,
+                  style: Theme.of(context).textTheme.bodySmall,
                 )
               ],
             ),
@@ -98,9 +101,16 @@ class _GiftWidgetState extends State<GiftWidget> {
       aspectRatio: 1,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
-        child: Carousel(
-          images: widget.gift.imageUrls,
-        ),
+        child: Stack(children: [
+          Carousel(
+            images: widget.gift.imageUrls,
+            controller: controller,
+          ),
+          CarouselIndicator(
+            controller: controller,
+            count: widget.gift.imageUrls.length,
+          )
+        ]),
       ),
     );
   }

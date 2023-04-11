@@ -62,6 +62,7 @@ class AuctionRemoteDataSourceImpl extends AuctionRemoteDataSource {
 
         await Future.delayed(const Duration(seconds: 0), () {});
         return List<AuctionItemModel>.generate(2, (index) => item);
+        // ignore: dead_code
       } else {
         // throw ServerException(code: response.statusCode);
       }

@@ -65,7 +65,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _onEmailChanged(EmailChanged event, emit) {
     final email = Email.dirty(event.email);
 
-    emit(state.copyWith(email: email, formzStatus: Formz.validate([email])));
+    emit(state.copyWith(
+      email: email,
+    ));
   }
 
   void _onPasswordChanged(PasswordChanged event, emit) {
@@ -74,9 +76,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final confirmPassword = Password.dirty(event.confirmPassword);
 
       emit(state.copyWith(
-          password: password,
-          confirmPassword: confirmPassword,
-          formzStatus: Formz.validate([password, confirmPassword])));
+        password: password,
+        confirmPassword: confirmPassword,
+      ));
     }
   }
 
@@ -84,33 +86,40 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final firstName = Name.dirty(event.firstName);
 
     emit(state.copyWith(
-        firstName: firstName, formzStatus: Formz.validate([firstName])));
+      firstName: firstName,
+    ));
   }
 
   void _onLastNameChanged(LastNameChanged event, emit) {
     final lastName = Name.dirty(event.lastName);
 
     emit(state.copyWith(
-        lastName: lastName, formzStatus: Formz.validate([lastName])));
+      lastName: lastName,
+    ));
   }
 
   void _onUsernameChanged(UsernameChanged event, emit) {
     final username = Username.dirty(event.username);
 
     emit(state.copyWith(
-        username: username, formzStatus: Formz.validate([username])));
+      username: username,
+    ));
   }
 
   void _onImageChanged(ImageChanged event, emit) {
     final image = Image.dirty(event.imagePath);
 
-    emit(state.copyWith(image: image, formzStatus: Formz.validate([image])));
+    emit(state.copyWith(
+      image: image,
+    ));
   }
 
   void _onPhoneChanged(PhoneChanged event, emit) {
     final phone = Phone.dirty(event.phonePath);
 
-    emit(state.copyWith(phone: phone, formzStatus: Formz.validate([phone])));
+    emit(state.copyWith(
+      phone: phone,
+    ));
   }
 
   void _onPageChanged(PageChanged event, emit) {
@@ -124,7 +133,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     //check if the validation state is true
     validateFields();
 
-    if (state.formzStatus.isValidated) {
+    if (true) {
+      // if (state.formzStatus.isValidated) {
       emit(state.copyWith(pageStatus: RegistrationPageStatus.loading));
 
       final UserData? userdata = await populateUserFields();
@@ -140,8 +150,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(
             state.copyWith(
               pageStatus: RegistrationPageStatus.failed,
-              formzStatus: FormzStatus.submissionFailure,
-              error: failure.message,
             ),
           );
         }, ((user) {

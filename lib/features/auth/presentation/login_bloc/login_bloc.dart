@@ -27,9 +27,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     final email = Email.dirty(event.email);
     emit(
       state.copyWith(
-          email: email,
-          formzStatus: Formz.validate([state.password, email]),
-          status: LoginPageStatus.none,),
+        email: email,
+        // formzSubmissionStatus: Formz.validate([state.password, email]),
+        status: LoginPageStatus.none,
+      ),
     );
   }
 
@@ -41,7 +42,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     emit(
       state.copyWith(
           password: password,
-          formzStatus: Formz.validate([password, state.email]),
+          // formzSubmissionStatus: Formz.validate([password, state.email]),
           status: LoginPageStatus.none),
     );
   }
@@ -56,7 +57,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     Emitter<LoginState> emit,
   ) async {
     //check if the validation state is true
-    if (state.formzStatus.isValidated) {
+    if (state.email.isValid && state.password.isValid) {
       emit(state.copyWith(status: LoginPageStatus.loading));
 
       final result = await _signIn(event.email, event.password);
@@ -64,7 +65,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(
           state.copyWith(
             status: LoginPageStatus.failed,
-            formzStatus: FormzStatus.submissionFailure,
+            formzSubmissionStatus: FormzSubmissionStatus.failure,
             error: failure.message,
           ),
         );

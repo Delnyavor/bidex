@@ -74,7 +74,7 @@ class GiftRemoteDataSourceImpl extends GiftRemoteDataSource {
         // return compute(_parseItems, response.body);
         var item = GiftModel.fromMap(sampleData);
 
-        await Future.delayed(const Duration(seconds: 1), () {});
+        Future.delayed(const Duration(seconds: 0), () {});
         return List<GiftModel>.generate(2, (index) => item);
       } else {
         // throw ServerException(code: response.statusCode);
