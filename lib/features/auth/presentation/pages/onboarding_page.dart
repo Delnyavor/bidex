@@ -1,10 +1,12 @@
 import 'package:bidex/common/app_colors.dart';
 import 'package:bidex/common/widgets/translucent_app_bar.dart';
+import 'package:bidex/features/auth/presentation/pages/registration_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/widgets/carousel.dart';
 import '../../../../common/widgets/carousel_indicator.dart';
 import '../widgets/auth_button.dart';
+import 'login_page.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -20,6 +22,24 @@ class _OnboardingPage extends State<OnboardingPage> {
     'lending.jpg',
     'reseller.jpg',
   ];
+
+  void register() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const RegistrationPage(),
+      ),
+    );
+  }
+
+  void login() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const LoginPage(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +108,7 @@ class _OnboardingPage extends State<OnboardingPage> {
         'Lipsum dolor sit amet consecutur alispem. Lipsum dolor sit amet consecutur alispem. Lipsum dolor sit amet consecutur alispem. Lipsum dolor sit amet consecutur alispem.',
         textAlign: TextAlign.center,
         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              color: AppColors.darkBlue, fontWeight: FontWeight.w900,
+              color: AppColors.darkBlue,
               height: 1.5,
               // fontSize: 32,
             ),
@@ -106,10 +126,7 @@ class _OnboardingPage extends State<OnboardingPage> {
             label: 'Register',
             light: false,
             flex: true,
-            onPressed: () {
-              FocusScope.of(context).unfocus();
-              // register();
-            },
+            onPressed: register,
           ),
         ),
       ),
@@ -120,16 +137,20 @@ class _OnboardingPage extends State<OnboardingPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'Already have an account? ',
-          style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: Colors.grey.shade500,
+              fontSize: 12,
+              fontWeight: FontWeight.bold),
         ),
         InkWell(
-          onTap: () {},
+          onTap: login,
           child: const Text(
             'Sign In',
             style: TextStyle(
               color: AppColors.darkBlue,
+              fontSize: 12,
               fontWeight: FontWeight.bold,
             ),
           ),

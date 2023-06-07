@@ -8,7 +8,7 @@ class Title extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       title,
-      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
             fontWeight: FontWeight.bold,
             fontSize: 15,
           ),

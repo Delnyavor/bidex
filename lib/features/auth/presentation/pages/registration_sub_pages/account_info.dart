@@ -98,10 +98,10 @@ class AccountInfoFormState extends State<AccountInfoForm>
   Widget formTitle() {
     return Text(
       'Create an account, it\'s free',
-      style: Theme.of(context)
-          .textTheme
-          .subtitle2!
-          .copyWith(fontWeight: FontWeight.w600),
+      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+            fontWeight: FontWeight.w600,
+            color: AppColors.darkBlue,
+          ),
     );
   }
 
@@ -169,8 +169,11 @@ class AccountInfoFormState extends State<AccountInfoForm>
           padding: const EdgeInsets.symmetric(horizontal: 14),
           child: Text(
             'Already a member?',
-            style: Theme.of(context).textTheme.overline!.copyWith(
-                fontWeight: FontWeight.w600, letterSpacing: 0.8, height: 1.1),
+            style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                fontWeight: FontWeight.w600,
+                color: AppColors.darkBlue.withOpacity(0.6),
+                letterSpacing: 0.8,
+                height: 1.1),
           ),
         ),
         partitionDecoration(),

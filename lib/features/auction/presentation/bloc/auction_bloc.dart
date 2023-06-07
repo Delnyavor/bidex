@@ -1,6 +1,7 @@
 import 'package:bidex/features/auction/domain/entities/auction_item.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 import '../../../../core/error/failures.dart';
@@ -143,7 +144,9 @@ class AuctionBloc extends Bloc<AuctionEvent, AuctionState> {
           items: state.items + result,
         ),
       );
-      print(state.items.length);
+      if (kDebugMode) {
+        print(state.items.length);
+      }
     }
   }
 }

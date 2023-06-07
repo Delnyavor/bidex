@@ -3,6 +3,7 @@
 // ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 import '../../../../../core/error/failures.dart';
@@ -143,7 +144,9 @@ class GiftingsBloc extends Bloc<GiftingsEvent, GiftingsState> {
           items: state.items + result,
         ),
       );
-      print(state.items.length);
+      if (kDebugMode) {
+        print(state.items.length);
+      }
     }
   }
 

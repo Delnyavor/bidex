@@ -7,6 +7,7 @@ import 'package:bidex/common/widgets/modal_form/title.dart' as ttl;
 import 'package:bidex/common/widgets/modal_form/top_section.dart';
 import 'package:bidex/features/auction/presentation/widgets/bid_purchase_form.dart';
 import 'package:bidex/features/auction/presentation/widgets/session_form.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -119,7 +120,9 @@ class _VerificationFormState extends State<VerificationForm> {
   }
 
   void verify() {
-    print(controller.text);
+    if (kDebugMode) {
+      print(controller.text);
+    }
     authBloc.add(VerifyEvent(controller.text));
   }
 }

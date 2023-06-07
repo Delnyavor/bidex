@@ -148,7 +148,7 @@ class _BiddingPageState extends State<BiddingPage>
             children: [
               Carousel(
                 controller: pageController,
-                images: [
+                images: const [
                   'stock2.jpg',
                   'stock3.jpg',
                   'stock1.jpg',

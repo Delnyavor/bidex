@@ -93,7 +93,7 @@ class Landing extends StatelessWidget {
   void push(context) {
     Navigator.push(
       context,
-      fadeInRoute(const OnboardingPage()),
+      fadeInRoute(const PageScaffolding()),
     );
   }
 

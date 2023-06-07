@@ -170,10 +170,10 @@ class _LoginPageState extends State<LoginPage> {
   Widget formTitle() {
     return Text(
       'Sign in to continue',
-      style: Theme.of(context)
-          .textTheme
-          .subtitle2!
-          .copyWith(fontWeight: FontWeight.w600),
+      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+            fontWeight: FontWeight.w600,
+            color: AppColors.darkBlue,
+          ),
     );
   }
 
@@ -238,7 +238,10 @@ class _LoginPageState extends State<LoginPage> {
             });
           },
         ),
-        Text('Remember password', style: Theme.of(context).textTheme.caption!)
+        Text('Remember password',
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  color: AppColors.darkBlue,
+                )),
       ],
     );
   }
@@ -251,8 +254,8 @@ class _LoginPageState extends State<LoginPage> {
           onTap: () {},
           child: Text(
             'Forgot password',
-            style: Theme.of(context).textTheme.caption!.copyWith(
-                  color: AppColors.darkBlue.withOpacity(0.6),
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  color: AppColors.darkBlue.withOpacity(0.7),
                   fontWeight: FontWeight.w600,
                 ),
           ),
@@ -269,8 +272,11 @@ class _LoginPageState extends State<LoginPage> {
           padding: const EdgeInsets.symmetric(horizontal: 14),
           child: Text(
             'Not a member?',
-            style: Theme.of(context).textTheme.overline!.copyWith(
-                fontWeight: FontWeight.w600, letterSpacing: 0.8, height: 1.1),
+            style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                fontWeight: FontWeight.w600,
+                color: AppColors.darkBlue.withOpacity(0.8),
+                letterSpacing: 0.8,
+                height: 1.1),
           ),
         ),
         partitionDecoration(),

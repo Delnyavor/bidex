@@ -12,8 +12,8 @@ ThemeData _buildLightTheme() {
         onPrimary: AppColors.darkBlue,
         secondary: AppColors.buttonLightBlue,
         error: AppColors.errorRed),
-    // TODO: Add the text themes
 
+    // TODO: Add the text themes
     textTheme: GoogleFonts.latoTextTheme(const TextTheme()),
 
     // TODO: Add the icon themes

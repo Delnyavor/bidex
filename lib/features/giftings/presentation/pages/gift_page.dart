@@ -1,4 +1,3 @@
-import 'package:bidex/common/widgets/image.dart';
 import 'package:bidex/common/widgets/carousel.dart';
 import 'package:bidex/features/giftings/presentation/bloc/giftings_bloc.dart';
 import 'package:flutter/material.dart';
@@ -114,14 +113,14 @@ class GiftDisplay extends StatelessWidget {
       children: [
         Text(
           'Nii Kpapo',
-          style: Theme.of(context).textTheme.bodyText2!.copyWith(
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: Colors.black87,
                 fontWeight: FontWeight.bold,
               ),
         ),
         Text(
           'Labone, accra',
-          style: Theme.of(context).textTheme.caption!.copyWith(
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(
                 color: Colors.black54,
               ),
         )
@@ -132,7 +131,7 @@ class GiftDisplay extends StatelessWidget {
   Widget itemTitle(BuildContext context) {
     return Text(
       'Custom built desktop',
-      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
             color: Colors.black87,
             fontWeight: FontWeight.w900,
             fontSize: 18,
@@ -143,7 +142,7 @@ class GiftDisplay extends StatelessWidget {
   Widget description(BuildContext context) {
     return Text(
       'description',
-      style: Theme.of(context).textTheme.bodyText2!.copyWith(
+      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
             color: Colors.black87,
           ),
     );

@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 
 import 'firebase_auth_source.dart';
 
@@ -24,7 +25,9 @@ class FirebaseAuthDataSourceImpl implements FirebaseAuthDataSource {
   Future<User?> signIn(String email, String password) async {
     UserCredential credential = await firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
-    print('Cred: $credential');
+    if (kDebugMode) {
+      print('Cred: $credential');
+    }
     return credential.user;
   }
 }

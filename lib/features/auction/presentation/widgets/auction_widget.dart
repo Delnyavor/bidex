@@ -61,14 +61,14 @@ class _AuctionWidgetState extends State<AuctionWidget> {
               children: [
                 Text(
                   widget.auction.username,
-                  style: Theme.of(context).textTheme.caption!.copyWith(
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         fontWeight: FontWeight.w600,
                         color: Colors.black87,
                       ),
                 ),
                 Text(
                   widget.auction.location,
-                  style: Theme.of(context).textTheme.caption!.copyWith(
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: Colors.black87,
                       ),
                 ),
@@ -85,6 +85,7 @@ class _AuctionWidgetState extends State<AuctionWidget> {
                 ),
                 Text(
                   widget.auction.rating.toString(),
+                  // ignore: deprecated_member_use
                   style: Theme.of(context).textTheme.caption,
                 )
               ],

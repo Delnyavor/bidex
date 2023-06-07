@@ -1,5 +1,4 @@
 import '../../domain/entities/barter_item.dart';
-import '../models/barter_item_model.dart';
 
 abstract class BarterRemoteDataSource {
   ///gets the cached [BarterItem] saved on the local device
