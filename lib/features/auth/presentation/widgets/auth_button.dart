@@ -28,7 +28,7 @@ class AuthButton extends StatelessWidget {
         onPressed: onPressed,
         child: Text(
           label,
-          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 color: light ? AppColors.darkBlue : Colors.white,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 0.2,

@@ -5,6 +5,7 @@ import 'package:bidex/features/auth/domain/usecases/sign_in.dart';
 import 'package:bidex/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bidex/di/injection_container.dart';
 import 'package:bidex/features/barter/presentation/bloc/barter_bloc.dart';
+import 'package:bidex/features/auth/presentation/pages/onboarding_page.dart';
 import 'package:bidex/features/scaffolding/presentation/bloc/navigation_bloc.dart/bloc/navigation_bloc.dart';
 import 'package:bidex/features/scaffolding/presentation/pages/scaffolding_page.dart';
 import 'package:flutter/material.dart';
@@ -81,7 +82,7 @@ class MyApp extends StatelessWidget {
         title: 'Bidex',
         theme: lightTheme,
         themeMode: ThemeMode.light,
-        home: const PageScaffolding(),
+        home: const Landing(),
       ),
     );
   }
@@ -92,7 +93,7 @@ class Landing extends StatelessWidget {
   void push(context) {
     Navigator.push(
       context,
-      fadeInRoute(const PageScaffolding()),
+      fadeInRoute(const OnboardingPage()),
     );
   }
 

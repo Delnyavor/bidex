@@ -1,10 +1,16 @@
-import 'package:bidex/common/widgets/image.dart';
 import 'package:flutter/material.dart';
 
 class Carousel extends StatefulWidget {
+  final EdgeInsets margin;
+  final double radius;
   final List<String> images;
   final PageController controller;
-  const Carousel({Key? key, required this.images, required this.controller})
+  const Carousel(
+      {Key? key,
+      required this.images,
+      required this.controller,
+      this.radius = 0.0,
+      this.margin = EdgeInsets.zero})
       : super(key: key);
 
   @override
@@ -14,19 +20,32 @@ class Carousel extends StatefulWidget {
 class _CarouselState extends State<Carousel> {
   @override
   Widget build(BuildContext context) {
-    return PageView.builder(
+    return PageView(
       controller: widget.controller,
-      itemBuilder: (context, index) => child(widget.images[index]),
-      itemCount: widget.images.length,
+      children: widget.images.map((e) => child(e)).toList(),
+      // itemBuilder: (context, index) => child(widget.images[index]),
+      // itemCount: widget.images.length,
     );
   }
 
   Widget child(String path) {
-    return DisplayImage(
-      // TODO: make this a clean url
-      path: 'assets/images/$path',
-      height: 675,
-      width: 676,
+    return Padding(
+      padding: widget.margin,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(widget.radius),
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: ResizeImage(
+              AssetImage(
+                'assets/images/$path',
+              ),
+              height: 675,
+              width: 676,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
