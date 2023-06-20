@@ -1,4 +1,4 @@
-import 'package:bidex/features/scaffolding/presentation/widgets/bottom_nav_buttons.dart';
+import 'package:bidex/features/home/presentation/widgets/bottom_nav_buttons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

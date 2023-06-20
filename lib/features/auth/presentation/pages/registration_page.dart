@@ -5,8 +5,8 @@ import 'package:bidex/common/widgets/translucent_app_bar.dart';
 import 'package:bidex/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bidex/features/auth/presentation/pages/registration_sub_pages/account_info.dart';
 import 'package:bidex/features/auth/presentation/pages/registration_sub_pages/personal_info_form.dart';
+import 'package:bidex/features/home/presentation/pages/home_page.dart';
 import 'package:bidex/features/auth/presentation/pages/registration_sub_pages/personal_info_identity_form.dart';
-import 'package:bidex/features/scaffolding/presentation/pages/scaffolding_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -82,7 +82,7 @@ class RegistrationPageState extends State<RegistrationPage> {
         ),
       );
     Future.delayed(const Duration(seconds: 2), () {
-      Navigator.pushReplacement(context, slideInRoute(const PageScaffolding()));
+      Navigator.pushReplacement(context, slideInRoute(const HomePage()));
     });
   }
 

@@ -1,21 +1,20 @@
 import 'package:bidex/features/auction/presentation/pages/auction_page.dart';
 import 'package:bidex/features/barter/presentation/pages/barter_page.dart';
-import 'package:bidex/features/scaffolding/presentation/bloc/navigation_bloc.dart/bloc/navigation_bloc.dart';
+import 'package:bidex/features/home/presentation/bloc/navigation_bloc.dart/bloc/navigation_bloc.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../giftings/presentation/pages/giftings_page.dart';
 
-class PageHandler extends StatefulWidget {
-  const PageHandler({Key? key}) : super(key: key);
+class HomeBody extends StatefulWidget {
+  const HomeBody({Key? key}) : super(key: key);
 
   @override
-  State<PageHandler> createState() => _PageHandlerState();
+  State<HomeBody> createState() => _HomeBodyState();
 }
 
-class _PageHandlerState extends State<PageHandler>
+class _HomeBodyState extends State<HomeBody>
     with SingleTickerProviderStateMixin {
   final duration = 100;
 
@@ -57,27 +56,8 @@ class _PageHandlerState extends State<PageHandler>
     bloc = BlocProvider.of<NavigationBloc>(context);
   }
 
-  Widget card(int position) {
-    return Card(
-      child: Image.asset('assets/images/stock$position.jpg'),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 8, bottom: 8),
-      decoration: decoration(),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(30),
-        child: Center(
-          child: builder(),
-        ),
-      ),
-    );
-  }
-
-  Widget builder() {
     return BlocListener<NavigationBloc, NavigationState>(
       listener: (context, state) {
         pageController.jumpToPage(state.page);
@@ -90,28 +70,6 @@ class _PageHandlerState extends State<PageHandler>
         },
         itemCount: pages.length,
       ),
-    );
-  }
-
-  BoxDecoration decoration() {
-    return BoxDecoration(
-      // color: Color(0xFFF9F9F9),
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(30),
-      boxShadow: const [
-        BoxShadow(
-          spreadRadius: -5,
-          blurRadius: 12,
-          color: Colors.black26,
-          offset: Offset(0, 2),
-        ),
-        BoxShadow(
-          spreadRadius: 0,
-          blurRadius: 1,
-          color: Colors.black12,
-          offset: Offset(0, 1),
-        ),
-      ],
     );
   }
 }

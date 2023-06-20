@@ -47,7 +47,7 @@ class _CarouselIndicatorState extends State<CarouselIndicator> {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Padding(
-        padding: widget.padding ?? const EdgeInsets.all(20),
+        padding: widget.padding ?? const EdgeInsets.all(25),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(

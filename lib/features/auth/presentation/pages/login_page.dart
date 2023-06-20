@@ -5,7 +5,7 @@ import 'package:bidex/features/auth/presentation/login_bloc/login_bloc.dart';
 import 'package:bidex/features/auth/presentation/pages/registration_page.dart';
 import 'package:bidex/features/auth/presentation/widgets/auth_button.dart';
 import 'package:bidex/features/auth/presentation/widgets/auth_input.dart';
-import 'package:bidex/features/scaffolding/presentation/pages/scaffolding_page.dart';
+import 'package:bidex/features/home/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -75,8 +75,7 @@ class _LoginPageState extends State<LoginPage> {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
       Future.delayed(const Duration(milliseconds: 700), () {
-        Navigator.pushReplacement(
-            context, fadeInRoute(const PageScaffolding()));
+        Navigator.pushReplacement(context, fadeInRoute(const HomePage()));
       });
     });
   }

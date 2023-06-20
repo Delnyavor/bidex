@@ -10,12 +10,14 @@ class DMInput extends StatefulWidget {
   final TextEditingController controller;
   final Function(String)? onChanged;
   final String? errorText;
+  final bool preventFocus;
 
   const DMInput({
     Key? key,
     required this.controller,
     this.onChanged,
     this.errorText,
+    this.preventFocus = false,
   }) : super(key: key);
 
   @override
@@ -76,8 +78,17 @@ class DMInputState extends State<DMInput> with SingleTickerProviderStateMixin {
     await controller.forward().whenComplete(() => controller.reverse());
   }
 
+  handleFocus() {
+    if (widget.preventFocus && FocusScope.of(context).hasFocus) {
+      FocusScope.of(context).unfocus();
+      print(widget.preventFocus);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    handleFocus();
+
     return decoratedContainer(
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
@@ -95,28 +106,15 @@ class DMInputState extends State<DMInput> with SingleTickerProviderStateMixin {
   }
 
   Widget decoratedContainer({required Widget child}) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-      padding: const EdgeInsets.only(right: 10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          const BoxShadow(
-            color: Colors.black12,
-            spreadRadius: -1,
-            blurRadius: 1,
-            offset: Offset(0, 0),
-          ),
-          BoxShadow(
-            color: Colors.black12.withOpacity(0.1),
-            spreadRadius: -2,
-            blurRadius: 20,
-            offset: const Offset(0, 0),
-          ),
-        ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: child,
       ),
-      child: child,
     );
   }
 

@@ -74,14 +74,11 @@ class _BarterPage extends State<BarterPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: BlocListener<BarterBloc, BarterState>(
-        listener: (context, state) {
-          stateListener(state);
-        },
-        child: buildStack(),
-      ),
+    return BlocListener<BarterBloc, BarterState>(
+      listener: (context, state) {
+        stateListener(state);
+      },
+      child: buildStack(),
     );
   }
 
