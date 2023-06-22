@@ -1,8 +1,11 @@
+import 'dart:ui';
+
 import 'package:bidex/common/widgets/carousel_indicator.dart';
-import 'package:bidex/common/widgets/image.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 
+import '../../../../common/utils/description_text.dart';
 import '../../../../common/widgets/carousel.dart';
 import '../../domain/entities/auction_item.dart';
 
@@ -17,78 +20,154 @@ class AuctionWidget extends StatefulWidget {
 }
 
 class _AuctionWidgetState extends State<AuctionWidget> {
+  bool isOpen = false;
+  Duration duration = const Duration(milliseconds: 100);
+
+  void viewMore() {
+    setState(() {
+      isOpen = !isOpen;
+    });
+  }
+
   PageController controller = PageController();
   @override
   Widget build(BuildContext context) {
-    return body();
+    return Container(
+      margin: const EdgeInsets.fromLTRB(16, 10, 16, 24),
+      decoration: decoration(),
+      child: GestureDetector(
+        onTap: widget.ontap,
+        child: imageBackground(),
+      ),
+    );
   }
 
-  Widget body() {
-    return GestureDetector(
-      onTap: widget.ontap,
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        decoration: decoration(),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+  Widget imageBackground() {
+    return AspectRatio(
+      aspectRatio: 0.85,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(15),
+        child: Stack(
           children: [
-            itemHeader(),
-            center(),
-            controls(),
+            Carousel(
+              controller: controller,
+              images: widget.auction.imageUrls,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Expanded(child: overlayBuilder(itemDetails())),
+                  CarouselIndicator(
+                      controller: controller,
+                      count: widget.auction.imageUrls.length),
+                  infoBar(),
+                ],
+              ),
+            ),
+            viewMoreButton(),
           ],
         ),
       ),
     );
   }
 
-  Widget itemHeader() {
+  Widget overlayBuilder(Widget child) {
+    return AnimatedOpacity(
+      opacity: isOpen ? 1 : 0,
+      duration: duration,
+      child: child,
+    );
+  }
+
+  Widget backdrop() {
+    return BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: 30, sigmaY: 25),
+      child: SizedBox.expand(
+        child: Container(color: Colors.white10),
+      ),
+    );
+  }
+
+  Widget itemDetails() {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+          color: Colors.white.withOpacity(1),
+          borderRadius: BorderRadius.circular(8)),
+      child: const Padding(
+        padding: EdgeInsets.all(17),
+        child: Text(
+          descriptionText,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 12,
+          style: TextStyle(color: Colors.black87, height: 1.4),
+        ),
+      ),
+    );
+  }
+
+  Widget viewMoreButton() {
+    return Positioned(
+      right: 0,
+      bottom: 10 + 60,
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white.withOpacity(0.5)),
+          child: IconButton(
+            onPressed: viewMore,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(minHeight: 33, minWidth: 33),
+            icon: isOpen
+                ? const Icon(Icons.keyboard_arrow_down)
+                : const Icon(Icons.menu),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget infoBar() {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: SizedBox(
+        height: 60,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 25, sigmaY: 30),
+          child: SizedBox.expand(
+            child: Container(
+              color: Colors.white12,
+              child: controls(),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget controls() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(15, 10, 15, 6),
+      padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 18),
       child: Row(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(50),
-            child: const DisplayImage(
-              path: 'assets/images/stock0.jpg',
-              height: 35,
-              width: 35,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.auction.username,
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black87,
-                      ),
-                ),
-                Text(
-                  widget.auction.location,
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: Colors.black87,
-                      ),
-                ),
-              ],
-            ),
-          ),
-          Flexible(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const Icon(
-                  Icons.star_rate_rounded,
-                  size: 20,
-                ),
-                Text(
-                  widget.auction.rating.toString(),
-                  // ignore: deprecated_member_use
-                  style: Theme.of(context).textTheme.caption,
-                )
-              ],
+          const Icon(CupertinoIcons.person_3_fill),
+          const SizedBox(width: 5),
+          const Text('15'),
+          Expanded(
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text('GHS 15,250',
+                      style: TextStyle(fontWeight: FontWeight.w500)),
+                  Text('GHS 10,000', style: TextStyle(fontSize: 10)),
+                ],
+              ),
             ),
           )
         ],
@@ -96,79 +175,10 @@ class _AuctionWidgetState extends State<AuctionWidget> {
     );
   }
 
-  Widget center() {
-    return AspectRatio(
-      aspectRatio: 1,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: Stack(
-          children: [
-            Carousel(
-              controller: controller,
-              images: widget.auction.imageUrls,
-            ),
-            CarouselIndicator(
-                controller: controller, count: widget.auction.imageUrls.length)
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget controls() {
-    return Row(
-      children: const [
-        IconButton(
-          constraints: BoxConstraints(maxWidth: 35),
-          onPressed: null,
-          iconSize: 22,
-          icon: Icon(
-            Icons.favorite,
-          ),
-        ),
-        IconButton(
-          constraints: BoxConstraints(maxWidth: 35),
-          onPressed: null,
-          iconSize: 22,
-          icon: Icon(
-            Icons.swap_vert,
-          ),
-        ),
-        Expanded(
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: IconButton(
-              iconSize: 20,
-              onPressed: null,
-              icon: Icon(
-                Icons.share,
-              ),
-            ),
-          ),
-        )
-      ],
-    );
-  }
-
   BoxDecoration decoration() {
     return BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade300, width: 0.5)
-        // boxShadow: [
-        //   const BoxShadow(
-        //     color: Colors.black38,
-        //     spreadRadius: -1,
-        //     blurRadius: 1,
-        //     offset: Offset(0, 0.5),
-        //   ),
-        //   BoxShadow(
-        //     color: Colors.black12.withOpacity(0.2),
-        //     spreadRadius: -5,
-        //     blurRadius: 8,
-        //     offset: Offset(0, 1),
-        //   ),
-        // ],
-        );
+        border: Border.all(color: Colors.grey.shade300, width: 0.5));
   }
 }

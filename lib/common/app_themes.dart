@@ -14,7 +14,10 @@ ThemeData _buildLightTheme() {
         error: AppColors.errorRed),
 
     // TODO: Add the text themes
-    textTheme: GoogleFonts.latoTextTheme(const TextTheme()),
+    textTheme: GoogleFonts.latoTextTheme(
+        base.textTheme.apply(bodyColor: Colors.black)),
+
+    iconTheme: base.iconTheme.copyWith(color: Colors.black),
 
     // TODO: Add the icon themes
     buttonTheme: ButtonThemeData(
