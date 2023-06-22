@@ -53,6 +53,7 @@ class _AuctionsPageState extends State<AuctionsPage>
     scrollController
       ..removeListener(scrollListener)
       ..dispose();
+    controller.dispose();
     super.dispose();
   }
 

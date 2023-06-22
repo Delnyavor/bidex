@@ -2,7 +2,6 @@ import 'package:bidex/features/home/presentation/widgets/global_app_bar.dart';
 import 'package:bidex/features/home/presentation/widgets/global_bottom_bar.dart';
 import 'package:bidex/features/home/presentation/widgets/home_body.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 import '../../../../common/transitions/route_transitions.dart';
 import '../../../direct_messages/presentation/pages/direct_messages_page.dart';

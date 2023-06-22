@@ -48,6 +48,7 @@ class _BarterPage extends State<BarterPage>
     scrollController
       ..removeListener(scrollListener)
       ..dispose();
+    controller.dispose();
     super.dispose();
   }
 

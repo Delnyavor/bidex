@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../giftings/presentation/pages/giftings_page.dart';
+import '../../../profile/presentation/pages/profile_page.dart';
 
 class HomeBody extends StatefulWidget {
   const HomeBody({Key? key}) : super(key: key);
@@ -26,11 +27,16 @@ class _HomeBodyState extends State<HomeBody>
     BarterPage(),
     AuctionsPage(),
     GiftingsPage(),
-    Center(
-      child: Icon(CupertinoIcons.person_alt_circle),
-    )
+    ProfilePage(),
   ];
   int position = 0;
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -54,22 +60,33 @@ class _HomeBodyState extends State<HomeBody>
   void didChangeDependencies() {
     super.didChangeDependencies();
     bloc = BlocProvider.of<NavigationBloc>(context);
+    position = bloc.state.page;
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<NavigationBloc, NavigationState>(
       listener: (context, state) {
-        pageController.jumpToPage(state.page);
+        // pageController.jumpToPage(state.page);
+        if (state.page != position) {
+          setState(() {
+            position = state.page;
+          });
+        }
       },
-      child: PageView.builder(
-        controller: pageController,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, count) {
-          return pages[count];
-        },
-        itemCount: pages.length,
+
+      child: IndexedStack(
+        index: position,
+        children: pages,
       ),
+      // child: PageView.builder(
+      //   controller: pageController,
+      //   physics: const NeverScrollableScrollPhysics(),
+      //   itemBuilder: (context, count) {
+      //     return pages[count];
+      //   },
+      //   itemCount: pages.length,
+      // ),
     );
   }
 }
