@@ -5,9 +5,9 @@ import 'package:bidex/features/auth/domain/usecases/sign_in.dart';
 import 'package:bidex/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bidex/di/injection_container.dart';
 import 'package:bidex/features/barter/presentation/bloc/barter_bloc.dart';
-import 'package:bidex/features/auth/presentation/pages/onboarding_page.dart';
 import 'package:bidex/features/home/presentation/bloc/navigation_bloc.dart/bloc/navigation_bloc.dart';
 import 'package:bidex/features/home/presentation/pages/home_page.dart';
+import 'package:bidex/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'features/auth/presentation/login_bloc/login_bloc.dart';
@@ -76,7 +76,8 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<ChatBloc>(
           create: (context) => ChatBloc(),
-        )
+        ),
+        BlocProvider<ProfileBloc>(create: (context) => ProfileBloc()),
       ],
       child: MaterialApp(
         title: 'Bidex',

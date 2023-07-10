@@ -2,7 +2,6 @@ import 'package:bidex/features/direct_messages/presentation/widgets/bottom_text_
 import 'package:bidex/features/scaffolding/scaffold.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../common/app_colors.dart';
 import '../../../../common/widgets/carousel.dart';
 import '../../../../common/widgets/carousel_indicator.dart';
 import '../../../../common/widgets/tabs.dart';

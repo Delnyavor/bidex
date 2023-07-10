@@ -67,26 +67,16 @@ class _HomeBodyState extends State<HomeBody>
   Widget build(BuildContext context) {
     return BlocListener<NavigationBloc, NavigationState>(
       listener: (context, state) {
-        // pageController.jumpToPage(state.page);
         if (state.page != position) {
           setState(() {
             position = state.page;
           });
         }
       },
-
       child: IndexedStack(
         index: position,
         children: pages,
       ),
-      // child: PageView.builder(
-      //   controller: pageController,
-      //   physics: const NeverScrollableScrollPhysics(),
-      //   itemBuilder: (context, count) {
-      //     return pages[count];
-      //   },
-      //   itemCount: pages.length,
-      // ),
     );
   }
 }
