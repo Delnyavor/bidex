@@ -19,6 +19,8 @@ import 'package:bidex/features/barter/domain/usecases/delete_barter.dart';
 import 'package:bidex/features/barter/domain/usecases/get_all_barters.dart';
 import 'package:bidex/features/barter/domain/usecases/get_barter.dart';
 import 'package:bidex/features/barter/domain/usecases/update_barter.dart';
+import 'package:bidex/features/profile/data/datasources/user_posts_datasource.dart';
+import 'package:bidex/features/profile/domain/usecases/get_user_posts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -43,6 +45,9 @@ import '../features/giftings/domain/usecases/delete_gift.dart';
 import '../features/giftings/domain/usecases/get_all_barters.dart';
 import '../features/giftings/domain/usecases/get_gift.dart';
 import '../features/giftings/domain/usecases/update_gift.dart';
+import '../features/profile/data/datasources/user_posts_datasource_impl.dart';
+import '../features/profile/data/repositories/user_post_repository_impl.dart';
+import '../features/profile/domain/repositories/user_post_repository.dart';
 
 final sl = GetIt.instance;
 Future<void> initDependencies() async {
@@ -56,6 +61,7 @@ void initFeatures() {
   initAuctionsFeature();
   initBarterFeature();
   initGiftingsFeature();
+  initProfileFeature();
 }
 
 //
@@ -140,6 +146,25 @@ void initGiftingsFeature() {
   sl.registerLazySingleton(() => CreateGift(repository: sl()));
   sl.registerLazySingleton<UpdateGift>(() => UpdateGift(repository: sl()));
   sl.registerLazySingleton(() => DeleteGift(repository: sl()));
+}
+
+//
+//
+//
+//
+// INITIALISE PROFILE FEATURE
+void initProfileFeature() {
+  sl.registerLazySingleton<UserPostsRemoteDataSource>(
+      () => UserPostsDataSourceImpl());
+
+  sl.registerLazySingleton<UserPostRepository>(
+      () => UserPostRepositoryImpl(dataSource: sl()));
+
+  sl.registerLazySingleton(() => GetUserPosts(repository: sl()));
+  // sl.registerLazySingleton(() => GetGift(repository: sl()));
+  // sl.registerLazySingleton(() => CreateGift(repository: sl()));
+  // sl.registerLazySingleton<UpdateGift>(() => UpdateGift(repository: sl()));
+  // sl.registerLazySingleton(() => DeleteGift(repository: sl()));
 }
 
 //
