@@ -55,6 +55,8 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>>
   void initState() {
     super.initState();
 
+    currentIndex = widget.position ?? -1;
+
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 200));
 
@@ -182,7 +184,7 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>>
   Widget overlayItem(DropdownItem<T> item, index) {
     return InkWell(
       onTap: () {
-        setState(() => currentIndex = widget.items.indexOf(item));
+        setState(() => currentIndex = index);
         widget.onChange(item.value, currentIndex);
         _toggleDropdown();
       },
@@ -191,17 +193,23 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>>
         margin: widget.dropdownStyle.padding,
         alignment: item.center ? Alignment.center : Alignment.centerLeft,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: item.isAddend
+              ? MainAxisAlignment.center
+              : MainAxisAlignment.spaceBetween,
           children: [
             item,
-            widget.showSelectors
+            (widget.showSelectors && !item.isAddend)
                 ? SizedBox(
                     height: 24,
                     width: 24,
                     child: Radio<int>(
                       value: index,
-                      groupValue: widget.position,
-                      onChanged: (val) {},
+                      groupValue: currentIndex,
+                      onChanged: (val) {
+                        setState(() => currentIndex = index);
+                        widget.onChange(item.value, currentIndex);
+                        _toggleDropdown();
+                      },
                       activeColor: Colors.black.withOpacity(0.7),
                     ),
                   )
@@ -235,9 +243,14 @@ class DropdownItem<T> extends StatelessWidget {
   final T value;
   final Widget child;
   final bool center;
+  final bool isAddend;
 
   const DropdownItem(
-      {Key? key, required this.value, required this.child, this.center = false})
+      {Key? key,
+      required this.value,
+      required this.child,
+      this.center = false,
+      this.isAddend = false})
       : super(key: key);
   @override
   Widget build(BuildContext context) {

@@ -29,39 +29,45 @@ class _FilterDropdownState extends State<FilterDropdown> {
       builder: (context, state) {
         print(state.selected);
         return CustomDropdown<ProfileEvent>(
-            position: state.selected,
-            showSelectors: true,
-            parentKey: widget.parentKey,
-            icon: const Icon(Icons.filter_alt),
-            onChange: (ProfileEvent value, int index) {
-              bloc.add(value);
-              setState(() {});
-            },
-            dropdownButtonStyle: const DropdownButtonStyle(
-              width: 50,
-              height: 45,
-              backgroundColor: Colors.white,
-              primaryColor: Colors.black87,
+          position: state.selected,
+          showSelectors: true,
+          parentKey: widget.parentKey,
+          icon: const Icon(Icons.filter_alt),
+          onChange: (ProfileEvent value, int index) {
+            bloc.add(value);
+            setState(() {});
+          },
+          dropdownButtonStyle: const DropdownButtonStyle(
+            width: 50,
+            height: 45,
+            backgroundColor: Colors.white,
+            primaryColor: Colors.black87,
+          ),
+          dropdownStyle: DropdownStyle(
+            borderRadius: BorderRadius.circular(20),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 2),
+          ),
+          items: const [
+            DropdownItem<ProfileEvent>(
+              value: FilterBarters(0),
+              child: Text('Barter'),
             ),
-            dropdownStyle: DropdownStyle(
-              borderRadius: BorderRadius.circular(20),
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 2),
+            DropdownItem<ProfileEvent>(
+              value: FilterAuctions(1),
+              child: Text('Auction'),
             ),
-            items: const [
-              DropdownItem<ProfileEvent>(
-                value: FilterBarters(0),
-                child: Text('Barter'),
-              ),
-              DropdownItem<ProfileEvent>(
-                value: FilterAuctions(1),
-                child: Text('Auction'),
-              ),
-              DropdownItem<ProfileEvent>(
-                value: FilterGifts(2),
-                child: Text('Gifts'),
-              ),
-            ]);
+            DropdownItem<ProfileEvent>(
+              value: FilterGifts(2),
+              child: Text('Gifts'),
+            ),
+            DropdownItem<ProfileEvent>(
+              value: FetchAllUserPosts(-1),
+              center: true,
+              isAddend: true,
+              child: Text('Clear Filters'),
+            ),
+          ],
+        );
       },
     );
   }

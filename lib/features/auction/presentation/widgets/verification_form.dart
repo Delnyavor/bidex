@@ -38,6 +38,7 @@ class _VerificationFormState extends State<VerificationForm> {
             EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: SizedBox(
           height: 350,
+          width: double.infinity,
           child: Column(
             children: [top(), bottom()],
           ),

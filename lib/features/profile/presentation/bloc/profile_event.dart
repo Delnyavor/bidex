@@ -21,3 +21,8 @@ class FilterGifts extends ProfileEvent {
   final int value;
   const FilterGifts(this.value);
 }
+
+class FetchAllUserPosts extends ProfileEvent {
+  final int value;
+  const FetchAllUserPosts(this.value);
+}

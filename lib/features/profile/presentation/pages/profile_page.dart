@@ -1,10 +1,12 @@
+import 'package:bidex/features/profile/presentation/widgets/dropdown_create_post.dart';
 import 'package:bidex/features/profile/presentation/widgets/dropdown_menu.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:bidex/features/profile/presentation/widgets/user_info.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/app_colors.dart';
-import '../../../../common/image_resources.dart';
+import '../../domain/entities/user_post.dart';
 import '../widgets/dropdown_filter.dart';
+import '../widgets/user_post_widget.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -15,51 +17,78 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePage extends State<ProfilePage>
     with SingleTickerProviderStateMixin {
+  GlobalKey key = GlobalKey();
   double spacing = 16.0;
 
-  GlobalKey key = GlobalKey();
+  List<UserPost> posts = [];
+
+  @override
+  void initState() {
+    super.initState();
+    posts = List.generate(
+      4,
+      (index) => UserPost(
+        "assets/images/stock$index.jpg",
+        PostType.auction,
+        PostStatus.published,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Padding(
-        padding: EdgeInsets.all(spacing),
-        child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 0.7,
-              mainAxisSpacing: spacing,
-              crossAxisSpacing: spacing),
-          itemBuilder: (c, i) {
-            return Image.asset(
-              ImageResources.stock1,
-              fit: BoxFit.cover,
-            );
-          },
-          itemCount: 3,
+        padding: EdgeInsets.symmetric(horizontal: spacing),
+        child: CustomScrollView(
+          slivers: [
+            const SliverToBoxAdapter(
+              child: UserInfoWidget(),
+            ),
+            SliverGrid.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.7,
+                mainAxisSpacing: spacing,
+                crossAxisSpacing: spacing,
+              ),
+              itemBuilder: (c, i) {
+                return UserPostWidget(
+                  post: posts[i],
+                );
+              },
+              itemCount: posts.length,
+            ),
+            const SliverPadding(padding: EdgeInsets.only(bottom: 80))
+          ],
         ),
       ),
-      floatingActionButton: DecoratedBox(
-        key: key,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50),
-          color: AppColors.buttonLightBlue,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              FilterDropdown(parentKey: key),
-              const SizedBox(width: 14),
-              const Icon(CupertinoIcons.plus_square),
-              const SizedBox(width: 14),
-              ProfileMenuDropdown(parentKey: key),
-            ],
-          ),
-        ),
-      ),
+      floatingActionButton: floatingButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+
+  Widget floatingButton() {
+    return DecoratedBox(
+      key: key,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(50),
+        color: AppColors.buttonLightBlue,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 6.0),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            FilterDropdown(parentKey: key),
+            const SizedBox(width: 10),
+            AddPostMenuDropdown(parentKey: key),
+            const SizedBox(width: 10),
+            ProfileMenuDropdown(parentKey: key),
+          ],
+        ),
+      ),
     );
   }
 }
