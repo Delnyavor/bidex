@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../app_colors.dart';
+
 class Title extends StatelessWidget {
   final String title;
   const Title({Key? key, required this.title}) : super(key: key);
@@ -8,9 +10,9 @@ class Title extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       title,
-      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+      style: Theme.of(context).textTheme.headlineSmall!.copyWith(
             fontWeight: FontWeight.bold,
-            fontSize: 15,
+            color: AppColors.darkBlue,
           ),
     );
   }

@@ -14,7 +14,7 @@ showFormDialog(BuildContext context, Widget child, bool isScrollControlled) {
   );
 }
 
-showPaymentOptionDialog(BuildContext context, Widget child) {
+showNormalDialog(BuildContext context, Widget child) {
   return showDialog(
     context: context,
     barrierColor: Colors.black.withOpacity(0.7),

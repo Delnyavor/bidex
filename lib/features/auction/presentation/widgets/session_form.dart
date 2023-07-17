@@ -66,7 +66,7 @@ class _SessionFormState extends State<SessionForm> {
             Flexible(
               child: GestureDetector(
                 onTap: () {
-                  showPaymentOptionDialog(context, const PaymentSelector());
+                  showNormalDialog(context, const PaymentSelector());
                 },
                 child: ModalFormInput(
                   controller: controller,

@@ -14,10 +14,13 @@ ThemeData _buildLightTheme() {
         error: AppColors.errorRed),
 
     // TODO: Add the text themes
-    textTheme: GoogleFonts.latoTextTheme(
+    textTheme: GoogleFonts.dmSansTextTheme(
         base.textTheme.apply(bodyColor: Colors.black)),
 
-    iconTheme: base.iconTheme.copyWith(color: Colors.black),
+    iconTheme: base.iconTheme.copyWith(
+      color: Colors.black,
+      fill: 0.5,
+    ),
 
     // TODO: Add the icon themes
     buttonTheme: ButtonThemeData(

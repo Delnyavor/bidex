@@ -60,7 +60,7 @@ class _BidPurchaseFormState extends State<BidPurchaseForm> {
             Flexible(
               child: GestureDetector(
                 onTap: () {
-                  showPaymentOptionDialog(context, const PaymentSelector());
+                  showNormalDialog(context, const PaymentSelector());
                 },
                 child: ModalFormInput(
                   controller: controller,

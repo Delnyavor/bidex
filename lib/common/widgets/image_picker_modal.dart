@@ -45,12 +45,15 @@ class _ImagePickerModalState extends State<ImagePickerModal> {
   Widget top() {
     return TopSection(
       children: [
-        const ttl.Title(title: 'Choose an image'),
         const SizedBox(height: 8),
+        const ttl.Title(
+          title: 'Choose an image',
+        ),
+        const SizedBox(height: 10),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 15),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               localImageSelector(),
               cameraSelector(),

@@ -8,6 +8,7 @@ class ModalFormInput extends StatefulWidget {
   final Function(String)? onChanged;
   final bool enabled;
   final String? errorText;
+  final Widget? prefix;
 
   const ModalFormInput({
     Key? key,
@@ -18,13 +19,14 @@ class ModalFormInput extends StatefulWidget {
     this.onChanged,
     this.errorText,
     this.enabled = true,
+    this.prefix,
   }) : super(key: key);
 
   @override
-  State<ModalFormInput> createState() => ModalFormInputState();
+  State<ModalFormInput> createState() => _ModalFormInputState();
 }
 
-class ModalFormInputState extends State<ModalFormInput> {
+class _ModalFormInputState extends State<ModalFormInput> {
   bool invisible = true;
 
   @override
@@ -45,6 +47,7 @@ class ModalFormInputState extends State<ModalFormInput> {
           horizontal: 12,
           vertical: 18,
         ),
+        prefix: widget.prefix,
         border: InputBorder.none,
         enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),

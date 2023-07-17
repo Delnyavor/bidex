@@ -25,7 +25,7 @@ class ProceedButton extends StatelessWidget {
         ),
       ),
       child: Text(
-        'PROCEED',
+        text,
         style: TextStyle(
             color: !colored ? AppColors.darkBlue : Colors.white,
             fontSize: 12,

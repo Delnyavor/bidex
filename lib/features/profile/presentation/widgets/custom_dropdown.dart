@@ -112,7 +112,7 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>>
               Positioned(
                 left: offset.dx,
                 top: offset.dy,
-                width: 200,
+                width: 250,
                 child: CompositedTransformFollower(
                   offset: Offset(
                       parentOffset.dx - offset.dx, -(overlayHeight + 10)),

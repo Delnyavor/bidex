@@ -1,3 +1,4 @@
+import 'package:bidex/features/profile/presentation/pages/edit_profile_page.dart';
 import 'package:bidex/features/profile/presentation/widgets/custom_dropdown.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,12 +12,17 @@ class ProfileMenuDropdown extends StatefulWidget {
 }
 
 class _ProfileMenuDropdownState extends State<ProfileMenuDropdown> {
+  void navigateToEditProfilePage() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const EditProfilePage()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomDropdown<Function>(
         parentKey: widget.parentKey,
         icon: const Icon(Icons.menu),
-        onChange: (Function value, int index) => () {},
+        onChange: (Function value, int index) => value(),
         dropdownButtonStyle: const DropdownButtonStyle(
           width: 50,
           height: 45,
@@ -29,7 +35,7 @@ class _ProfileMenuDropdownState extends State<ProfileMenuDropdown> {
         ),
         items: [
           DropdownItem<Function>(
-            value: () {},
+            value: navigateToEditProfilePage,
             child: const Row(children: [
               Icon(Icons.edit_note_outlined),
               SizedBox(width: 10),
