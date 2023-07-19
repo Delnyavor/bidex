@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-import '../../common/widgets/translucent_app_bar.dart';
-
 class Scaffolding extends StatefulWidget {
   final Widget appBar;
   final Widget body;
   final Widget bottomNavbar;
+  final Color? backgroundColour;
   const Scaffolding(
       {Key? key,
       required this.appBar,
       required this.body,
-      required this.bottomNavbar})
+      required this.bottomNavbar,
+      this.backgroundColour})
       : super(key: key);
 
   @override
@@ -21,55 +21,59 @@ class _Scaffolding extends State<Scaffolding> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: CustomAppBar.translucentStatusAppBar,
+      // backgroundColor: Colors.white,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: widget.appBar,
+      ),
       body: body(),
-      // bottomNavigationBar: widget.bottomNavbar,
     );
   }
 
   Widget body() {
-    return Column(
-      children: [
-        widget.appBar,
-        Flexible(
-          child: bodyDecoration(),
+    return ClipRRect(
+      borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+      child: DecoratedBox(
+        decoration:
+            BoxDecoration(color: widget.backgroundColour ?? Colors.transparent),
+        child: Column(
+          children: [
+            Flexible(
+              child: bodyDecoration(),
+            ),
+            widget.bottomNavbar
+          ],
         ),
-        widget.bottomNavbar
-      ],
+      ),
     );
   }
 
   Widget bodyDecoration() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8, bottom: 8),
-      child: DecoratedBox(
-        decoration: decoration(),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(30),
-          child: widget.body,
-        ),
+    return DecoratedBox(
+      decoration: decoration(),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(30),
+        child: widget.body,
       ),
     );
   }
 
   BoxDecoration decoration() {
     return BoxDecoration(
-      // color: Color(0xFFF9F9F9),
       color: Colors.white,
       borderRadius: BorderRadius.circular(30),
       boxShadow: const [
         BoxShadow(
           spreadRadius: -5,
-          blurRadius: 12,
+          blurRadius: 8,
           color: Colors.black26,
-          offset: Offset(0, 2),
+          offset: Offset(0, 0),
         ),
         BoxShadow(
           spreadRadius: 0,
           blurRadius: 1,
           color: Colors.black12,
-          offset: Offset(0, 1),
+          offset: Offset(0, 0),
         ),
       ],
     );

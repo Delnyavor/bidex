@@ -20,19 +20,16 @@ class GlobalAppBar extends StatefulWidget {
 class _GlobalAppBarState extends State<GlobalAppBar> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: kBottomNavigationBarHeight,
-      child: AppBar(
-        elevation: 0,
-        systemOverlayStyle:
-            CustomAppBar.translucentStatusAppBar.systemOverlayStyle,
-        backgroundColor: Colors.transparent,
-        centerTitle: true,
-        leading: leading(),
-        leadingWidth: 30,
-        title: widget.title ?? title(),
-        actions: widget.actions ?? actions(),
-      ),
+    return AppBar(
+      elevation: 0,
+      systemOverlayStyle:
+          CustomAppBar.translucentStatusAppBar.systemOverlayStyle,
+      backgroundColor: Colors.transparent,
+      centerTitle: true,
+      leading: leading(),
+      leadingWidth: 30,
+      title: widget.title ?? title(),
+      actions: widget.actions ?? actions(),
     );
   }
 

@@ -6,7 +6,7 @@ class ModalFormInput extends StatefulWidget {
   final String? Function(String?)? validator;
   final bool? obscure;
   final Function(String)? onChanged;
-  final bool enabled;
+  final bool? enabled;
   final String? errorText;
   final Widget? prefix;
 

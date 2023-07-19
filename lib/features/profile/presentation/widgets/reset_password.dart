@@ -1,3 +1,4 @@
+import 'package:bidex/common/widgets/input_field.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/widgets/modal_form/button_cancel.dart';
@@ -49,47 +50,11 @@ class ResetPasswordModalState extends State<ResetPasswordModal> {
         const SizedBox(height: 12),
         const Heading(heading: 'Enter one-time password sent to +233205551234'),
         const SizedBox(height: 12),
-        textField('Old Password', oldPassword),
-        textField('New Password', newPassword),
-        textField('Confirm Password', confirmNewPass),
+        InputField(label: 'Old Password', controller: oldPassword),
+        InputField(label: 'New Password', controller: newPassword),
+        InputField(label: 'Confirm Password', controller: confirmNewPass),
         const SizedBox(height: 100),
       ],
-    );
-  }
-
-  Widget label(String label) {
-    return Text(
-      label,
-      style: TextStyle(
-        color: Colors.black.withOpacity(0.65),
-        fontSize: 12,
-        fontWeight: FontWeight.w200,
-      ),
-    );
-  }
-
-  Widget textField(String label, TextEditingController controller,
-      {String? prefix, bool? obscure, bool enabled = true}) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 15.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          this.label(label),
-          const SizedBox(height: 10),
-          ModalFormInput(
-            controller: controller,
-            hint: '',
-            prefix: prefix == null
-                ? null
-                : Text(
-                    prefix,
-                  ),
-            obscure: obscure,
-            enabled: enabled,
-          ),
-        ],
-      ),
     );
   }
 
