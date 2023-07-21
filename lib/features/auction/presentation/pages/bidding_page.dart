@@ -1,16 +1,14 @@
 import 'package:bidex/common/app_colors.dart';
 import 'package:bidex/common/widgets/carousel.dart';
-import 'package:bidex/common/widgets/navbar/nav_action_button.dart';
 import 'package:bidex/features/auction/presentation/widgets/auction_details.dart';
 import 'package:bidex/features/auction/presentation/widgets/bid_count.dart';
 import 'package:bidex/features/auction/presentation/widgets/bottom_nav_form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../common/transitions/route_transitions.dart';
 import '../../../../common/widgets/carousel_indicator.dart';
-import '../../../../common/widgets/translucent_app_bar.dart';
-import '../../../direct_messages/presentation/pages/direct_messages_page.dart';
+import '../../../home/presentation/widgets/global_app_bar.dart';
+import '../../../scaffolding/scaffold.dart';
 
 class BiddingPage extends StatefulWidget {
   const BiddingPage({Key? key}) : super(key: key);
@@ -23,6 +21,12 @@ class _BiddingPageState extends State<BiddingPage>
     with TickerProviderStateMixin {
   late TabController controller;
 
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   PageController pageController = PageController();
   bool showFirst = true;
   @override
@@ -33,23 +37,10 @@ class _BiddingPageState extends State<BiddingPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar.translucentStatusAppBar,
-      body: Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            elevation: 0,
-            systemOverlayStyle:
-                CustomAppBar.translucentStatusAppBar.systemOverlayStyle,
-            backgroundColor: Colors.transparent,
-            centerTitle: true,
-            leading: leading(),
-            title: title(),
-            actions: actions(),
-          ),
-          body: body(),
-          bottomNavigationBar: const BottomNavBidForm(),
-          resizeToAvoidBottomInset: true),
+    return Scaffolding(
+      appBar: const GlobalAppBar(),
+      body: body(),
+      bottomNavbar: const BottomNavBidForm(),
     );
   }
 
@@ -68,55 +59,13 @@ class _BiddingPageState extends State<BiddingPage>
     );
   }
 
-  Widget title() {
-    return Image.asset(
-      'assets/images/logo.png',
-      height: 100,
-    );
-  }
-
-  List<Widget> actions() {
-    return [
-      chatButton(),
-      search(),
-    ];
-  }
-
-  Widget chatButton() {
-    return NavAction(
-      onPressed: () {
-        Navigator.push(
-          context,
-          slideInRoute(const DirectMessagesPage()),
-        );
-      },
-      child: const Icon(
-        CupertinoIcons.chat_bubble_2,
-        size: 22,
-      ),
-    );
-  }
-
-  Widget search() {
-    return NavAction(
-      onPressed: () {},
-      child: const Icon(
-        CupertinoIcons.search,
-        size: 22,
-      ),
-    );
-  }
-
   Widget body() {
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          image(),
-          tabs(),
-          views(),
-        ],
-      ),
+    return ListView(
+      children: [
+        image(),
+        tabs(),
+        views(),
+      ],
     );
   }
 
@@ -124,13 +73,13 @@ class _BiddingPageState extends State<BiddingPage>
     return Container(
       margin: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(10),
         boxShadow: [
           const BoxShadow(
             color: Colors.black38,
             spreadRadius: -1,
             blurRadius: 1,
-            offset: Offset(0, 0.5),
+            offset: Offset(0, 2),
           ),
           BoxShadow(
             color: Colors.black12.withOpacity(0.6),
@@ -141,9 +90,9 @@ class _BiddingPageState extends State<BiddingPage>
         ],
       ),
       child: AspectRatio(
-        aspectRatio: 1,
+        aspectRatio: 1.3,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(10),
           child: Stack(
             children: [
               Carousel(

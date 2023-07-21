@@ -81,7 +81,6 @@ class DMInputState extends State<DMInput> with SingleTickerProviderStateMixin {
   handleFocus() {
     if (widget.preventFocus && FocusScope.of(context).hasFocus) {
       FocusScope.of(context).unfocus();
-      print(widget.preventFocus);
     }
   }
 
@@ -89,7 +88,8 @@ class DMInputState extends State<DMInput> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     handleFocus();
 
-    return decoratedContainer(
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(6, 0, 16, 0),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
         child: Row(
@@ -98,6 +98,7 @@ class DMInputState extends State<DMInput> with SingleTickerProviderStateMixin {
             const Icon(
               CupertinoIcons.photo,
               color: Colors.black87,
+              size: 22,
             ),
           ],
         ),
@@ -105,22 +106,10 @@ class DMInputState extends State<DMInput> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget decoratedContainer({required Widget child}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: child,
-      ),
-    );
-  }
-
   Widget textField() {
     return TextField(
       // autovalidateMode: AutovalidateMode.onUserInteraction,
+
       controller: widget.controller,
       style: const TextStyle(fontSize: 12, color: AppColors.darkBlue),
       maxLines: 1,
@@ -128,7 +117,7 @@ class DMInputState extends State<DMInput> with SingleTickerProviderStateMixin {
           hintText: 'Message...',
           hintStyle: const TextStyle(color: Colors.black38),
           filled: true,
-          fillColor: Colors.white,
+          fillColor: Colors.transparent,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 12,
             vertical: 12,

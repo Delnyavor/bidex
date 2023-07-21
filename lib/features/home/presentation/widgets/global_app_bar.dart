@@ -1,3 +1,4 @@
+import 'package:bidex/common/widgets/navbar/nav_action_button.dart';
 import 'package:bidex/common/widgets/translucent_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +70,7 @@ class _GlobalAppBarState extends State<GlobalAppBar> {
   }
 
   Widget chatButton() {
-    return iconButton(
+    return NavActionButton(
       onPressed: () {
         Navigator.push(
           context,
@@ -84,23 +85,11 @@ class _GlobalAppBarState extends State<GlobalAppBar> {
   }
 
   Widget search() {
-    return iconButton(
+    return NavActionButton(
       onPressed: () {},
       child: const Icon(
         CupertinoIcons.search,
         size: 22,
-      ),
-    );
-  }
-
-  Widget iconButton({required Function() onPressed, required Widget child}) {
-    return Flexible(
-      child: GestureDetector(
-        onTap: onPressed,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5),
-          child: child,
-        ),
       ),
     );
   }

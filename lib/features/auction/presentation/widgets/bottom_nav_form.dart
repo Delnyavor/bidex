@@ -12,19 +12,15 @@ class _BottomNavBidFormState extends State<BottomNavBidForm> {
   TextEditingController controller = TextEditingController();
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            offset: Offset(0, 2),
-            blurRadius: 4,
-            spreadRadius: -2,
-          )
-        ],
-      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

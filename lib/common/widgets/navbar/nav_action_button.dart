@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-class NavAction extends StatelessWidget {
+class NavActionButton extends StatelessWidget {
   final void Function() onPressed;
   final Widget child;
-  const NavAction({Key? key, required this.onPressed, required this.child})
+  const NavActionButton(
+      {Key? key, required this.onPressed, required this.child})
       : super(key: key);
 
   @override

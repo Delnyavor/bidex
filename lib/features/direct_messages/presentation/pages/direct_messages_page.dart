@@ -6,8 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../common/widgets/navbar/nav_action_button.dart';
-import '../../../../common/widgets/translucent_app_bar.dart';
+import '../../../home/presentation/widgets/global_app_bar.dart';
+import '../../../scaffolding/scaffold.dart';
 
 class DirectMessagesPage extends StatefulWidget {
   const DirectMessagesPage({Key? key}) : super(key: key);
@@ -30,75 +30,13 @@ class _DirectMessagesPage extends State<DirectMessagesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        elevation: 0,
-        systemOverlayStyle:
-            CustomAppBar.translucentStatusAppBar.systemOverlayStyle,
-        backgroundColor: Colors.transparent,
-        centerTitle: true,
-        leading: leading(),
-        title: title(),
-        actions: actions(),
+    return Scaffolding(
+      appBar: const GlobalAppBar(),
+      body: messages(),
+      bottomNavbar: Padding(
+        padding: const EdgeInsets.only(top: 4.0),
+        child: DMInput(controller: controller),
       ),
-      body: body(),
-    );
-  }
-
-  Widget leading() {
-    return IconButton(
-      onPressed: () {
-        Navigator.pop(context);
-      },
-      icon: const Icon(
-        CupertinoIcons.chevron_back,
-        size: 22,
-      ),
-    );
-  }
-
-  Widget title() {
-    return Image.asset(
-      'assets/images/logo.png',
-      height: 100,
-    );
-  }
-
-  List<Widget> actions() {
-    return [
-      chatButton(),
-      search(),
-    ];
-  }
-
-  Widget chatButton() {
-    return NavAction(
-      onPressed: () {},
-      child: const Icon(
-        CupertinoIcons.chat_bubble_2,
-        size: 22,
-      ),
-    );
-  }
-
-  Widget search() {
-    return NavAction(
-      onPressed: () {},
-      child: const Icon(
-        CupertinoIcons.search,
-        size: 22,
-      ),
-    );
-  }
-
-  Widget body() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Flexible(child: messages()),
-        DMInput(controller: controller),
-      ],
     );
   }
 
