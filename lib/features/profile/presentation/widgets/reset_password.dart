@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../../../../common/widgets/modal_form/button_cancel.dart';
 import '../../../../common/widgets/modal_form/button_proceed.dart';
-import '../../../../common/widgets/modal_form/form_input.dart';
 import '../../../../common/widgets/modal_form/heading.dart';
 import '../../../../common/widgets/modal_form/top_section.dart';
 import 'package:bidex/common/widgets/modal_form/title.dart' as ttl;

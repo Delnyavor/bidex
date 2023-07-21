@@ -1,3 +1,4 @@
+import 'package:bidex/features/payment/presentation/pages/payment_page.dart';
 import 'package:bidex/features/profile/presentation/pages/edit_profile_page.dart';
 import 'package:bidex/features/profile/presentation/widgets/custom_dropdown.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,6 +16,11 @@ class _ProfileMenuDropdownState extends State<ProfileMenuDropdown> {
   void navigateToEditProfilePage() {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => const EditProfilePage()));
+  }
+
+  void navigateToPaymentsPage() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const PaymentPage()));
   }
 
   @override
@@ -43,7 +49,7 @@ class _ProfileMenuDropdownState extends State<ProfileMenuDropdown> {
             ]),
           ),
           DropdownItem<Function>(
-            value: () {},
+            value: navigateToPaymentsPage,
             child: const Row(children: [
               Icon(CupertinoIcons.creditcard_fill),
               SizedBox(width: 10),

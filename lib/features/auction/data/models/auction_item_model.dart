@@ -2,22 +2,13 @@ import 'package:bidex/features/auction/domain/entities/auction_item.dart';
 
 class AuctionItemModel extends AuctionItem {
   const AuctionItemModel(
-      {required int id,
-      required String username,
-      required String userId,
-      required String location,
-      required double rating,
-      required List<String> imageUrls,
-      required List<String> tags})
-      : super(
-          id: id,
-          userId: userId,
-          username: username,
-          location: location,
-          rating: rating,
-          tags: tags,
-          imageUrls: imageUrls,
-        );
+      {required super.id,
+      required super.username,
+      required super.userId,
+      required super.location,
+      required super.rating,
+      required super.imageUrls,
+      required super.tags});
 
   factory AuctionItemModel.fromMap(Map data) {
     return AuctionItemModel(

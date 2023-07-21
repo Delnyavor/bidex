@@ -11,20 +11,22 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<FilterBarters>(onFilterBarterEvent);
     on<FilterAuctions>(onFilterAuctionEvent);
     on<FilterGifts>(onFilterGiftEvent);
+    on<FetchAllUserPosts>(onFetchAllUserPosts);
   }
 
   onFilterBarterEvent(FilterBarters event, Emitter<ProfileState> emit) {
     emit(state.copyWith(selected: event.value));
-    print(state.selected);
   }
 
   onFilterAuctionEvent(FilterAuctions event, Emitter<ProfileState> emit) {
     emit(state.copyWith(selected: event.value));
-    print(state.selected);
   }
 
   onFilterGiftEvent(FilterGifts event, Emitter<ProfileState> emit) {
     emit(state.copyWith(selected: event.value));
-    print(state.selected);
+  }
+
+  onFetchAllUserPosts(FetchAllUserPosts event, Emitter<ProfileState> emit) {
+    emit(state.copyWith(selected: event.value));
   }
 }

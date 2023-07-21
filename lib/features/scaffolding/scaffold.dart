@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../common/app_colors.dart';
+
 class Scaffolding extends StatefulWidget {
   final Widget appBar;
   final Widget body;
@@ -34,8 +36,17 @@ class _Scaffolding extends State<Scaffolding> {
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
       child: DecoratedBox(
-        decoration:
-            BoxDecoration(color: widget.backgroundColour ?? Colors.transparent),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.transparent,
+              widget.backgroundColour ?? Colors.transparent,
+            ],
+            stops: const [0, 0.2],
+          ),
+        ),
         child: Column(
           children: [
             Flexible(
