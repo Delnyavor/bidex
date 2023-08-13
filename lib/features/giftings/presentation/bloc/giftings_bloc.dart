@@ -39,10 +39,28 @@ class GiftingsBloc extends Bloc<GiftingsEvent, GiftingsState> {
           )
           .asyncExpand((mapper));
     });
+    on<CreateGiftEvent>(onCreateGift);
+    on<InitGiftCreation>(onInitCreationPage);
+  }
+
+  void onInitCreationPage(
+      InitGiftCreation event, Emitter<GiftingsState> emit) async {
+    emit(state.copyWith(createGiftStatus: CreateGiftStatus.initial));
+  }
+
+  void onCreateGift(CreateGiftEvent event, Emitter<GiftingsState> emit) async {
+    final result = await createGift(gift: event.item);
+
+    result!.fold((l) {
+      emit(state.copyWith(createGiftStatus: CreateGiftStatus.creationError));
+    }, (r) async {
+      emit(state.copyWith(createGiftStatus: CreateGiftStatus.creationSuccess));
+    });
   }
 
   //FETCH AND DISPLAY A SINGLE GIFT
   void onFetchItem(FetchGiftEvent event, Emitter<GiftingsState> emit) async {
+    // TODO: undo
     emit(state.copyWith(
         item: state.items[0], giftPageStatus: GiftingsPageStatus.giftLoaded));
     // final result = await getGift(id: event.id);

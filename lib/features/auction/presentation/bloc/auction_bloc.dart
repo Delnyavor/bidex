@@ -36,6 +36,31 @@ class AuctionBloc extends Bloc<AuctionEvent, AuctionState> {
           )
           .asyncExpand((mapper));
     });
+    on<CreateAuctionEvent>(onCreateAuctionEvent);
+    on<InitAuctionCreation>(onInitCreationPage);
+  }
+
+  void onInitCreationPage(
+      InitAuctionCreation event, Emitter<AuctionState> emit) {
+    emit(state.copyWith(createAuctionStatus: CreateAuctionStatus.initial));
+  }
+
+  onCreateAuctionEvent(
+      CreateAuctionEvent event, Emitter<AuctionState> emit) async {
+    final res = await createAuction(auctionItem: event.item);
+
+    if (res is Failure) {
+      emit(
+        state.copyWith(createAuctionStatus: CreateAuctionStatus.creationError),
+      );
+    } else {
+      emit(
+        state.copyWith(
+            createAuctionStatus: CreateAuctionStatus.creationSuccess),
+      );
+    }
+
+    print(event.item);
   }
 
   //FETCH AND DISPLAY A SINGLE Auction

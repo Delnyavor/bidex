@@ -25,9 +25,8 @@ class _FilterDropdownState extends State<FilterDropdown> {
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileBloc, ProfileState>(
       bloc: bloc,
-      // buildWhen: (previous, current) => previous.selected != current.selected,
+      buildWhen: (previous, current) => previous.selected != current.selected,
       builder: (context, state) {
-        print(state.selected);
         return CustomDropdown<ProfileEvent>(
           position: state.selected,
           showSelectors: true,

@@ -14,24 +14,32 @@ class BarterRemoteDataSourceImpl extends BarterRemoteDataSource {
   final http.Client httpClient = http.Client();
 
   final sampleData = {
+    "id": 1,
     "userId": "userId",
     "username": "username",
     "location": "location",
     "rating": 4.5,
     "imageUrls": ["stock0.jpg", "stock1.jpg", "stock2.jpg", "stock3.jpg"],
-    "tags": ["ps5", "ps4", "gaming pc", "xbox series"]
+    "tags": ["ps5", "ps4", "gaming pc", "xbox series"],
+    "item_name": "The Blue Dragon",
+    "category": 'category',
+    "description": 'description',
+    "desired_items": ["ps5", "gaming pc", "ps4", "xbox series", "iPhone 13"]
   };
 
   BarterRemoteDataSourceImpl();
 
   @override
   Future<BarterItemModel?>? createBarterItem(BarterItem barterItem) async {
-    http.Response response = await httpClient.post(
-        Uri.parse('www.example.com/'),
-        headers: {'Content-Type': 'application/json'});
+    // http.Response response = await httpClient.post(
+    //     Uri.parse('www.example.com/'),
+    //     headers: {'Content-Type': 'application/json'});
     try {
-      if (response.body.isNotEmpty) {
-        return barterItem as BarterItemModel;
+      // if (response.body.isNotEmpty) {
+      //TODO: undo these
+      if (true) {
+        return BarterItemModel.fromBarterItem(barterItem);
+        // ignore: dead_code
       } else {
         return null;
       }

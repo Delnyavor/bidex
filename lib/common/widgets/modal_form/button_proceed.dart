@@ -6,17 +6,19 @@ class ProceedButton extends StatelessWidget {
   final String text;
   final Function() onPressed;
   final bool colored;
-  const ProceedButton(
-      {Key? key,
-      required this.text,
-      required this.onPressed,
-      this.colored = true})
-      : super(key: key);
+  final bool enabled;
+  const ProceedButton({
+    Key? key,
+    required this.text,
+    required this.onPressed,
+    this.colored = true,
+    this.enabled = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: onPressed,
+      onPressed: enabled ? onPressed : null,
       style: TextButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
         backgroundColor: colored ? AppColors.darkBlue : Colors.transparent,

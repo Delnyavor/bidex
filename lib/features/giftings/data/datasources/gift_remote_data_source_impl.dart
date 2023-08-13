@@ -23,19 +23,24 @@ class GiftRemoteDataSourceImpl extends GiftRemoteDataSource {
     "userProfileImg": "stock0.jpg",
     "title": 'Custom Built Desktop',
     "description":
-        "Lorem ipsum dolor sit amet lorem ipsum, dolor sit amet lorem ipsum dolor sit amet, lorem ipsum dolor sit amet"
+        "Lorem ipsum dolor sit amet lorem ipsum, dolor sit amet lorem ipsum dolor sit amet, lorem ipsum dolor sit amet",
+    "criteria": "Athlete"
   };
 
   GiftRemoteDataSourceImpl();
 
   @override
   Future<GiftModel?>? createGift(Gift gift) async {
-    http.Response response = await httpClient.post(
-        Uri.parse('www.example.com/'),
-        headers: {'Content-Type': 'application/json'});
+    // TODO get endpoints
+    print('gift called');
+    // http.Response response = await httpClient.post(
+    //     Uri.parse('www.example.com/'),
+    //     headers: {'Content-Type': 'application/json'});
     try {
-      if (response.body.isNotEmpty) {
-        return gift as GiftModel;
+      // if (response.body.isNotEmpty) {
+      if (true) {
+        Future.delayed(Duration(seconds: 2));
+        return GiftModel.fromGift(gift);
       } else {
         return null;
       }

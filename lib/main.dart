@@ -1,5 +1,6 @@
 import 'package:bidex/common/app_themes.dart';
 import 'package:bidex/common/transitions/route_transitions.dart';
+import 'package:bidex/features/add_post/presentation/bloc/create_post_bloc.dart';
 import 'package:bidex/features/auction/presentation/bloc/auction_bloc.dart';
 import 'package:bidex/features/auth/domain/usecases/sign_in.dart';
 import 'package:bidex/features/auth/presentation/bloc/auth_bloc.dart';
@@ -78,6 +79,7 @@ class MyApp extends StatelessWidget {
           create: (context) => ChatBloc(),
         ),
         BlocProvider<ProfileBloc>(create: (context) => ProfileBloc()),
+        BlocProvider<CreatePostBloc>(create: (context) => CreatePostBloc()),
       ],
       child: MaterialApp(
         title: 'Bidex',

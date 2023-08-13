@@ -4,13 +4,18 @@ import 'package:flutter/material.dart';
 class CancelButton extends StatelessWidget {
   final String text;
   final bool coloured;
-  const CancelButton({Key? key, required this.text, this.coloured = true})
+  final Function? onPop;
+  const CancelButton(
+      {Key? key, required this.text, this.coloured = true, this.onPop})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () {
+        if (onPop != null) {
+          onPop!();
+        }
         Navigator.of(context).pop();
       },
       style: TextButton.styleFrom(

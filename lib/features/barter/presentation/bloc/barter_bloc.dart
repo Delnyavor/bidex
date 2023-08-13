@@ -1,4 +1,5 @@
 import 'package:bidex/core/error/failures.dart';
+import 'package:bidex/di/injection_container.dart';
 import 'package:bidex/features/barter/domain/entities/barter_item.dart';
 import 'package:bidex/features/barter/domain/usecases/get_all_barters.dart';
 import 'package:bidex/features/barter/domain/usecases/get_barter.dart';
@@ -35,6 +36,28 @@ class BarterBloc extends Bloc<BarterEvent, BarterState> {
           )
           .asyncExpand((mapper));
     });
+
+    on<CreateBarterEvent>(onCreateBarterEvent);
+    on<InitBarterCreation>(onInitCreationPage);
+  }
+
+  void onInitCreationPage(InitBarterCreation event, Emitter<BarterState> emit) {
+    emit(state.copyWith(createBarterStatus: CreateBarterStatus.initial));
+  }
+
+  void onCreateBarterEvent(
+      CreateBarterEvent event, Emitter<BarterState> emit) async {
+    final res = await createBarter(barterItem: event.item);
+
+    if (res is Failure) {
+      emit(
+        state.copyWith(createBarterStatus: CreateBarterStatus.creationError),
+      );
+    } else {
+      emit(
+        state.copyWith(createBarterStatus: CreateBarterStatus.creationSuccess),
+      );
+    }
   }
 
   void onFetchItemsEvent(

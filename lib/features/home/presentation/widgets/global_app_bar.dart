@@ -1,5 +1,6 @@
 import 'package:bidex/common/widgets/navbar/nav_action_button.dart';
 import 'package:bidex/common/widgets/translucent_app_bar.dart';
+import 'package:bidex/features/add_post/presentation/pages/add_post_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,10 @@ class GlobalAppBar extends StatefulWidget {
 }
 
 class _GlobalAppBarState extends State<GlobalAppBar> {
+  void navigateToCreatePostPage() {
+    Navigator.push(context, fadeInRoute(const AddPostPage()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -28,7 +33,7 @@ class _GlobalAppBarState extends State<GlobalAppBar> {
       backgroundColor: Colors.transparent,
       centerTitle: true,
       leading: leading(),
-      leadingWidth: 30,
+      // leadingWidth: 30,
       title: widget.title ?? title(),
       actions: widget.actions ?? actions(),
     );
@@ -43,13 +48,14 @@ class _GlobalAppBarState extends State<GlobalAppBar> {
         onPressed: () {
           if (widget.implyLeading) {
             Navigator.pop(context);
+          } else {
+            navigateToCreatePostPage();
           }
         },
         icon: Icon(
           widget.implyLeading
               ? CupertinoIcons.chevron_back
               : CupertinoIcons.plus_square,
-          size: 22,
         ),
       ),
     );
@@ -66,6 +72,7 @@ class _GlobalAppBarState extends State<GlobalAppBar> {
     return [
       chatButton(),
       search(),
+      const SizedBox(width: 8),
     ];
   }
 
@@ -79,7 +86,6 @@ class _GlobalAppBarState extends State<GlobalAppBar> {
       },
       child: const Icon(
         CupertinoIcons.chat_bubble_2,
-        size: 22,
       ),
     );
   }
@@ -89,7 +95,7 @@ class _GlobalAppBarState extends State<GlobalAppBar> {
       onPressed: () {},
       child: const Icon(
         CupertinoIcons.search,
-        size: 22,
+        // size: 22,
       ),
     );
   }

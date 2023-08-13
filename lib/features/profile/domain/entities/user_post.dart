@@ -13,4 +13,4 @@ class UserPost extends Equatable {
 
 enum PostStatus { published, underReview }
 
-enum PostType { barter, auction, gift }
+enum PostType { gift, auction, barter }

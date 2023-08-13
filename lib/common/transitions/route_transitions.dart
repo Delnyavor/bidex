@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-PageRoute fadeInRoute(Widget route) {
+PageRoute fadeInRoute(Widget route, {bool opaque = true}) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => route,
+    opaque: opaque,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       var tween =
           Tween(begin: 0.0, end: 1.0).chain(CurveTween(curve: Curves.easeIn));

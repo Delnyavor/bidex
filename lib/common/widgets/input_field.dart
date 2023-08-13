@@ -8,14 +8,21 @@ class InputField extends StatelessWidget {
   final String? prefix;
   final bool? obscure;
   final bool? enabled;
+  final int? maxLines;
+  final Widget? suffix;
+  final TextInputType? inputType;
 
-  const InputField(
-      {super.key,
-      required this.label,
-      required this.controller,
-      this.prefix,
-      this.obscure,
-      this.enabled = true});
+  const InputField({
+    super.key,
+    required this.label,
+    required this.controller,
+    this.prefix,
+    this.obscure,
+    this.enabled = true,
+    this.maxLines = 1,
+    this.suffix,
+    this.inputType,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +36,12 @@ class InputField extends StatelessWidget {
           ModalFormInput(
             controller: controller,
             hint: '',
-            prefix: prefix == null
-                ? null
-                : Text(
-                    prefix!,
-                  ),
+            prefix: prefix == null ? null : Text(prefix!),
             obscure: obscure,
             enabled: enabled,
+            maxLines: maxLines,
+            suffix: suffix,
+            inputType: inputType,
           ),
         ],
       ),

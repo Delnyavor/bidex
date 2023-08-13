@@ -29,3 +29,7 @@ class UpdateAuctionEvent extends AuctionEvent {
   final AuctionItem item;
   const UpdateAuctionEvent({required this.item});
 }
+
+class InitAuctionCreation extends AuctionEvent {
+  const InitAuctionCreation();
+}

@@ -16,17 +16,21 @@ class FetchBarterItem extends BarterEvent {
   const FetchBarterItem({required this.id});
 }
 
-class CreateBarterItem extends BarterEvent {
+class CreateBarterEvent extends BarterEvent {
   final BarterItem item;
-  const CreateBarterItem({required this.item});
+  const CreateBarterEvent({required this.item});
 }
 
-class DeleteBarterItem extends BarterEvent {
+class DeleteBarterEvent extends BarterEvent {
   final int id;
-  const DeleteBarterItem({required this.id});
+  const DeleteBarterEvent({required this.id});
 }
 
-class UpdateBarterItem extends BarterEvent {
+class UpdateBarterEvent extends BarterEvent {
   final BarterItem item;
-  const UpdateBarterItem({required this.item});
+  const UpdateBarterEvent({required this.item});
+}
+
+class InitBarterCreation extends BarterEvent {
+  const InitBarterCreation();
 }

@@ -10,6 +10,7 @@ class Gift extends Equatable {
   final List<String> imageUrls;
   final String title;
   final String description;
+  final String criteria;
 
   const Gift({
     required this.id,
@@ -21,6 +22,7 @@ class Gift extends Equatable {
     required this.imageUrls,
     required this.title,
     required this.description,
+    required this.criteria,
   });
 
   @override
@@ -33,6 +35,7 @@ class Gift extends Equatable {
         rating,
         imageUrls,
         title,
-        description
+        description,
+        criteria,
       ];
 }

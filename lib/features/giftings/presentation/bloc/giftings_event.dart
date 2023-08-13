@@ -31,3 +31,6 @@ class UpdateGiftEvent extends GiftingsEvent {
   const UpdateGiftEvent({required this.item});
 }
 
+class InitGiftCreation extends GiftingsEvent {
+  const InitGiftCreation();
+}

@@ -13,7 +13,7 @@ class NavActionButton extends StatelessWidget {
       child: GestureDetector(
         onTap: onPressed,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5),
+          padding: const EdgeInsets.fromLTRB(8, 10, 8, 10),
           child: child,
         ),
       ),

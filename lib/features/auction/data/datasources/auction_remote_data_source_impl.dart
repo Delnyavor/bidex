@@ -21,7 +21,12 @@ class AuctionRemoteDataSourceImpl extends AuctionRemoteDataSource {
     "location": "location",
     "rating": 4.5,
     "imageUrls": ["stock0.jpg", "stock1.jpg", "stock2.jpg", "stock3.jpg"],
-    "tags": ["ps5", "ps4", "gaming pc", "xbox series"]
+    "tags": ["ps5", "ps4", "gaming pc", "xbox series"],
+    "category": "",
+    "description": "",
+    "name": "",
+    "starting_price": "",
+    "user_img": "",
   };
 
   @override
