@@ -65,6 +65,17 @@ class _AddBarterSectionState extends State<AddBarterSection> {
     super.dispose();
   }
 
+  void clear() {
+    images.clear();
+    desiredItems.clear();
+    name.clear();
+    category.clear();
+    description.clear();
+    desiredItemCtrl.clear();
+    location.clear();
+    FocusScope.of(context).unfocus();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<BarterBloc, BarterState>(
@@ -73,6 +84,7 @@ class _AddBarterSectionState extends State<AddBarterSection> {
         if (state.createBarterStatus == CreateBarterStatus.creationSuccess) {
           createPostBloc.add(const PostSubmitted());
           bloc.add(const InitBarterCreation());
+          clear();
         }
       },
       child: BlocListener<CreatePostBloc, CreatePostState>(

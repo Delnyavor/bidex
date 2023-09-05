@@ -24,7 +24,8 @@ class GiftRemoteDataSourceImpl extends GiftRemoteDataSource {
     "title": 'Custom Built Desktop',
     "description":
         "Lorem ipsum dolor sit amet lorem ipsum, dolor sit amet lorem ipsum dolor sit amet, lorem ipsum dolor sit amet",
-    "criteria": "Athlete"
+    "criteria": "Athlete",
+    "category": "category"
   };
 
   GiftRemoteDataSourceImpl();

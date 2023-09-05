@@ -1,18 +1,28 @@
+import 'package:bidex/common/transitions/route_transitions.dart';
 import 'package:bidex/features/add_post/presentation/pages/sections/add_auction_section.dart';
 import 'package:bidex/features/add_post/presentation/pages/sections/add_barter_section.dart';
 import 'package:bidex/features/add_post/presentation/pages/sections/add_gift_section.dart';
+import 'package:bidex/features/auction/domain/entities/auction_item.dart';
+import 'package:bidex/features/auction/presentation/pages/bidding_page.dart';
+import 'package:bidex/features/barter/presentation/pages/barter_page.dart';
+import 'package:bidex/features/giftings/presentation/pages/gift_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/widgets/modal_form/button_cancel.dart';
 import '../../../../common/widgets/modal_form/button_proceed.dart';
+import '../../../barter/domain/entities/barter_item.dart';
 import '../../../home/presentation/widgets/global_app_bar.dart';
 import '../../../scaffolding/scaffold.dart';
 import '../bloc/create_post_bloc.dart';
 import '../widgets/post_type_selector.dart';
 
 class AddPostPage extends StatefulWidget {
-  const AddPostPage({super.key});
+  final dynamic post;
+  const AddPostPage({
+    super.key,
+    this.post,
+  });
 
   @override
   createState() => _AddPostPage();
@@ -30,8 +40,24 @@ class _AddPostPage extends State<AddPostPage> with TickerProviderStateMixin {
     AddBarterSection(),
   ];
 
+  late bool isEditing;
+
   late AnimationController controller;
   late Animation<double> animation;
+
+  void viewEditedPost() {
+    late Widget route;
+
+    if (widget.post is AuctionItem) {
+      route = const BiddingPage();
+    } else if (widget.post is BarterItem) {
+      route = const BarterPage();
+    } else {
+      route = const GiftPage();
+    }
+
+    Navigator.pushReplacement(context, slideInRoute(route));
+  }
 
   @override
   void initState() {
@@ -39,6 +65,8 @@ class _AddPostPage extends State<AddPostPage> with TickerProviderStateMixin {
     controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 200));
     animation = Tween<double>(begin: 0.3, end: 1).animate(controller);
+
+    isEditing = widget.post != null;
   }
 
   @override
@@ -124,7 +152,7 @@ class _AddPostPage extends State<AddPostPage> with TickerProviderStateMixin {
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 25),
-                  child: buildPage(),
+                  child: widget.post == null ? buildPage() : buildEditingPage(),
                 ),
               )
             ],
@@ -136,16 +164,38 @@ class _AddPostPage extends State<AddPostPage> with TickerProviderStateMixin {
   }
 
   Widget buildPage() {
-    return BlocBuilder<CreatePostBloc, CreatePostState>(
-      bloc: bloc,
-      buildWhen: (previous, current) => current != previous,
-      builder: (context, state) {
-        return IndexedStack(
-          index: state.page,
-          children: pages,
-        );
+    return BlocListener<CreatePostBloc, CreatePostState>(
+      listener: (BuildContext context, state) {
+        if (state.pageStatus == CreatePostPageStatus.successful) {
+          if (widget.post != null) {
+            viewEditedPost();
+          } else {
+            Navigator.pop(context);
+          }
+          bloc.add(const InitialiseCreatePost());
+        }
       },
+      child: BlocBuilder<CreatePostBloc, CreatePostState>(
+        bloc: bloc,
+        buildWhen: (previous, current) => current != previous,
+        builder: (context, state) {
+          return IndexedStack(
+            index: state.page,
+            children: pages,
+          );
+        },
+      ),
     );
+  }
+
+  Widget buildEditingPage() {
+    if (widget.post is AuctionItem) {
+      return AddAuctionSection(item: widget.post);
+    } else if (widget.post is BarterItem) {
+      return const AddBarterSection();
+    } else {
+      return const AddGiftSection();
+    }
   }
 
   Widget bottom() {

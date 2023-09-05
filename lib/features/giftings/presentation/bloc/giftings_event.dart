@@ -17,7 +17,7 @@ class FetchGiftEvent extends GiftingsEvent {
 }
 
 class CreateGiftEvent extends GiftingsEvent {
-  final Gift item;
+  final GiftModel item;
   const CreateGiftEvent({required this.item});
 }
 

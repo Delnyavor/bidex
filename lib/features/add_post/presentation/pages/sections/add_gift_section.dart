@@ -1,14 +1,19 @@
+import 'dart:io';
+
 import 'package:bidex/common/widgets/image_picker_list.dart';
 import 'package:bidex/common/widgets/input_field.dart';
 import 'package:bidex/features/add_post/presentation/bloc/create_post_bloc.dart';
 import 'package:bidex/features/giftings/domain/entities/gift_item.dart';
+import 'package:dartz/dartz.dart' as dz;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../giftings/data/models/gift_item_model.dart';
 import '../../../../giftings/presentation/bloc/giftings_bloc.dart';
 
 class AddGiftSection extends StatefulWidget {
-  const AddGiftSection({super.key});
+  final Gift? item;
+  const AddGiftSection({super.key, this.item});
 
   @override
   State<AddGiftSection> createState() => _AddGiftSectionState();
@@ -21,8 +26,6 @@ class _AddGiftSectionState extends State<AddGiftSection> {
   TextEditingController criteria = TextEditingController();
   TextEditingController location = TextEditingController();
   List<String> images = [];
-  List<String> desiredItems = [];
-  bool hasDesiredItem = false;
 
   late CreatePostBloc createPostBloc;
   late GiftingsBloc bloc;
@@ -47,6 +50,24 @@ class _AddGiftSectionState extends State<AddGiftSection> {
     super.dispose();
   }
 
+  void clear() {
+    images.clear();
+    name.clear();
+    category.clear();
+    description.clear();
+    location.clear();
+    criteria.clear();
+    FocusScope.of(context).unfocus();
+  }
+
+  void populateFields() {
+    name.text = widget.item!.title;
+    category.text = widget.item!.category;
+    description.text = widget.item!.description;
+    location.text = widget.item!.location;
+    criteria.text = widget.item!.criteria;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<GiftingsBloc, GiftingsState>(
@@ -55,6 +76,7 @@ class _AddGiftSectionState extends State<AddGiftSection> {
         if (state.createGiftStatus == CreateGiftStatus.creationSuccess) {
           createPostBloc.add(const PostSubmitted());
           bloc.add(const InitGiftCreation());
+          clear();
         }
       },
       child: BlocListener<CreatePostBloc, CreatePostState>(
@@ -64,7 +86,7 @@ class _AddGiftSectionState extends State<AddGiftSection> {
               state.page == 0) {
             bloc.add(
               CreateGiftEvent(
-                item: Gift(
+                item: GiftModel(
                   id: 1,
                   userId: "userId",
                   username: "username",
@@ -75,6 +97,7 @@ class _AddGiftSectionState extends State<AddGiftSection> {
                   title: name.text,
                   description: description.text,
                   criteria: criteria.text,
+                  category: category.text,
                 ),
               ),
             );

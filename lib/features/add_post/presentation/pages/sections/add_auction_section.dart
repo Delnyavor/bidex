@@ -8,7 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../auction/presentation/bloc/auction_bloc.dart';
 
 class AddAuctionSection extends StatefulWidget {
-  const AddAuctionSection({super.key});
+  final AuctionItem? item;
+  const AddAuctionSection({super.key, this.item});
 
   @override
   State<AddAuctionSection> createState() => _AddAuctionSectionState();
@@ -30,6 +31,10 @@ class _AddAuctionSectionState extends State<AddAuctionSection> {
     super.didChangeDependencies();
     createPostBloc = BlocProvider.of<CreatePostBloc>(context);
     bloc = BlocProvider.of<AuctionBloc>(context);
+
+    if (widget.item != null) {
+      populateFields();
+    }
   }
 
   @override
@@ -41,6 +46,14 @@ class _AddAuctionSectionState extends State<AddAuctionSection> {
     starting.dispose();
 
     super.dispose();
+  }
+
+  void populateFields() {
+    name.text = widget.item!.name;
+    category.text = widget.item!.category;
+    description.text = widget.item!.description;
+    location.text = widget.item!.location;
+    starting.text = widget.item!.startingPrice;
   }
 
   @override

@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 import '../../../../../core/error/failures.dart';
+import '../../data/models/gift_item_model.dart';
 import '../../domain/entities/gift_item.dart';
 import '../../domain/usecases/create_gift.dart';
 import '../../domain/usecases/delete_gift.dart';

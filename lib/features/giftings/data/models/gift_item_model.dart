@@ -12,6 +12,7 @@ class GiftModel extends Gift {
     required super.title,
     required super.description,
     required super.criteria,
+    required super.category,
   });
 
   factory GiftModel.fromMap(Map data) {
@@ -26,6 +27,7 @@ class GiftModel extends Gift {
       title: data['title'],
       description: data['description'],
       criteria: data['criteria'],
+      category: data['category'],
     );
   }
 
@@ -41,6 +43,7 @@ class GiftModel extends Gift {
       title: item.title,
       description: item.description,
       criteria: item.criteria,
+      category: item.category,
     );
   }
 
