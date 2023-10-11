@@ -119,7 +119,8 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>>
                   link: _layerLink,
                   showWhenUnlinked: false,
                   child: ClipRRect(
-                    borderRadius: widget.dropdownStyle.borderRadius,
+                    borderRadius:
+                        widget.dropdownStyle.borderRadius ?? BorderRadius.zero,
                     child: AnimatedBuilder(
                       animation: slideAnimation,
                       builder: (BuildContext context, Widget? child) {
@@ -159,7 +160,7 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>>
 
   Widget overlayWidget() {
     return ClipRRect(
-      borderRadius: widget.dropdownStyle.borderRadius,
+      borderRadius: widget.dropdownStyle.borderRadius ?? BorderRadius.zero,
       child: Material(
         color: widget.dropdownStyle.color ?? AppColors.buttonLightBlue,
         child: ConstrainedBox(

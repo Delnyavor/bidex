@@ -1,12 +1,12 @@
 import 'dart:io';
 
+import 'package:bidex/features/auth/data/datasources/local_data_source_impl.dart';
 import 'package:bidex/features/auth/data/models/email.dart';
 import 'package:bidex/features/auth/data/models/image.dart';
 import 'package:bidex/features/auth/data/models/name.dart';
 import 'package:bidex/features/auth/data/models/password.dart';
 import 'package:bidex/features/auth/data/models/phone.dart';
 import 'package:bidex/features/auth/data/models/username.dart';
-import 'package:bidex/features/auth/domain/entities/user_data.dart';
 import 'package:bidex/features/auth/domain/usecases/create_user.dart';
 import 'package:bidex/features/auth/domain/usecases/delete_user.dart';
 import 'package:bidex/features/auth/domain/usecases/get_user.dart';
@@ -15,7 +15,12 @@ import 'package:bidex/features/auth/domain/usecases/verify_user.dart';
 // ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:formz/formz.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../data/models/user_model.dart';
+import '../../domain/entities/user.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -42,7 +47,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<UsernameChanged>(_onUsernameChanged);
     on<ImageChanged>(_onImageChanged);
     on<PhoneChanged>(_onPhoneChanged);
-    on<RegistrationSubmitted>(_onSubmitted);
+    on<RegisterUser>(_onRegister);
+    on<SubmitUserDetails>(_onSubmitUserDetails);
     on<PageChanged>(_onPageChanged);
     on<VerifyEvent>(_verify);
   }
@@ -126,72 +132,86 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(state.copyWith(page: event.page, shouldChangePage: event.update));
   }
 
-  Future<void> _onSubmitted(
-    RegistrationSubmitted event,
+  // -----------REGISTER USER-----------------
+  Future<void> _onRegister(
+    RegisterUser event,
     Emitter<AuthState> emit,
   ) async {
-    //check if the validation state is true
-    validateFields();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    if (true) {
-      // if (state.formzStatus.isValidated) {
-      emit(state.copyWith(pageStatus: RegistrationPageStatus.loading));
+    print("Current user: ${prefs.getString(CacheKeys.loggedUser)}");
+    print("Id token: ${prefs.getString(CacheKeys.idToken)}");
+    print("Refresh token: ${prefs.getString(CacheKeys.refreshToken)}");
+    print("id: ${prefs.getString(CacheKeys.loggedId)}");
+    emit(state.copyWith(pageStatus: RegistrationPageStatus.loading));
 
-      final UserData? userdata = await populateUserFields();
+    final result = await createUser(state.email.value, state.password.value);
 
-      if (userdata == null) {
-        emit(state.copyWith(
-            pageStatus: RegistrationPageStatus.failed,
-            error: 'Kindly ensure all fields are filled correctly'));
-      } else {
-        final result = await createUser(userdata);
+    result!.fold(
+      (failure) => emit(state.copyWith(
+        pageStatus: RegistrationPageStatus.failed,
+        error: failure.message,
+      )),
+      ((user) => emit(state.copyWith(
+            pageStatus: RegistrationPageStatus.successful,
+          ))),
+    );
 
-        result!.fold((failure) {
-          emit(
-            state.copyWith(
-              pageStatus: RegistrationPageStatus.failed,
-            ),
-          );
-        }, ((user) {
-          // if (user != null) {
-          emit(
-            state.copyWith(pageStatus: RegistrationPageStatus.successful),
-          );
-          // }
-        }));
-      }
-    } else {
-      emit(state.copyWith(
-          pageStatus: RegistrationPageStatus.failed,
-          error: 'Kindly ensure all fields are filled correctly'));
-    }
     emit(state.copyWith(pageStatus: RegistrationPageStatus.none));
+    print("Current user: ${prefs.getString(CacheKeys.loggedUser)}");
+    print("Id token: ${prefs.getString(CacheKeys.idToken)}");
+    print("Refresh token: ${prefs.getString(CacheKeys.refreshToken)}");
+    print("id: ${prefs.getString(CacheKeys.loggedId)}");
   }
 
-  void validateFields() {
-    Formz.validate([
-      state.email,
-      state.password,
-      state.firstName,
-      state.lastName,
-      state.username,
-      state.image,
-      state.phone,
-    ]);
+  // ------------MODIFY USER----------------------
+
+  Future<void> _onSubmitUserDetails(
+      SubmitUserDetails event, Emitter<AuthState> emit) async {
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // print("Current user: ${prefs.getString(CacheKeys.loggedUser)}");
+    // print("Id token: ${prefs.getString(CacheKeys.idToken)}");
+    // print("Refresh token: ${prefs.getString(CacheKeys.refreshToken)}");
+    // print("id: ${prefs.getString(CacheKeys.loggedId)}");
+    emit(state.copyWith(
+        registrationUserDetailsPageStatus:
+            RegistrationUserDetailsPageStatus.loading));
+
+    final user = await populateUserFields();
+    final result = await updateUser(user!);
+    result!.fold(
+      (failure) => emit(state.copyWith(
+        registrationUserDetailsPageStatus:
+            RegistrationUserDetailsPageStatus.failed,
+        error: failure.message,
+      )),
+      ((user) => emit(state.copyWith(
+            registrationUserDetailsPageStatus:
+                RegistrationUserDetailsPageStatus.successful,
+          ))),
+    );
   }
 
-  Future<UserData?> populateUserFields() async {
-    if (state.image.value.isNotEmpty) {
-      return UserData(
-        password: state.password.value,
-        displayImage: File(state.image.value),
-        firstName: state.firstName.value,
-        lastName: state.lastName.value,
-        username: state.username.value,
-        phoneNumber: state.phone.value,
-        email: state.email.value,
-      );
-    }
-    return null;
+  Future<UserModel?> populateUserFields() async {
+    var prefs = await SharedPreferences.getInstance();
+    String id = prefs.getString(CacheKeys.loggedId)!;
+    String email = prefs.getString(CacheKeys.loggedUser)!;
+    String idToken = prefs.getString(CacheKeys.idToken)!;
+    String refreshToken = prefs.getString(CacheKeys.refreshToken)!;
+    // var photo = File(state.image.value).readAsBytesSync();
+
+    print(email);
+    return UserModel(
+      id: id,
+      photo: '',
+      firstName: state.firstName.value,
+      lastName: state.lastName.value,
+      username: state.username.value,
+      phone: state.phone.value,
+      email: email,
+      idToken: idToken,
+      refreshToken: refreshToken,
+    );
   }
 }

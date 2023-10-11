@@ -1,7 +1,7 @@
 import 'package:bidex/features/auth/data/datasources/auth_data_source.dart';
 import 'package:bidex/features/auth/data/datasources/firebase_auth_source.dart';
+import 'package:bidex/features/auth/data/datasources/local_data_source.dart';
 import 'package:bidex/features/auth/domain/entities/user.dart';
-import 'package:bidex/features/auth/domain/entities/user_data.dart';
 import 'package:bidex/core/error/failures.dart';
 import 'package:bidex/features/auth/domain/repositories/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
@@ -12,38 +12,34 @@ import '../../../../core/error/exceptions.dart';
 
 class AuthRepositoryImplementation implements AuthRepository {
   final AuthDataSource authDataSource;
+  final LocalAuthSource localAuthSource;
   final FirebaseAuthDataSource firebaseAuthDataSource;
   const AuthRepositoryImplementation({
     required this.authDataSource,
     required this.firebaseAuthDataSource,
+    required this.localAuthSource,
   });
 
   @override
   Future<Either<Failure, User?>>? signIn(String email, String password) async {
     try {
-      final authUser = await firebaseAuthDataSource.signIn(email, password);
-      if (authUser != null) {
-        final userResult = await authDataSource.getUser(authUser.uid);
-        return Right(userResult);
-      } else {
-        return const Left(AuthFailure(message: 'An error occurred'));
-      }
+      final user = await authDataSource.signIn(email, password);
+
+      localAuthSource.saveUser(user);
+      return Right(user);
     } on Exception catch (e) {
       return Left(handleException(e));
     }
   }
 
   @override
-  Future<Either<Failure, User?>>? createUser(UserData user) async {
+  Future<Either<Failure, User?>>? createUser(
+      String email, String password) async {
     try {
-      final authUser =
-          await firebaseAuthDataSource.createUser(user.email, user.password);
-      if (authUser != null) {
-        final userResult = await authDataSource.createUser(user, authUser.uid);
-        return Right(userResult);
-      } else {
-        return const Left(AuthFailure(message: ''));
-      }
+      final user = await authDataSource.createUser(email, password);
+
+      localAuthSource.saveUser(user);
+      return Right(user);
     } on Exception catch (e) {
       return Left(handleException(e));
     }
@@ -62,9 +58,17 @@ class AuthRepositoryImplementation implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, User?>>? updateUser(UserData user) {
-    // TODO: implement updateUser
-    throw UnimplementedError();
+  Future<Either<Failure, User?>>? updateUser(User user) async {
+    try {
+      final userResult = await authDataSource.updateUser(user);
+      if (userResult == null) {
+        return const Left(AuthFailure(
+            message: 'An error occurred while creating your account'));
+      }
+      return Right(user);
+    } on Exception catch (e) {
+      return Left(handleException(e));
+    }
   }
 
   @override
@@ -82,13 +86,12 @@ class AuthRepositoryImplementation implements AuthRepository {
   }
 }
 
-//TODO: test the error messages
 Failure handleException(Exception e) {
   Failure result;
   switch (e.runtimeType) {
     case ServerException:
       {
-        result = const ServerFailure(message: 'Could not reach servers');
+        result = ServerFailure(message: e.toString());
       }
       break;
     case CacheException:

@@ -2,6 +2,8 @@ import 'package:bidex/features/auth/data/datasources/auth_data_source.dart';
 import 'package:bidex/features/auth/data/datasources/auth_data_source_impl.dart';
 import 'package:bidex/features/auth/data/datasources/firebase_auth_source.dart';
 import 'package:bidex/features/auth/data/datasources/firebase_auth_source_impl.dart';
+import 'package:bidex/features/auth/data/datasources/local_data_source.dart';
+import 'package:bidex/features/auth/data/datasources/local_data_source_impl.dart';
 import 'package:bidex/features/auth/data/repositories/auth_repository_implementation.dart';
 import 'package:bidex/features/auth/domain/repositories/auth_repository.dart';
 import 'package:bidex/features/auth/domain/usecases/create_user.dart';
@@ -26,6 +28,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../features/auction/data/datasources/auction_remote_data_source.dart';
 import '../features/auction/data/datasources/auction_remote_data_source_impl.dart';
@@ -79,12 +82,13 @@ void initAuthFeature() {
   sl.registerLazySingleton(() => Verify(sl()));
 
   sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImplementation(
-        authDataSource: sl(),
-        firebaseAuthDataSource: sl(),
-      ));
+      authDataSource: sl(),
+      firebaseAuthDataSource: sl(),
+      localAuthSource: sl()));
 
   sl.registerLazySingleton<AuthDataSource>(
       () => AuthDataSourceImpl(firebaseDatabase: sl()));
+  sl.registerLazySingleton<LocalAuthSource>(() => LocalAuthSourceImpl());
 
   sl.registerLazySingleton<FirebaseAuthDataSource>(
       () => FirebaseAuthDataSourceImpl(firebaseAuth: sl()));
@@ -176,4 +180,5 @@ Future<void> initExternal() async {
   await Firebase.initializeApp();
   sl.registerLazySingleton(() => FirebaseAuth.instance);
   sl.registerLazySingleton(() => FirebaseDatabase.instance);
+  sl.registerLazySingleton(() async => await SharedPreferences.getInstance());
 }

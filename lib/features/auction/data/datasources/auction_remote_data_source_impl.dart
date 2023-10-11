@@ -97,7 +97,7 @@ class AuctionRemoteDataSourceImpl extends AuctionRemoteDataSource {
           return null;
         }
       } else {
-        throw const ServerException();
+        throw const ServerException(message: "");
       }
     } on PlatformException {
       return null;

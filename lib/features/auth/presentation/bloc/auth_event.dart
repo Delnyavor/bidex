@@ -89,7 +89,7 @@ class PageChanged extends AuthEvent {
   List<Object> get props => [page, update];
 }
 
-class RegistrationSubmitted extends AuthEvent {}
+class RegisterUser extends AuthEvent {}
 
 class VerifyEvent extends AuthEvent {
   final String password;
@@ -98,3 +98,5 @@ class VerifyEvent extends AuthEvent {
   @override
   List<Object> get props => [password];
 }
+
+class SubmitUserDetails extends AuthEvent {}

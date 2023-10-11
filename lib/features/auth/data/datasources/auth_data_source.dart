@@ -1,7 +1,8 @@
 import 'package:bidex/features/auth/domain/entities/user.dart';
-import 'package:bidex/features/auth/domain/entities/user_data.dart';
 
 abstract class AuthDataSource {
+  Future<dynamic> signIn(String email, String password);
+
   ///Queries the Users list for a user
   ///
   ///Throws a [ServerException] for all error codes
@@ -15,17 +16,12 @@ abstract class AuthDataSource {
   ///Calls the [EndPoint endpoint]
   ///
   ///Throws a [ServerException] for all error codes
-  Future<User?> createUser(UserData data, String uid);
+  Future<dynamic> createUser(String email, String password);
 
   ///Calls the [EndPoint endpoint]
   ///
   ///Throws a [ServerException] for all error codes
-  Future<dynamic> updateUser();
-
-  ///Calls the [EndPoint endpoint]
-  ///
-  ///Throws a [ServerException] for all error codes
-  Future<dynamic> modifyUser();
+  Future<User?> updateUser(User user);
 
   ///Calls the [EndPoint endpoint]
   ///

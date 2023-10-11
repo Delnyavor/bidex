@@ -45,7 +45,7 @@ class IdentityFormState extends State<IdentityForm>
   }
 
   void register() {
-    bloc.add(RegistrationSubmitted());
+    bloc.add(SubmitUserDetails());
   }
 
   @override

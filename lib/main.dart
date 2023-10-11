@@ -5,6 +5,7 @@ import 'package:bidex/features/auction/presentation/bloc/auction_bloc.dart';
 import 'package:bidex/features/auth/domain/usecases/sign_in.dart';
 import 'package:bidex/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bidex/di/injection_container.dart';
+import 'package:bidex/features/auth/presentation/pages/registration_page.dart';
 import 'package:bidex/features/barter/presentation/bloc/barter_bloc.dart';
 import 'package:bidex/features/home/presentation/bloc/navigation_bloc.dart/bloc/navigation_bloc.dart';
 import 'package:bidex/features/home/presentation/pages/home_page.dart';
@@ -96,7 +97,7 @@ class Landing extends StatelessWidget {
   void push(context) {
     Navigator.push(
       context,
-      fadeInRoute(const HomePage()),
+      fadeInRoute(const RegistrationPage()),
     );
   }
 

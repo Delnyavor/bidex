@@ -40,7 +40,7 @@ class PaymentRemoteDataSourceImpl extends PaymentRemoteDataSource {
       if (response.body.isNotEmpty) {
         return compute(_parseItems, response.body);
       } else {
-        throw ServerException(code: response.statusCode);
+        throw ServerException();
       }
     } on PlatformException {
       return null;

@@ -2,25 +2,32 @@ import 'package:bidex/common/app_colors.dart';
 import 'package:bidex/common/transitions/route_transitions.dart';
 import 'package:bidex/common/widgets/translucent_app_bar.dart';
 import 'package:bidex/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:bidex/features/auth/presentation/pages/add_user_details_page.dart';
-import 'package:bidex/features/auth/presentation/pages/registration_sub_pages/account_info.dart';
+import 'package:bidex/features/auth/presentation/pages/registration_sub_pages/personal_info_form.dart';
+import 'package:bidex/features/auth/presentation/pages/registration_sub_pages/personal_info_identity_form.dart';
 import 'package:bidex/features/home/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class RegistrationPage extends StatefulWidget {
-  const RegistrationPage({Key? key}) : super(key: key);
+class AddUserDetailsPage extends StatefulWidget {
+  const AddUserDetailsPage({Key? key}) : super(key: key);
 
   @override
-  State<RegistrationPage> createState() => RegistrationPageState();
+  State<AddUserDetailsPage> createState() => AddUserDetailsPageState();
 }
 
-class RegistrationPageState extends State<RegistrationPage> {
+class AddUserDetailsPageState extends State<AddUserDetailsPage> {
   late AuthBloc bloc;
+  List<Widget> pages = [];
+
+  bool canShow = false;
 
   @override
   void initState() {
     super.initState();
+    pages = const [
+      PersonalInfoForm(),
+      IdentityForm(),
+    ];
   }
 
   @override
@@ -30,11 +37,13 @@ class RegistrationPageState extends State<RegistrationPage> {
   }
 
   void handleUnsuccessfulRegistrationState(String error) {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(content: Text(error)),
-      );
+    if (canShow) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(content: Text(error)),
+        );
+    }
   }
 
   void handleSuccessfulRegistrationState() {
@@ -43,15 +52,14 @@ class RegistrationPageState extends State<RegistrationPage> {
       ..showSnackBar(
         const SnackBar(
           content: Text(
-            'Welcome to Bidex',
+            'Welcome',
             style: TextStyle(color: Colors.white),
           ),
           backgroundColor: AppColors.darkBlue,
         ),
       );
     Future.delayed(const Duration(seconds: 2), () {
-      Navigator.pushReplacement(
-          context, slideInRoute(const AddUserDetailsPage()));
+      Navigator.pushReplacement(context, slideInRoute(const HomePage()));
     });
   }
 
@@ -70,10 +78,25 @@ class RegistrationPageState extends State<RegistrationPage> {
     return BlocListener<AuthBloc, AuthState>(
       bloc: bloc,
       listener: (context, state) {
-        if (state.pageStatus == RegistrationPageStatus.failed) {
-          handleUnsuccessfulRegistrationState(state.error);
+        if (state.registrationUserDetailsPageStatus ==
+            RegistrationUserDetailsPageStatus.loading) {
+          if (!canShow) {
+            setState(() {
+              canShow = true;
+            });
+          }
         }
-        if (state.pageStatus == RegistrationPageStatus.successful) {
+        if (state.registrationUserDetailsPageStatus ==
+            RegistrationUserDetailsPageStatus.failed) {
+          handleUnsuccessfulRegistrationState(state.error);
+          if (canShow) {
+            setState(() {
+              canShow = false;
+            });
+          }
+        }
+        if (state.registrationUserDetailsPageStatus ==
+            RegistrationUserDetailsPageStatus.successful) {
           handleSuccessfulRegistrationState();
         }
       },
@@ -85,8 +108,10 @@ class RegistrationPageState extends State<RegistrationPage> {
     return Column(
       children: [
         logo(),
-        const Flexible(
-          child: AccountInfoForm(),
+        Flexible(
+          child: PageView(
+            children: pages,
+          ),
         ),
       ],
     );

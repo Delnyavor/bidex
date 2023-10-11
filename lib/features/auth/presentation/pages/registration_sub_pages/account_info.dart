@@ -4,6 +4,7 @@ import 'package:bidex/common/transitions/scroll_behaviour.dart';
 import 'package:bidex/features/auth/data/models/email.dart';
 import 'package:bidex/features/auth/data/models/password.dart';
 import 'package:bidex/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bidex/features/auth/presentation/pages/add_user_details_page.dart';
 import 'package:bidex/features/auth/presentation/pages/login_page.dart';
 import 'package:bidex/features/auth/presentation/widgets/auth_button.dart';
 import 'package:bidex/features/auth/presentation/widgets/auth_input.dart';
@@ -79,7 +80,7 @@ class AccountInfoFormState extends State<AccountInfoForm>
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 25),
-              child: continueButton(),
+              child: registerButton(),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 0),
@@ -121,43 +122,50 @@ class AccountInfoFormState extends State<AccountInfoForm>
   }
 
   Widget passwordInput() {
-    return AuthInput(
-      controller: passwordController,
-      obscure: true,
-      hint: 'Enter password',
-      onChanged: (email) {
-        bloc.add(PasswordChanged(
-            passwordController.text, confirmPasswordController.text));
-      },
-      validator: (value) {
-        final email = Password.dirty(value!);
-        final error = email.validator(value);
-        return email.validationToString(error);
-      },
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) => AuthInput(
+        controller: passwordController,
+        obscure: true,
+        hint: 'Enter password',
+        onChanged: (email) {
+          bloc.add(PasswordChanged(
+              passwordController.text, confirmPasswordController.text));
+        },
+        validator: (value) {
+          final password = Password.dirty(value!);
+          final error = password.validator(value);
+          if (error == null &&
+              passwordController.text != state.confirmPassword.value) {
+            return password
+                .validationToString(PasswordValidationError.mismatch);
+          }
+          return password.validationToString(error);
+        },
+      ),
     );
   }
 
   Widget confirmPasswordInput() {
-    return AuthInput(
-      controller: confirmPasswordController,
-      obscure: true,
-      hint: 'Enter password',
-      onChanged: (email) {
-        bloc.add(PasswordChanged(
-            passwordController.text, confirmPasswordController.text));
-      },
-      validator: (value) {
-        if (value != passwordController.text) {
-          return 'does not match password';
-        }
-        final password = Password.dirty(value!);
-        final error = password.validator(value);
-        if (error == null &&
-            passwordController.text != confirmPasswordController.text) {
-          return password.validationToString(PasswordValidationError.mismatch);
-        }
-        return password.validationToString(error);
-      },
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) => AuthInput(
+        controller: confirmPasswordController,
+        obscure: true,
+        hint: 'Enter password',
+        onChanged: (email) {
+          bloc.add(PasswordChanged(
+              passwordController.text, confirmPasswordController.text));
+        },
+        validator: (value) {
+          final password = Password.dirty(value!);
+          final error = password.validator(value);
+          if (error == null &&
+              confirmPasswordController.text != state.password.value) {
+            return password
+                .validationToString(PasswordValidationError.mismatch);
+          }
+          return password.validationToString(error);
+        },
+      ),
     );
   }
 
@@ -191,15 +199,20 @@ class AccountInfoFormState extends State<AccountInfoForm>
     );
   }
 
-  Widget continueButton() {
-    return AuthButton(
-      label: 'Continue',
-      light: false,
-      flex: true,
-      onPressed: () {
-        bloc.add(const PageChanged(1, true));
-      },
-    );
+  Widget registerButton() {
+    return BlocBuilder<AuthBloc, AuthState>(
+        builder: (BuildContext context, state) {
+      return AuthButton(
+        label: 'Register',
+        light: false,
+        flex: true,
+        onPressed: () {
+          bloc.add(RegisterUser());
+          // Navigator.pushReplacement(
+          //     context, fadeInRoute(const AddUserDetailsPage()));
+        },
+      );
+    });
   }
 
   Widget signInButton() {

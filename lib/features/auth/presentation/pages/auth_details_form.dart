@@ -1,35 +1,65 @@
 import 'package:bidex/common/app_colors.dart';
 import 'package:bidex/common/transitions/route_transitions.dart';
+import 'package:bidex/common/transitions/scroll_behaviour.dart';
 import 'package:bidex/common/widgets/translucent_app_bar.dart';
 import 'package:bidex/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:bidex/features/auth/presentation/pages/add_user_details_page.dart';
 import 'package:bidex/features/auth/presentation/pages/registration_sub_pages/account_info.dart';
+import 'package:bidex/features/auth/presentation/pages/registration_sub_pages/personal_info_form.dart';
 import 'package:bidex/features/home/presentation/pages/home_page.dart';
+import 'package:bidex/features/auth/presentation/pages/registration_sub_pages/personal_info_identity_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class RegistrationPage extends StatefulWidget {
-  const RegistrationPage({Key? key}) : super(key: key);
+class AuthDetailsForm extends StatefulWidget {
+  const AuthDetailsForm({Key? key}) : super(key: key);
 
   @override
-  State<RegistrationPage> createState() => RegistrationPageState();
+  State<AuthDetailsForm> createState() => AuthDetailsStateForm();
 }
 
-class RegistrationPageState extends State<RegistrationPage> {
+class AuthDetailsStateForm extends State<AuthDetailsForm> {
   late AuthBloc bloc;
+  PageController controller = PageController();
+  late List<Widget> pages;
 
   @override
   void initState() {
     super.initState();
+    pages = [
+      const PersonalInfoForm(),
+      const IdentityForm(),
+    ];
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     bloc = BlocProvider.of<AuthBloc>(context);
+    addListener();
   }
 
-  void handleUnsuccessfulRegistrationState(String error) {
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
+  }
+
+  void addListener() {
+    controller.addListener(() {
+      int page = controller.page!.floor().toInt();
+      if (page != bloc.state.page) {
+        bloc.add(PageChanged(page, false));
+      }
+    });
+  }
+
+  void handlePageStateChanged(int page) {
+    controller.animateToPage(page,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.linearToEaseOut);
+  }
+
+  void handleUnsuccessfulState(String error) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(
@@ -37,7 +67,7 @@ class RegistrationPageState extends State<RegistrationPage> {
       );
   }
 
-  void handleSuccessfulRegistrationState() {
+  void handleSuccessfulState() {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(
@@ -50,8 +80,7 @@ class RegistrationPageState extends State<RegistrationPage> {
         ),
       );
     Future.delayed(const Duration(seconds: 2), () {
-      Navigator.pushReplacement(
-          context, slideInRoute(const AddUserDetailsPage()));
+      Navigator.pushReplacement(context, slideInRoute(const HomePage()));
     });
   }
 
@@ -70,12 +99,15 @@ class RegistrationPageState extends State<RegistrationPage> {
     return BlocListener<AuthBloc, AuthState>(
       bloc: bloc,
       listener: (context, state) {
-        if (state.pageStatus == RegistrationPageStatus.failed) {
-          handleUnsuccessfulRegistrationState(state.error);
-        }
-        if (state.pageStatus == RegistrationPageStatus.successful) {
-          handleSuccessfulRegistrationState();
-        }
+        // if (state.pageStatus == AuthDetailsStatusForm.failed) {
+        //   handleUnsuccessfulState(state.error);
+        // }
+        // if (state.pageStatus == AuthDetailsStatusForm.successful) {
+        //   handleSuccessfulState();
+        // }
+        // if (state.shouldChangePage) {
+        //   handlePageStateChanged(state.page);
+        // }
       },
       child: body(),
     );
@@ -85,8 +117,13 @@ class RegistrationPageState extends State<RegistrationPage> {
     return Column(
       children: [
         logo(),
-        const Flexible(
-          child: AccountInfoForm(),
+        Flexible(
+          child: PageView(
+            controller: controller,
+            scrollBehavior: NoOverScrollGlowBehavior(),
+            physics: const NeverScrollableScrollPhysics(),
+            children: pages,
+          ),
         ),
       ],
     );

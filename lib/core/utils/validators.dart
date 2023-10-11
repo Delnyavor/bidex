@@ -12,7 +12,7 @@ class FormValidators {
   }
 
   bool isAlphanumeric(String? value) {
-    return (value!.contains(RegExp(r'^([A-Za-z1-9]*)+$')));
+    return (value!.contains(RegExp(r'^([A-Za-z0-9]*)+$')));
   }
 
   bool isAlphabetical(String? value) {
