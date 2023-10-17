@@ -5,7 +5,6 @@ import 'package:bidex/features/auth/data/datasources/auth_data_source.dart';
 import 'package:bidex/features/auth/data/models/user_model.dart';
 import 'package:bidex/features/auth/domain/entities/user.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../core/utils/decode.dart';

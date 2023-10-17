@@ -1,10 +1,7 @@
-import 'dart:io';
-
 import 'package:bidex/common/widgets/image_picker_list.dart';
 import 'package:bidex/common/widgets/input_field.dart';
 import 'package:bidex/features/add_post/presentation/bloc/create_post_bloc.dart';
 import 'package:bidex/features/giftings/domain/entities/gift_item.dart';
-import 'package:dartz/dartz.dart' as dz;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
