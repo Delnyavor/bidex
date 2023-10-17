@@ -58,7 +58,7 @@ class AddUserDetailsPageState extends State<AddUserDetailsPage> {
           backgroundColor: AppColors.darkBlue,
         ),
       );
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 1), () {
       Navigator.pushReplacement(context, slideInRoute(const HomePage()));
     });
   }

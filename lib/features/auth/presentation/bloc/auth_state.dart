@@ -17,9 +17,9 @@ class AuthState extends Equatable {
     this.error = '',
     this.hasBeenVerified = false,
     this.verificationPageStatus = VerificationPageStatus.none,
-    this.registrationDetailsPageStatus = RegistrationDetailsPageStatus.none,
     this.registrationUserDetailsPageStatus =
         RegistrationUserDetailsPageStatus.none,
+    this.user = UserModel.empty,
   }) : super();
   final RegistrationPageStatus pageStatus;
   // final FormzStatus formzStatus;
@@ -36,8 +36,8 @@ class AuthState extends Equatable {
   final int page;
   final bool hasBeenVerified;
   final VerificationPageStatus verificationPageStatus;
-  final RegistrationDetailsPageStatus registrationDetailsPageStatus;
   final RegistrationUserDetailsPageStatus registrationUserDetailsPageStatus;
+  final User user;
 
   AuthState copyWith({
     RegistrationPageStatus? pageStatus,
@@ -55,8 +55,8 @@ class AuthState extends Equatable {
     int? page,
     bool? hasBeenVerified,
     VerificationPageStatus? verificationPageStatus,
-    RegistrationDetailsPageStatus? registrationDetailsPageStatus,
     RegistrationUserDetailsPageStatus? registrationUserDetailsPageStatus,
+    User? user,
   }) {
     return AuthState(
       pageStatus: pageStatus ?? this.pageStatus,
@@ -75,10 +75,9 @@ class AuthState extends Equatable {
       hasBeenVerified: hasBeenVerified ?? this.hasBeenVerified,
       verificationPageStatus:
           verificationPageStatus ?? this.verificationPageStatus,
-      registrationDetailsPageStatus:
-          registrationDetailsPageStatus ?? this.registrationDetailsPageStatus,
       registrationUserDetailsPageStatus: registrationUserDetailsPageStatus ??
           this.registrationUserDetailsPageStatus,
+      user: user ?? this.user,
     );
   }
 
@@ -99,15 +98,13 @@ class AuthState extends Equatable {
         page,
         hasBeenVerified,
         verificationPageStatus,
-        registrationDetailsPageStatus,
         registrationUserDetailsPageStatus,
+        user,
       ];
 }
 
 enum RegistrationPageStatus { loading, successful, failed, none }
 
 enum VerificationPageStatus { loading, successful, failed, none }
-
-enum RegistrationDetailsPageStatus { loading, successful, failed, none }
 
 enum RegistrationUserDetailsPageStatus { loading, successful, failed, none }

@@ -91,6 +91,8 @@ class PageChanged extends AuthEvent {
 
 class RegisterUser extends AuthEvent {}
 
+class GetLoggedUser extends AuthEvent {}
+
 class VerifyEvent extends AuthEvent {
   final String password;
   const VerifyEvent(this.password);

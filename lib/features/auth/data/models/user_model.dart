@@ -37,19 +37,17 @@ class UserModel extends User {
     );
   }
 
-  factory UserModel.empty() {
-    return const UserModel(
-      id: '',
-      email: '',
-      firstName: '',
-      lastName: '',
-      username: '',
-      phone: '',
-      photo: '',
-      idToken: '',
-      refreshToken: '',
-    );
-  }
+  static const empty = UserModel(
+    id: '',
+    email: '',
+    firstName: '',
+    lastName: '',
+    username: '',
+    phone: '',
+    photo: '',
+    idToken: '',
+    refreshToken: '',
+  );
 
   Map<String, dynamic> toMap() {
     return {

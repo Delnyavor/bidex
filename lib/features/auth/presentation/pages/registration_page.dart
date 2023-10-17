@@ -4,7 +4,6 @@ import 'package:bidex/common/widgets/translucent_app_bar.dart';
 import 'package:bidex/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bidex/features/auth/presentation/pages/add_user_details_page.dart';
 import 'package:bidex/features/auth/presentation/pages/registration_sub_pages/account_info.dart';
-import 'package:bidex/features/home/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

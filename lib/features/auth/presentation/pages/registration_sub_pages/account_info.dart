@@ -4,7 +4,6 @@ import 'package:bidex/common/transitions/scroll_behaviour.dart';
 import 'package:bidex/features/auth/data/models/email.dart';
 import 'package:bidex/features/auth/data/models/password.dart';
 import 'package:bidex/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:bidex/features/auth/presentation/pages/add_user_details_page.dart';
 import 'package:bidex/features/auth/presentation/pages/login_page.dart';
 import 'package:bidex/features/auth/presentation/widgets/auth_button.dart';
 import 'package:bidex/features/auth/presentation/widgets/auth_input.dart';
@@ -208,8 +207,6 @@ class AccountInfoFormState extends State<AccountInfoForm>
         flex: true,
         onPressed: () {
           bloc.add(RegisterUser());
-          // Navigator.pushReplacement(
-          //     context, fadeInRoute(const AddUserDetailsPage()));
         },
       );
     });

@@ -9,7 +9,7 @@ abstract class LocalAuthSource {
   ///Queries for the currently logged in user
   ///
   ///Throws a [CacheException] for all error codes
-  Future<dynamic> getUser();
+  Future<User> getUser();
 
   ///
   ///Throws a [CacheException] for all error codes

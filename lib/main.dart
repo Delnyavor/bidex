@@ -2,9 +2,11 @@ import 'package:bidex/common/app_themes.dart';
 import 'package:bidex/common/transitions/route_transitions.dart';
 import 'package:bidex/features/add_post/presentation/bloc/create_post_bloc.dart';
 import 'package:bidex/features/auction/presentation/bloc/auction_bloc.dart';
+import 'package:bidex/features/auth/data/datasources/local_data_source_impl.dart';
 import 'package:bidex/features/auth/domain/usecases/sign_in.dart';
 import 'package:bidex/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bidex/di/injection_container.dart';
+import 'package:bidex/features/auth/presentation/pages/login_page.dart';
 import 'package:bidex/features/auth/presentation/pages/registration_page.dart';
 import 'package:bidex/features/barter/presentation/bloc/barter_bloc.dart';
 import 'package:bidex/features/home/presentation/bloc/navigation_bloc.dart/bloc/navigation_bloc.dart';
@@ -94,11 +96,20 @@ class MyApp extends StatelessWidget {
 
 class Landing extends StatelessWidget {
   const Landing({Key? key}) : super(key: key);
-  void push(context) {
-    Navigator.push(
-      context,
-      fadeInRoute(const RegistrationPage()),
-    );
+  void push(context) async {
+    bool isLogged = await LocalAuthSourceImpl().isloggedIn();
+
+    if (isLogged) {
+      AuthBloc bloc = BlocProvider.of<AuthBloc>(context);
+      bloc.add(GetLoggedUser());
+
+      Future.delayed(const Duration(seconds: 1), () {
+        Navigator.push(
+          context,
+          fadeInRoute(isLogged ? const HomePage() : const LoginPage()),
+        );
+      });
+    }
   }
 
   @override

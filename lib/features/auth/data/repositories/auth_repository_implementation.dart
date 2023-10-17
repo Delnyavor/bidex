@@ -1,5 +1,4 @@
 import 'package:bidex/features/auth/data/datasources/auth_data_source.dart';
-import 'package:bidex/features/auth/data/datasources/firebase_auth_source.dart';
 import 'package:bidex/features/auth/data/datasources/local_data_source.dart';
 import 'package:bidex/features/auth/domain/entities/user.dart';
 import 'package:bidex/core/error/failures.dart';
@@ -13,10 +12,8 @@ import '../../../../core/error/exceptions.dart';
 class AuthRepositoryImplementation implements AuthRepository {
   final AuthDataSource authDataSource;
   final LocalAuthSource localAuthSource;
-  final FirebaseAuthDataSource firebaseAuthDataSource;
   const AuthRepositoryImplementation({
     required this.authDataSource,
-    required this.firebaseAuthDataSource,
     required this.localAuthSource,
   });
 
@@ -25,7 +22,11 @@ class AuthRepositoryImplementation implements AuthRepository {
     try {
       final user = await authDataSource.signIn(email, password);
 
-      localAuthSource.saveUser(user);
+      if (user == null) {
+        
+      }
+
+      localAuthSource.saveUser(user!);
       return Right(user);
     } on Exception catch (e) {
       return Left(handleException(e));
@@ -52,9 +53,8 @@ class AuthRepositoryImplementation implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, User?>>? getUser(String id) {
-    // TODO: implement getUser
-    throw UnimplementedError();
+  Future<Either<Failure, User?>>? getUser(String id) async {
+    return Right(await localAuthSource.getUser());
   }
 
   @override

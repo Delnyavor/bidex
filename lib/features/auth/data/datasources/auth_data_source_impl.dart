@@ -6,7 +6,6 @@ import 'package:bidex/features/auth/data/models/user_model.dart';
 import 'package:bidex/features/auth/domain/entities/user.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../core/utils/decode.dart';
@@ -63,15 +62,8 @@ class AuthDataSourceImpl implements AuthDataSource {
 
   @override
   Future<User?> getUser(String id) async {
-    DatabaseReference ref = firebaseDatabase.ref().child("users/$id");
-
-    try {
-      DataSnapshot result = await ref.get();
-
-      return UserModel.fromMap(result.value as Map);
-    } on FirebaseException {
-      return null;
-    }
+    // TODO: implement getUsers
+    throw UnimplementedError();
   }
 
   @override

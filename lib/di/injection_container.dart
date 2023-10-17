@@ -1,7 +1,5 @@
 import 'package:bidex/features/auth/data/datasources/auth_data_source.dart';
 import 'package:bidex/features/auth/data/datasources/auth_data_source_impl.dart';
-import 'package:bidex/features/auth/data/datasources/firebase_auth_source.dart';
-import 'package:bidex/features/auth/data/datasources/firebase_auth_source_impl.dart';
 import 'package:bidex/features/auth/data/datasources/local_data_source.dart';
 import 'package:bidex/features/auth/data/datasources/local_data_source_impl.dart';
 import 'package:bidex/features/auth/data/repositories/auth_repository_implementation.dart';
@@ -82,16 +80,11 @@ void initAuthFeature() {
   sl.registerLazySingleton(() => Verify(sl()));
 
   sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImplementation(
-      authDataSource: sl(),
-      firebaseAuthDataSource: sl(),
-      localAuthSource: sl()));
+      authDataSource: sl(), localAuthSource: sl()));
 
   sl.registerLazySingleton<AuthDataSource>(
       () => AuthDataSourceImpl(firebaseDatabase: sl()));
   sl.registerLazySingleton<LocalAuthSource>(() => LocalAuthSourceImpl());
-
-  sl.registerLazySingleton<FirebaseAuthDataSource>(
-      () => FirebaseAuthDataSourceImpl(firebaseAuth: sl()));
 }
 
 //

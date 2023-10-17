@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:bidex/features/auth/data/datasources/local_data_source_impl.dart';
 import 'package:bidex/features/auth/data/models/email.dart';
 import 'package:bidex/features/auth/data/models/image.dart';
@@ -7,6 +5,7 @@ import 'package:bidex/features/auth/data/models/name.dart';
 import 'package:bidex/features/auth/data/models/password.dart';
 import 'package:bidex/features/auth/data/models/phone.dart';
 import 'package:bidex/features/auth/data/models/username.dart';
+import 'package:bidex/features/auth/domain/entities/user.dart';
 import 'package:bidex/features/auth/domain/usecases/create_user.dart';
 import 'package:bidex/features/auth/domain/usecases/delete_user.dart';
 import 'package:bidex/features/auth/domain/usecases/get_user.dart';
@@ -15,12 +14,8 @@ import 'package:bidex/features/auth/domain/usecases/verify_user.dart';
 // ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
-import 'package:formz/formz.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../data/models/user_model.dart';
-import '../../domain/entities/user.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -50,6 +45,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<RegisterUser>(_onRegister);
     on<SubmitUserDetails>(_onSubmitUserDetails);
     on<PageChanged>(_onPageChanged);
+    on<GetLoggedUser>(_onGetLoggedUser);
     on<VerifyEvent>(_verify);
   }
 
@@ -137,12 +133,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     RegisterUser event,
     Emitter<AuthState> emit,
   ) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    print("Current user: ${prefs.getString(CacheKeys.loggedUser)}");
-    print("Id token: ${prefs.getString(CacheKeys.idToken)}");
-    print("Refresh token: ${prefs.getString(CacheKeys.refreshToken)}");
-    print("id: ${prefs.getString(CacheKeys.loggedId)}");
     emit(state.copyWith(pageStatus: RegistrationPageStatus.loading));
 
     final result = await createUser(state.email.value, state.password.value);
@@ -158,22 +148,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
 
     emit(state.copyWith(pageStatus: RegistrationPageStatus.none));
-    print("Current user: ${prefs.getString(CacheKeys.loggedUser)}");
-    print("Id token: ${prefs.getString(CacheKeys.idToken)}");
-    print("Refresh token: ${prefs.getString(CacheKeys.refreshToken)}");
-    print("id: ${prefs.getString(CacheKeys.loggedId)}");
   }
 
   // ------------MODIFY USER----------------------
 
   Future<void> _onSubmitUserDetails(
       SubmitUserDetails event, Emitter<AuthState> emit) async {
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    // print("Current user: ${prefs.getString(CacheKeys.loggedUser)}");
-    // print("Id token: ${prefs.getString(CacheKeys.idToken)}");
-    // print("Refresh token: ${prefs.getString(CacheKeys.refreshToken)}");
-    // print("id: ${prefs.getString(CacheKeys.loggedId)}");
     emit(state.copyWith(
         registrationUserDetailsPageStatus:
             RegistrationUserDetailsPageStatus.loading));
@@ -194,24 +174,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<UserModel?> populateUserFields() async {
-    var prefs = await SharedPreferences.getInstance();
-    String id = prefs.getString(CacheKeys.loggedId)!;
-    String email = prefs.getString(CacheKeys.loggedUser)!;
-    String idToken = prefs.getString(CacheKeys.idToken)!;
-    String refreshToken = prefs.getString(CacheKeys.refreshToken)!;
-    // var photo = File(state.image.value).readAsBytesSync();
+    User currentUser = await LocalAuthSourceImpl().getUser();
 
-    print(email);
     return UserModel(
-      id: id,
+      id: currentUser.id,
       photo: '',
       firstName: state.firstName.value,
       lastName: state.lastName.value,
       username: state.username.value,
       phone: state.phone.value,
-      email: email,
-      idToken: idToken,
-      refreshToken: refreshToken,
+      email: currentUser.email,
+      idToken: currentUser.idToken,
+      refreshToken: currentUser.refreshToken,
     );
+  }
+
+  Future<void> _onGetLoggedUser(
+      GetLoggedUser event, Emitter<AuthState> emit) async {
+    User currentUser = await LocalAuthSourceImpl().getUser();
+    emit(state.copyWith(user: currentUser));
   }
 }
