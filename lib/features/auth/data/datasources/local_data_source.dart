@@ -17,5 +17,5 @@ abstract class LocalAuthSource {
 
   ///
   ///Throws a [CacheException] for all error codes
-  Future<void> deleteUser();
+  Future<void> logout();
 }

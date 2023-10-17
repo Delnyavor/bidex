@@ -7,7 +7,7 @@ import 'package:bidex/features/auth/data/models/phone.dart';
 import 'package:bidex/features/auth/data/models/username.dart';
 import 'package:bidex/features/auth/domain/entities/user.dart';
 import 'package:bidex/features/auth/domain/usecases/create_user.dart';
-import 'package:bidex/features/auth/domain/usecases/delete_user.dart';
+import 'package:bidex/features/auth/domain/usecases/logout.dart';
 import 'package:bidex/features/auth/domain/usecases/get_user.dart';
 import 'package:bidex/features/auth/domain/usecases/update_user.dart';
 import 'package:bidex/features/auth/domain/usecases/verify_user.dart';
@@ -23,14 +23,14 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final CreateUser createUser;
   final GetUser getUser;
-  final DeleteUser deleteUser;
+  final Logout logout;
   final UpdateUser updateUser;
   final Verify verify;
 
   AuthBloc({
     required this.createUser,
     required this.getUser,
-    required this.deleteUser,
+    required this.logout,
     required this.updateUser,
     required this.verify,
   }) : super(const AuthState()) {

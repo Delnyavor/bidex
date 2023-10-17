@@ -8,7 +8,7 @@ abstract class AuthRepository {
       String email, String password);
   Future<dartz.Either<Failure, User?>>? getUser(String id);
   Future<dartz.Either<Failure, User?>>? updateUser(User user);
-  Future<dartz.Either<Failure, bool?>>? deleteUser(String id);
+  Future<dartz.Either<Failure, bool?>>? logout(String id);
   Future<dartz.Either<Failure, User?>>? signIn(String email, String password);
   Future<dartz.Either<Failure, bool?>>? verify(String password);
 }

@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalAuthSourceImpl extends LocalAuthSource {
   @override
-  Future deleteUser() async {
+  Future logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     await prefs.setBool(CacheKeys.isLoggedIn, false);

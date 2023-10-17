@@ -22,9 +22,7 @@ class AuthRepositoryImplementation implements AuthRepository {
     try {
       final user = await authDataSource.signIn(email, password);
 
-      if (user == null) {
-        
-      }
+      if (user == null) {}
 
       localAuthSource.saveUser(user!);
       return Right(user);
@@ -47,14 +45,22 @@ class AuthRepositoryImplementation implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, bool?>>? deleteUser(String id) {
-    // TODO: implement deleteUser
-    throw UnimplementedError();
+  Future<Either<Failure, bool?>>? logout(String id) async {
+    try {
+      await localAuthSource.logout();
+      return const Right(true);
+    } on Exception catch (e) {
+      return Left(handleException(e));
+    }
   }
 
   @override
   Future<Either<Failure, User?>>? getUser(String id) async {
-    return Right(await localAuthSource.getUser());
+    try {
+      return Right(await localAuthSource.getUser());
+    } on Exception catch (e) {
+      return Left(handleException(e));
+    }
   }
 
   @override

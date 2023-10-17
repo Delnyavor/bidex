@@ -3,12 +3,12 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failures.dart';
 
-class DeleteUser {
+class Logout {
   final AuthRepository repository;
 
-  DeleteUser(this.repository);
+  Logout(this.repository);
 
   Future<Either<Failure, bool?>?>? call(String id) async {
-    return await repository.deleteUser(id);
+    return await repository.logout(id);
   }
 }

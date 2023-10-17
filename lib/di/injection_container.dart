@@ -5,7 +5,7 @@ import 'package:bidex/features/auth/data/datasources/local_data_source_impl.dart
 import 'package:bidex/features/auth/data/repositories/auth_repository_implementation.dart';
 import 'package:bidex/features/auth/domain/repositories/auth_repository.dart';
 import 'package:bidex/features/auth/domain/usecases/create_user.dart';
-import 'package:bidex/features/auth/domain/usecases/delete_user.dart';
+import 'package:bidex/features/auth/domain/usecases/logout.dart';
 import 'package:bidex/features/auth/domain/usecases/get_user.dart';
 import 'package:bidex/features/auth/domain/usecases/sign_in.dart';
 import 'package:bidex/features/auth/domain/usecases/update_user.dart';
@@ -73,7 +73,7 @@ void initFeatures() {
 // INITIALISE AUTH
 void initAuthFeature() {
   sl.registerLazySingleton(() => CreateUser(sl()));
-  sl.registerLazySingleton(() => DeleteUser(sl()));
+  sl.registerLazySingleton(() => Logout(sl()));
   sl.registerLazySingleton(() => GetUser(sl()));
   sl.registerLazySingleton(() => UpdateUser(sl()));
   sl.registerLazySingleton(() => SignIn(sl()));
