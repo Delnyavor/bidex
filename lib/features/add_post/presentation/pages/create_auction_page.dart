@@ -1,6 +1,5 @@
 import 'package:bidex/common/widgets/image_picker_list.dart';
 import 'package:bidex/common/widgets/input_field.dart';
-import 'package:bidex/features/auction/data/models/auction_item_model.dart';
 import 'package:bidex/features/auction/domain/entities/auction_item.dart';
 import 'package:bidex/features/auction/presentation/bloc/auction_bloc.dart';
 import 'package:flutter/material.dart';

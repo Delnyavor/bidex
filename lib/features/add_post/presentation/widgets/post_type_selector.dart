@@ -3,7 +3,7 @@ import 'package:bidex/common/transitions/route_transitions.dart';
 import 'package:bidex/features/add_post/presentation/bloc/create_post_bloc.dart';
 import 'package:bidex/features/add_post/presentation/pages/create_auction_page.dart';
 import 'package:bidex/features/add_post/presentation/pages/create_gift_page.dart';
-import 'package:bidex/features/add_post/presentation/pages/sections/create_barter_page.dart';
+import 'package:bidex/features/add_post/presentation/pages/create_barter_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

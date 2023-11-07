@@ -9,7 +9,7 @@ import 'package:bidex/features/scaffolding/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../barter/presentation/bloc/barter_bloc.dart';
+import '../../../barter/presentation/bloc/barter_bloc.dart';
 
 class CreateBarterPage extends StatefulWidget {
   final BarterItem? barterItem;
