@@ -74,7 +74,7 @@ class _GiftingsPageState extends State<GiftingsPage>
     }
   }
 
-  void onTap(int id) {
+  void onTap(String id) {
     jumpToPage(1);
     bloc.add(FetchGiftEvent(id: id));
   }

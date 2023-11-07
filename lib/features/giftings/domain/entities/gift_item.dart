@@ -1,14 +1,13 @@
 import 'package:equatable/equatable.dart';
 
 class Gift extends Equatable {
-  final int id;
+  final String id;
   final String userId;
   final String username;
   final String userProfileImg;
   final String location;
-  final double rating;
-  final List<String> imageUrls;
-  final String title;
+  final List<String> images;
+  final String name;
   final String description;
   final String criteria;
   final String category;
@@ -18,10 +17,9 @@ class Gift extends Equatable {
     required this.userId,
     required this.username,
     required this.location,
-    required this.rating,
     required this.userProfileImg,
-    required this.imageUrls,
-    required this.title,
+    required this.images,
+    required this.name,
     required this.description,
     required this.criteria,
     required this.category,
@@ -34,9 +32,8 @@ class Gift extends Equatable {
         username,
         userProfileImg,
         location,
-        rating,
-        imageUrls,
-        title,
+        images,
+        name,
         description,
         criteria,
         category,

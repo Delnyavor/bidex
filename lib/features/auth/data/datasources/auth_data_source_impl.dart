@@ -16,7 +16,7 @@ class AuthDataSourceImpl implements AuthDataSource {
   AuthDataSourceImpl({required this.firebaseDatabase});
 
   @override
-  Future signIn(String email, String password) async {
+  Future<User?> signIn(String email, String password) async {
     http.Response response = await httpClient.post(
         Uri.parse("https://bidex.up.railway.app/api/auth/signin/"),
         headers: {'Content-Type': 'application/json'},
@@ -24,7 +24,7 @@ class AuthDataSourceImpl implements AuthDataSource {
           "email": email,
           "password": password,
         }));
-
+    print(response.body);
     if (response.statusCode >= 200 && response.statusCode < 300) {
       return _parseItems(response.body);
     } else {

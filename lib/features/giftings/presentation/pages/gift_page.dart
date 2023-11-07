@@ -85,12 +85,12 @@ class GiftDisplay extends StatelessWidget {
         child: Stack(
           children: [
             Carousel(
-              images: gift.imageUrls,
+              images: gift.images,
               controller: controller,
             ),
             CarouselIndicator(
               controller: controller,
-              count: gift.imageUrls.length,
+              count: gift.images.length,
             )
           ],
         ),

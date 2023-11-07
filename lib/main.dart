@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
           create: (BuildContext context) => AuthBloc(
             createUser: sl(),
             getUser: sl(),
-            deleteUser: sl(),
+            logout: sl(),
             updateUser: sl(),
             verify: sl(),
           ),
@@ -62,12 +62,12 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<GiftingsBloc>(
           create: (BuildContext context) => GiftingsBloc(
-            createGift: sl(),
-            getAllGifts: sl(),
-            getGift: sl(),
-            updateGift: sl(),
-            deleteGift: sl(),
-          ),
+              createGift: sl(),
+              getAllGifts: sl(),
+              getGift: sl(),
+              updateGift: sl(),
+              deleteGift: sl(),
+              localAuthSource: sl()),
         ),
         BlocProvider<AuctionBloc>(
           create: (context) => AuctionBloc(
@@ -102,14 +102,13 @@ class Landing extends StatelessWidget {
     if (isLogged) {
       AuthBloc bloc = BlocProvider.of<AuthBloc>(context);
       bloc.add(GetLoggedUser());
-
-      Future.delayed(const Duration(seconds: 1), () {
-        Navigator.push(
-          context,
-          fadeInRoute(isLogged ? const HomePage() : const LoginPage()),
-        );
-      });
     }
+    Future.delayed(const Duration(seconds: 1), () {
+      Navigator.push(
+        context,
+        fadeInRoute(isLogged ? const HomePage() : const LoginPage()),
+      );
+    });
   }
 
   @override

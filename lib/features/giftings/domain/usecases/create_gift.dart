@@ -9,7 +9,10 @@ class CreateGift {
 
   CreateGift({required this.repository});
 
-  Future<Either<Failure, Gift?>?>? call({required Gift gift}) async {
-    return await repository.createGift(gift);
+  Future<Either<Failure, Gift?>?>? call(
+      {required Gift gift,
+      required String authToken,
+      required String refreshToken}) async {
+    return await repository.createGift(gift, authToken, refreshToken);
   }
 }

@@ -85,7 +85,7 @@ class _GiftWidgetState extends State<GiftWidget> {
                   size: 20,
                 ),
                 Text(
-                  widget.gift.rating.toString(),
+                  'null',
                   style: Theme.of(context).textTheme.bodySmall,
                 )
               ],
@@ -103,12 +103,12 @@ class _GiftWidgetState extends State<GiftWidget> {
         borderRadius: BorderRadius.circular(8),
         child: Stack(children: [
           Carousel(
-            images: widget.gift.imageUrls,
+            images: widget.gift.images,
             controller: controller,
           ),
           CarouselIndicator(
             controller: controller,
-            count: widget.gift.imageUrls.length,
+            count: widget.gift.images.length,
           )
         ]),
       ),

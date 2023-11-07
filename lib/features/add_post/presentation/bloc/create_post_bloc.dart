@@ -19,10 +19,18 @@ class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
 
   onSubmitPostEvent(SubmitPost event, Emitter<CreatePostState> emit) {
     emit(state.copyWith(pageStatus: CreatePostPageStatus.loading));
+    print(state.pageStatus);
   }
 
   onPostEventSubmitted(PostSubmitted event, Emitter<CreatePostState> emit) {
-    emit(state.copyWith(pageStatus: CreatePostPageStatus.successful));
+    emit(
+      state.copyWith(
+        pageStatus: event.didSucceed
+            ? CreatePostPageStatus.successful
+            : CreatePostPageStatus.failed,
+      ),
+    );
+    print('submitted');
   }
 
   onInitialise(InitialiseCreatePost event, Emitter<CreatePostState> emit) {

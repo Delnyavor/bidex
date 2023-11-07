@@ -29,15 +29,16 @@ class LocalAuthSourceImpl extends LocalAuthSource {
   Future<User> getUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return User(
-        id: prefs.getString(CacheKeys.loggedId) ?? '',
-        email: prefs.getString(CacheKeys.loggedUser) ?? '',
-        photo: prefs.getString(CacheKeys.photo) ?? '',
-        firstName: prefs.getString(CacheKeys.firstName) ?? '',
-        lastName: prefs.getString(CacheKeys.lastName) ?? '',
-        username: prefs.getString(CacheKeys.username) ?? '',
-        phone: prefs.getString(CacheKeys.phone) ?? '',
-        refreshToken: prefs.getString(CacheKeys.refreshToken) ?? '',
-        idToken: prefs.getString(CacheKeys.idToken) ?? '');
+      id: prefs.getString(CacheKeys.loggedId) ?? '',
+      email: prefs.getString(CacheKeys.loggedUser) ?? '',
+      photo: prefs.getString(CacheKeys.photo) ?? '',
+      firstName: prefs.getString(CacheKeys.firstName) ?? '',
+      lastName: prefs.getString(CacheKeys.lastName) ?? '',
+      username: prefs.getString(CacheKeys.username) ?? '',
+      phone: prefs.getString(CacheKeys.phone) ?? '',
+      refreshToken: prefs.getString(CacheKeys.refreshToken) ?? '',
+      idToken: prefs.getString(CacheKeys.idToken) ?? '',
+    );
   }
 
   @override

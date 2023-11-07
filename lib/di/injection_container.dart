@@ -84,6 +84,7 @@ void initAuthFeature() {
 
   sl.registerLazySingleton<AuthDataSource>(
       () => AuthDataSourceImpl(firebaseDatabase: sl()));
+
   sl.registerLazySingleton<LocalAuthSource>(() => LocalAuthSourceImpl());
 }
 

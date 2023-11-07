@@ -15,14 +15,15 @@ class SwitchPostTypeEvent extends CreatePostEvent {
   List<Object> get props => [page];
 }
 
-class SubmitPost extends CreatePostEvent {
-  const SubmitPost();
-}
+class SubmitPost extends CreatePostEvent {}
 
 class PostSubmitted extends CreatePostEvent {
-  const PostSubmitted();
+  final bool didSucceed;
+  final String error;
+  const PostSubmitted({required this.didSucceed, this.error = ''});
+
+  @override
+  List<Object> get props => [didSucceed, error];
 }
 
-class InitialiseCreatePost extends CreatePostEvent {
-  const InitialiseCreatePost();
-}
+class InitialiseCreatePost extends CreatePostEvent {}

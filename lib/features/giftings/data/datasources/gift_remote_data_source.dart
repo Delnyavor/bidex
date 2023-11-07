@@ -9,7 +9,7 @@ abstract class GiftRemoteDataSource {
   ///saves the [Gift] onto the local device
   ///
   ///Throws [CacheException] if not data is present
-  Future<Gift?>? createGift(Gift gift);
+  Future<Gift?>? createGift(Gift gift, String authToken, String refreshToken);
 
   ///gets the cached [Gift] saved on the local device
   ///

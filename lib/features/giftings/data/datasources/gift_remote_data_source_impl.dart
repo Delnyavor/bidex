@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:bidex/core/utils/decode.dart';
 import 'package:bidex/features/giftings/domain/entities/gift_item.dart';
 import 'package:flutter/services.dart';
 
@@ -14,12 +16,11 @@ class GiftRemoteDataSourceImpl extends GiftRemoteDataSource {
   final http.Client httpClient = http.Client();
 
   final sampleData = {
-    "id": 1,
+    "id": "1",
     "userId": "userId",
     "username": "username",
     "location": "location",
-    "rating": 4.5,
-    "imageUrls": ["stock0.jpg", "stock1.jpg", "stock2.jpg", "stock3.jpg"],
+    "images": ["stock0.jpg", "stock1.jpg", "stock2.jpg", "stock3.jpg"],
     "userProfileImg": "stock0.jpg",
     "title": 'Custom Built Desktop',
     "description":
@@ -31,22 +32,21 @@ class GiftRemoteDataSourceImpl extends GiftRemoteDataSource {
   GiftRemoteDataSourceImpl();
 
   @override
-  Future<GiftModel?>? createGift(Gift gift) async {
-    // TODO get endpoints
-    print('gift called');
-    // http.Response response = await httpClient.post(
-    //     Uri.parse('www.example.com/'),
-    //     headers: {'Content-Type': 'application/json'});
-    try {
-      // if (response.body.isNotEmpty) {
-      if (true) {
-        Future.delayed(Duration(seconds: 2));
-        return GiftModel.fromGift(gift);
-      } else {
-        return null;
-      }
-    } on PlatformException {
-      return null;
+  Future<GiftModel?>? createGift(
+      Gift gift, String authToken, String refreshToken) async {
+    http.Response response = await httpClient.post(
+        Uri.parse('https://bidex.up.railway.app/api/posts/'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $authToken',
+          'refresh-token': refreshToken,
+        },
+        body: jsonEncode((gift as GiftModel).toMap()));
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return GiftModel.fromMap(decode(response.body));
+    } else {
+      throw ServerException(message: parseApiError(response.body));
     }
   }
 

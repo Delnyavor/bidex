@@ -225,10 +225,10 @@ class _LoginPageState extends State<LoginPage> {
           ),
           side: const BorderSide(width: 1),
           fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-            if (states.contains(MaterialState.pressed)) {
+            if (states.contains(MaterialState.selected)) {
               return AppColors.darkBlue;
             }
-            return AppColors.darkBlue;
+            return Colors.transparent;
           }),
           value: shouldRememberPassword,
           onChanged: (bool? value) {

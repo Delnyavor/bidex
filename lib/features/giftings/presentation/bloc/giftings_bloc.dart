@@ -1,13 +1,11 @@
-// ignore: depend_on_referenced_packages
-
-// ignore: depend_on_referenced_packages
+import 'package:bidex/features/auth/data/datasources/local_data_source.dart';
+import 'package:bidex/features/auth/domain/entities/user.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 import '../../../../../core/error/failures.dart';
-import '../../data/models/gift_item_model.dart';
 import '../../domain/entities/gift_item.dart';
 import '../../domain/usecases/create_gift.dart';
 import '../../domain/usecases/delete_gift.dart';
@@ -24,6 +22,7 @@ class GiftingsBloc extends Bloc<GiftingsEvent, GiftingsState> {
   final GetAllGifts getAllGifts;
   final GetGift getGift;
   final UpdateGift updateGift;
+  final LocalAuthSource localAuthSource;
 
   GiftingsBloc({
     required this.createGift,
@@ -31,6 +30,7 @@ class GiftingsBloc extends Bloc<GiftingsEvent, GiftingsState> {
     required this.getAllGifts,
     required this.getGift,
     required this.updateGift,
+    required this.localAuthSource,
   }) : super(const GiftingsState()) {
     on<FetchGiftEvent>(onFetchItem);
     on<FetchGiftsEvent>(onFetchItemsEvent, transformer: (events, mapper) {
@@ -46,14 +46,25 @@ class GiftingsBloc extends Bloc<GiftingsEvent, GiftingsState> {
 
   void onInitCreationPage(
       InitGiftCreation event, Emitter<GiftingsState> emit) async {
-    emit(state.copyWith(createGiftStatus: CreateGiftStatus.initial));
+    emit(state.copyWith(
+      createGiftStatus: CreateGiftStatus.initial,
+      errorMessage: '',
+    ));
   }
 
   void onCreateGift(CreateGiftEvent event, Emitter<GiftingsState> emit) async {
-    final result = await createGift(gift: event.item);
+    print('called');
+    User user = await localAuthSource.getUser();
+    final result = await createGift(
+      gift: event.item,
+      authToken: user.idToken,
+      refreshToken: user.refreshToken,
+    );
 
     result!.fold((l) {
-      emit(state.copyWith(createGiftStatus: CreateGiftStatus.creationError));
+      emit(state.copyWith(
+          createGiftStatus: CreateGiftStatus.creationError,
+          errorMessage: l.message));
     }, (r) async {
       emit(state.copyWith(createGiftStatus: CreateGiftStatus.creationSuccess));
     });

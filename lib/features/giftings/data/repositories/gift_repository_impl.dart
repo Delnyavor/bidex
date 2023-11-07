@@ -12,14 +12,13 @@ class GiftRepositoryImpl extends GiftRepository {
   GiftRepositoryImpl({required this.dataSource});
 
   @override
-  Future<Either<Failure, Gift?>>? createGift(Gift gift) async {
+  Future<Either<Failure, Gift?>>? createGift(
+      Gift gift, String authToken, String refreshToken) async {
     try {
-      final result = await dataSource.createGift(gift);
+      final result = await dataSource.createGift(gift, authToken, refreshToken);
       return Right(result);
-    } on ServerException catch (_) {
-      return const Left(ServerFailure(message: ''));
-    } on CacheException catch (_) {
-      return const Left(CacheFailure(message: ''));
+    } on Exception catch (e) {
+      return Left(handleException(e));
     }
   }
 
@@ -69,5 +68,27 @@ class GiftRepositoryImpl extends GiftRepository {
     } on CacheException catch (_) {
       return const Left(CacheFailure(message: ''));
     }
+  }
+
+  Failure handleException(Exception e) {
+    Failure result;
+    switch (e.runtimeType) {
+      case ServerException:
+        {
+          result = ServerFailure(message: e.toString());
+        }
+        break;
+      case CacheException:
+        {
+          result = CacheFailure(message: e.toString());
+        }
+        break;
+
+      default:
+        {
+          result = const GenericOperationFailure(message: 'An error occurred');
+        }
+    }
+    return result;
   }
 }
