@@ -1,5 +1,7 @@
 import 'package:bidex/common/app_colors.dart';
+import 'package:bidex/common/transitions/route_transitions.dart';
 import 'package:bidex/common/utils/date_formatter.dart';
+import 'package:bidex/features/payment/presentation/pages/create_payment_method_page.dart';
 import 'package:flutter/material.dart';
 
 class AddPaymentMethodCard extends StatefulWidget {
@@ -18,9 +20,19 @@ class _AddPaymentMethodCardState extends State<AddPaymentMethodCard> {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.9,
-      child: card(),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          slideInRoute(
+            const CreatePaymentMethodPage(),
+          ),
+        );
+      },
+      child: AspectRatio(
+        aspectRatio: 1.9,
+        child: card(),
+      ),
     );
   }
 

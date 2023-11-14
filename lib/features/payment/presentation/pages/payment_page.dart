@@ -47,12 +47,28 @@ class _PaymentPage extends State<PaymentPage> {
       backgroundColour: AppColors.darkBlue,
       appBar: const GlobalAppBar(),
       body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 25),
+        padding: const EdgeInsets.symmetric(vertical: 25),
         children: [
-          const AddPaymentMethodCard(),
-          const SizedBox(height: 20),
+          padding(child: const AddPaymentMethodCard()),
+          const SizedBox(height: 35),
+          padding(
+            child: Row(
+              children: [
+                IconButton(
+                  padding: const EdgeInsets.fromLTRB(0, 6, 8, 8),
+                  icon: const Icon(Icons.keyboard_arrow_left),
+                  onPressed: () {},
+                ),
+                const Text(
+                  'TRANSACTIONS',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
           ...transactions
-              .map((e) => TransactionWidget(transaction: e))
+              .map((e) => padding(child: TransactionWidget(transaction: e)))
               .toList(),
         ],
       ),
@@ -62,6 +78,13 @@ class _PaymentPage extends State<PaymentPage> {
         },
         text: 'CREATE PAYMENT METHOD',
       ),
+    );
+  }
+
+  Widget padding({required Widget child}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0),
+      child: child,
     );
   }
 }

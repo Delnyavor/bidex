@@ -10,7 +10,7 @@ class TransactionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 4),
+      padding: const EdgeInsets.symmetric(vertical: 17, horizontal: 4),
       child: Row(
         children: [
           Expanded(flex: 1, child: network()),

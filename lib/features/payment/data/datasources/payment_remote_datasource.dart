@@ -4,7 +4,7 @@ abstract class PaymentRemoteDataSource {
   ///gets the cached [PaymentMethod] saved on the local device
   ///
   ///Throws [CacheException] if not data is present
-  Future<List<PaymentMethod>?>? getAllItems(int index);
+  Future<List<PaymentMethod>?>? getAllMethods(int index);
 
   ///saves the [PaymentMethod] onto the local device
   ///

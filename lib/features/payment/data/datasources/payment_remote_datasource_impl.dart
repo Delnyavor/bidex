@@ -25,7 +25,7 @@ class PaymentRemoteDataSourceImpl extends PaymentRemoteDataSource {
       if (response.body.isNotEmpty) {
         return paymentMethod;
       } else {
-        return null;
+        throw ServerException;
       }
     } on PlatformException {
       return null;
@@ -33,14 +33,14 @@ class PaymentRemoteDataSourceImpl extends PaymentRemoteDataSource {
   }
 
   @override
-  Future<List<PaymentMethodModel>?>? getAllItems(int index) async {
+  Future<List<PaymentMethodModel>?>? getAllMethods(int index) async {
     http.Response response = await httpClient.get(Uri.parse('www.example.com/'),
         headers: {'Content-Type': 'application/json'});
     try {
       if (response.body.isNotEmpty) {
         return compute(_parseItems, response.body);
       } else {
-        throw ServerException();
+        throw const ServerException();
       }
     } on PlatformException {
       return null;
