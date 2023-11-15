@@ -1,7 +1,7 @@
+import 'package:bidex/core/error/exception_handler.dart';
 import 'package:bidex/core/error/failures.dart';
 import 'package:dartz/dartz.dart';
 
-import '../../../../core/error/exceptions.dart';
 import '../../domain/entities/gift_item.dart';
 import '../../domain/repositories/gift_repository.dart';
 import '../datasources/gift_remote_data_source.dart';
@@ -27,10 +27,8 @@ class GiftRepositoryImpl extends GiftRepository {
     try {
       final result = await dataSource.getGift(id);
       return Right(result);
-    } on ServerException catch (_) {
-      return const Left(ServerFailure(message: ''));
-    } on CacheException catch (_) {
-      return const Left(CacheFailure(message: ''));
+    } on Exception catch (e) {
+      return Left(handleException(e));
     }
   }
 
@@ -39,10 +37,8 @@ class GiftRepositoryImpl extends GiftRepository {
     try {
       final result = await dataSource.getAllItems(index);
       return Right(result);
-    } on ServerException catch (_) {
-      return const Left(ServerFailure(message: 'Something went wrong'));
-    } on CacheException catch (_) {
-      return const Left(CacheFailure(message: ''));
+    } on Exception catch (e) {
+      return Left(handleException(e));
     }
   }
 
@@ -51,10 +47,8 @@ class GiftRepositoryImpl extends GiftRepository {
     try {
       final result = await dataSource.updateGift(gift);
       return Right(result);
-    } on ServerException catch (_) {
-      return const Left(ServerFailure(message: ''));
-    } on CacheException catch (_) {
-      return const Left(CacheFailure(message: ''));
+    } on Exception catch (e) {
+      return Left(handleException(e));
     }
   }
 
@@ -63,32 +57,8 @@ class GiftRepositoryImpl extends GiftRepository {
     try {
       final result = await dataSource.deleteGift(id);
       return Right(result);
-    } on ServerException catch (_) {
-      return const Left(ServerFailure(message: ''));
-    } on CacheException catch (_) {
-      return const Left(CacheFailure(message: ''));
+    } on Exception catch (e) {
+      return Left(handleException(e));
     }
-  }
-
-  Failure handleException(Exception e) {
-    Failure result;
-    switch (e.runtimeType) {
-      case ServerException:
-        {
-          result = ServerFailure(message: e.toString());
-        }
-        break;
-      case CacheException:
-        {
-          result = CacheFailure(message: e.toString());
-        }
-        break;
-
-      default:
-        {
-          result = const GenericOperationFailure(message: 'An error occurred');
-        }
-    }
-    return result;
   }
 }

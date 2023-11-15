@@ -1,10 +1,9 @@
+import 'package:bidex/core/error/exception_handler.dart';
 import 'package:bidex/core/error/failures.dart';
 import 'package:bidex/features/auction/data/datasources/auction_remote_data_source.dart';
 import 'package:bidex/features/auction/domain/repositories/auction_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:bidex/features/auction/domain/entities/auction_item.dart';
-
-import '../../../../core/error/exceptions.dart';
 
 class AuctionRepositoryImpl extends AuctionRepository {
   final AuctionRemoteDataSource dataSource;
@@ -13,14 +12,14 @@ class AuctionRepositoryImpl extends AuctionRepository {
 
   @override
   Future<Either<Failure, AuctionItem?>>? createAuctionItem(
-      AuctionItem auctionItem) async {
+      AuctionItem auctionItem, String authToken, String refreshToken) async {
     try {
-      final result = await dataSource.createAuction(auctionItem);
+      final result =
+          await dataSource.createAuction(auctionItem, authToken, refreshToken);
       return Right(result);
-    } on ServerException catch (_) {
-      return const Left(ServerFailure(message: ''));
-    } on CacheException catch (_) {
-      return const Left(CacheFailure(message: ''));
+    } on Exception catch (e) {
+      print(e);
+      return Left(handleException(e));
     }
   }
 
@@ -29,10 +28,8 @@ class AuctionRepositoryImpl extends AuctionRepository {
     try {
       final result = await dataSource.getAuction(id);
       return Right(result);
-    } on ServerException catch (_) {
-      return const Left(ServerFailure(message: ''));
-    } on CacheException catch (_) {
-      return const Left(CacheFailure(message: ''));
+    } on Exception catch (e) {
+      return Left(handleException(e));
     }
   }
 
@@ -42,10 +39,8 @@ class AuctionRepositoryImpl extends AuctionRepository {
     try {
       final result = await dataSource.getAllItems(index);
       return Right(result);
-    } on ServerException catch (_) {
-      return const Left(ServerFailure(message: 'Something went wrong'));
-    } on CacheException catch (_) {
-      return const Left(CacheFailure(message: ''));
+    } on Exception catch (e) {
+      return Left(handleException(e));
     }
   }
 
@@ -55,10 +50,8 @@ class AuctionRepositoryImpl extends AuctionRepository {
     try {
       final result = await dataSource.updateAuction(auctionItem);
       return Right(result);
-    } on ServerException catch (_) {
-      return const Left(ServerFailure(message: ''));
-    } on CacheException catch (_) {
-      return const Left(CacheFailure(message: ''));
+    } on Exception catch (e) {
+      return Left(handleException(e));
     }
   }
 
@@ -67,10 +60,8 @@ class AuctionRepositoryImpl extends AuctionRepository {
     try {
       final result = await dataSource.deleteAuction(id);
       return Right(result);
-    } on ServerException catch (_) {
-      return const Left(ServerFailure(message: ''));
-    } on CacheException catch (_) {
-      return const Left(CacheFailure(message: ''));
+    } on Exception catch (e) {
+      return Left(handleException(e));
     }
   }
 }

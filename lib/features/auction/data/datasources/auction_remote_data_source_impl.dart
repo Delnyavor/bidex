@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:bidex/api/endpoints.dart';
+import 'package:bidex/core/utils/decode.dart';
 import 'package:bidex/features/auction/data/datasources/auction_remote_data_source.dart';
 import 'package:bidex/features/auction/data/models/auction_item_model.dart';
 import 'package:bidex/features/auction/domain/entities/auction_item.dart';
@@ -30,18 +32,20 @@ class AuctionRemoteDataSourceImpl extends AuctionRemoteDataSource {
   };
 
   @override
-  Future<AuctionItemModel?>? createAuction(AuctionItem auction) async {
-    http.Response response = await httpClient.post(
-        Uri.parse('www.example.com/'),
-        headers: {'Content-Type': 'application/json'});
-    try {
-      if (response.body.isNotEmpty) {
-        return auction as AuctionItemModel;
-      } else {
-        return null;
-      }
-    } on PlatformException {
-      return null;
+  Future<AuctionItemModel?>? createAuction(
+      AuctionItem auction, String authToken, String refreshToken) async {
+    http.Response response =
+        await httpClient.post(Uri.parse(EndPoints.createAuctionUrl), headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $authToken',
+      'refresh-token': refreshToken,
+    }).timeout(const Duration(seconds: 2));
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      print(response.body);
+      return AuctionItemModel.fromMap(decode(response.body));
+    } else {
+      throw ServerException(message: parseApiError(response.body));
     }
   }
 

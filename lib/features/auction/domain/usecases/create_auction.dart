@@ -10,7 +10,10 @@ class CreateAuction {
   CreateAuction({required this.repository});
 
   Future<Either<Failure, AuctionItem?>?>? call(
-      {required AuctionItem auctionItem}) async {
-    return await repository.createAuctionItem(auctionItem);
+      {required AuctionItem auctionItem,
+      required String authToken,
+      required String refreshToken}) async {
+    return await repository.createAuctionItem(
+        auctionItem, authToken, refreshToken);
   }
 }

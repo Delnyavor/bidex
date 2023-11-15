@@ -9,7 +9,8 @@ abstract class AuctionRemoteDataSource {
   ///saves the [AuctionItem] onto the local device
   ///
   ///Throws [CacheException] if not data is present
-  Future<AuctionItem?>? createAuction(AuctionItem auction);
+  Future<AuctionItem?>? createAuction(
+      AuctionItem auction, String authToken, String refreshToken);
 
   ///gets the cached [AuctionItem] saved on the local device
   ///

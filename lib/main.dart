@@ -76,6 +76,7 @@ class MyApp extends StatelessWidget {
             getAuction: sl(),
             updateAuction: sl(),
             deleteAuction: sl(),
+            localAuthSource: sl(),
           ),
         ),
         BlocProvider<ChatBloc>(

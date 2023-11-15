@@ -1,4 +1,6 @@
 import 'package:bidex/features/auction/domain/entities/auction_item.dart';
+import 'package:bidex/features/auth/data/datasources/local_data_source.dart';
+import 'package:bidex/features/auth/domain/entities/user.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
@@ -20,6 +22,7 @@ class AuctionBloc extends Bloc<AuctionEvent, AuctionState> {
   final GetAllAuctions getAllAuctions;
   final GetAuction getAuction;
   final UpdateAuction updateAuction;
+  final LocalAuthSource localAuthSource;
 
   AuctionBloc({
     required this.createAuction,
@@ -27,6 +30,7 @@ class AuctionBloc extends Bloc<AuctionEvent, AuctionState> {
     required this.getAllAuctions,
     required this.getAuction,
     required this.updateAuction,
+    required this.localAuthSource,
   }) : super(const AuctionState()) {
     on<FetchAuctionEvent>(onFetchItem);
     on<FetchAuctionsEvent>(onFetchItemsEvent, transformer: (events, mapper) {
@@ -47,7 +51,13 @@ class AuctionBloc extends Bloc<AuctionEvent, AuctionState> {
 
   onCreateAuctionEvent(
       CreateAuctionEvent event, Emitter<AuctionState> emit) async {
-    final res = await createAuction(auctionItem: event.item);
+    print('called');
+    User user = await localAuthSource.getUser();
+    final res = await createAuction(
+      auctionItem: event.item,
+      authToken: user.idToken,
+      refreshToken: user.refreshToken,
+    );
 
     if (res is Failure) {
       emit(
@@ -59,8 +69,6 @@ class AuctionBloc extends Bloc<AuctionEvent, AuctionState> {
             createAuctionStatus: CreateAuctionStatus.creationSuccess),
       );
     }
-
-    print(event.item);
   }
 
   //FETCH AND DISPLAY A SINGLE Auction
