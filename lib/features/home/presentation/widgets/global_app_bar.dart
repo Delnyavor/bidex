@@ -1,6 +1,7 @@
 import 'package:bidex/common/widgets/navbar/nav_action_button.dart';
 import 'package:bidex/common/widgets/translucent_app_bar.dart';
 import 'package:bidex/features/add_post/presentation/pages/add_post_page.dart';
+import 'package:bidex/features/direct_messages/presentation/pages/chat_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -81,7 +82,8 @@ class _GlobalAppBarState extends State<GlobalAppBar> {
       onPressed: () {
         Navigator.push(
           context,
-          slideInRoute(const DirectMessagesPage()),
+          // slideInRoute(const DirectMessagesPage()),
+          slideInRoute(const ChatPage()),
         );
       },
       child: const Icon(

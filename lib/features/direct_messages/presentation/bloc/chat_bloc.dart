@@ -25,7 +25,24 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         text: 'A random message showing an ongoing conversation',
         created: DateTime.now(),
         user: '0000'),
+    Chat(
+        text: 'A random message showing an ongoing conversation',
+        created: DateTime.now(),
+        user: '0000'),
+    Chat(
+        text: 'A random message showing an ongoing conversation',
+        created: DateTime.now(),
+        user: '0001'),
+    Chat(
+        text: 'A random message showing an ongoing conversation',
+        created: DateTime.now(),
+        user: '0000'),
+    Chat(
+        text: 'A random message showing an ongoing conversation',
+        created: DateTime.now(),
+        user: '0000'),
   ];
+
   ChatBloc() : super(const ChatState()) {
     on<CreateChat>(_onCreateChat);
     on<FetchChats>(_onFetchChats);
@@ -38,9 +55,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
 
   void _onCreateChat(CreateChat event, Emitter<ChatState> emit) async {
+    var items = [event.chat, ...state.items];
     emit(
       state.copyWith(
-        items: state.items + [event.chat],
+        items: items,
       ),
     );
   }

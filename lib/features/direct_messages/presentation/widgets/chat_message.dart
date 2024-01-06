@@ -5,9 +5,11 @@ import '../../domain/entities/chat.dart';
 
 class ChatMessage extends StatelessWidget {
   final Chat message;
+  final String? nextSender;
   const ChatMessage({
     Key? key,
     required this.message,
+    required this.nextSender,
   }) : super(key: key);
 
   @override
@@ -24,7 +26,7 @@ class ChatMessage extends StatelessWidget {
           flex: 3,
           child: Container(
             padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
-            margin: const EdgeInsets.only(bottom: 2),
+            margin: EdgeInsets.only(bottom: nextSender == message.user ? 2 : 6),
             decoration: const BoxDecoration(
               color: AppColors.darkBlue,
               borderRadius: BorderRadius.horizontal(left: Radius.circular(14)),
@@ -34,7 +36,8 @@ class ChatMessage extends StatelessWidget {
               children: [
                 Text(
                   message.text,
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(
+                      color: Colors.white, fontSize: 13, letterSpacing: 0),
                 ),
                 date(),
               ],
@@ -60,7 +63,7 @@ class ChatMessage extends StatelessWidget {
           flex: 3,
           child: Container(
             padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
-            margin: const EdgeInsets.only(bottom: 2),
+            margin: EdgeInsets.only(bottom: nextSender == message.user ? 2 : 6),
             decoration: const BoxDecoration(
               color: AppColors.blue,
               borderRadius: BorderRadius.horizontal(right: Radius.circular(14)),
@@ -70,14 +73,16 @@ class ChatMessage extends StatelessWidget {
               children: [
                 Text(
                   message.text,
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(
+                      color: Colors.white, fontSize: 13, letterSpacing: 0),
                 ),
                 Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 4),
-                      child: date(),
-                    )),
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 4),
+                    child: date(),
+                  ),
+                ),
               ],
             ),
           ),

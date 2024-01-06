@@ -7,12 +7,14 @@ class Scaffolding extends StatefulWidget {
   final Widget body;
   final Widget bottomNavbar;
   final Color? backgroundColour;
+  final bool? resizeToAvoidInsets;
   const Scaffolding(
       {Key? key,
       required this.appBar,
       required this.body,
       required this.bottomNavbar,
-      this.backgroundColour})
+      this.backgroundColour,
+      this.resizeToAvoidInsets = false})
       : super(key: key);
 
   @override
@@ -23,6 +25,7 @@ class _Scaffolding extends State<Scaffolding> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: widget.resizeToAvoidInsets,
       // backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),

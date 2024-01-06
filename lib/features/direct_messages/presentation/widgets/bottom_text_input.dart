@@ -11,14 +11,16 @@ class DMInput extends StatefulWidget {
   final Function(String)? onChanged;
   final String? errorText;
   final bool preventFocus;
+  final Function? onSubmit;
 
-  const DMInput({
-    Key? key,
-    required this.controller,
-    this.onChanged,
-    this.errorText,
-    this.preventFocus = false,
-  }) : super(key: key);
+  const DMInput(
+      {Key? key,
+      required this.controller,
+      this.onChanged,
+      this.errorText,
+      this.preventFocus = false,
+      this.onSubmit})
+      : super(key: key);
 
   @override
   State<DMInput> createState() => DMInputState();
@@ -41,6 +43,11 @@ class DMInputState extends State<DMInput> with SingleTickerProviderStateMixin {
     addTextListener();
 
     bloc = BlocProvider.of<ChatBloc>(context);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
   }
 
   @override
@@ -84,6 +91,8 @@ class DMInputState extends State<DMInput> with SingleTickerProviderStateMixin {
     }
   }
 
+  final GlobalKey textboxKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     handleFocus();
@@ -95,6 +104,7 @@ class DMInputState extends State<DMInput> with SingleTickerProviderStateMixin {
         child: Row(
           children: [
             Flexible(child: textField()),
+            const SizedBox(width: 5),
             const Icon(
               CupertinoIcons.photo,
               color: Colors.black87,
@@ -108,6 +118,7 @@ class DMInputState extends State<DMInput> with SingleTickerProviderStateMixin {
 
   Widget textField() {
     return TextField(
+      key: textboxKey,
       // autovalidateMode: AutovalidateMode.onUserInteraction,
 
       controller: widget.controller,
@@ -177,6 +188,7 @@ class DMInputState extends State<DMInput> with SingleTickerProviderStateMixin {
             text: widget.controller.text,
             created: DateTime.now(),
             user: '0000')));
+
         widget.controller.clear();
       },
       icon: const Icon(

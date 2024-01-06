@@ -18,6 +18,7 @@ class DirectMessagesPage extends StatefulWidget {
 
 class _DirectMessagesPage extends State<DirectMessagesPage> {
   TextEditingController controller = TextEditingController();
+  ScrollController scrollController = ScrollController();
 
   late ChatBloc bloc;
 
@@ -30,9 +31,19 @@ class _DirectMessagesPage extends State<DirectMessagesPage> {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      print(true);
+      scrollController.addListener(() {
+        print(false);
+        if (scrollController.position.atEdge) {
+          print(scrollController.offset);
+        }
+      });
+    });
     return Scaffolding(
       appBar: const GlobalAppBar(),
       body: messages(),
+      resizeToAvoidInsets: true,
       bottomNavbar: Padding(
         padding: const EdgeInsets.only(top: 4.0),
         child: DMInput(controller: controller),
@@ -42,20 +53,29 @@ class _DirectMessagesPage extends State<DirectMessagesPage> {
 
   Widget messages() {
     return BlocBuilder<ChatBloc, ChatState>(builder: (context, state) {
-      return CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: controls(),
-          ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                return ChatMessage(message: state.items[index]);
-              },
-              childCount: state.items.length,
+      return DecoratedBox(
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('assets/images/chat_bg.png'),
+                fit: BoxFit.cover)),
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: controls(),
             ),
-          )
-        ],
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  // return ChatMessage(message: state.items[index]);
+                },
+                childCount: state.items.length,
+              ),
+            ),
+            SliverFillRemaining(
+              child: SizedBox.expand(),
+            )
+          ],
+        ),
       );
     });
   }
