@@ -58,6 +58,7 @@ class MyApp extends StatelessWidget {
             getBarter: sl(),
             updateBarter: sl(),
             deleteBarter: sl(),
+            localAuthSource: sl(),
           ),
         ),
         BlocProvider<GiftingsBloc>(

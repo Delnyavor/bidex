@@ -1,3 +1,4 @@
+import 'package:bidex/core/error/exception_handler.dart';
 import 'package:bidex/core/error/failures.dart';
 import 'package:bidex/features/barter/data/datasources/barter_remote_data_source.dart';
 import 'package:bidex/features/barter/domain/repositories/barter_repository.dart';
@@ -13,14 +14,13 @@ class BarterRepositoryImpl extends BarterRepository {
 
   @override
   Future<Either<Failure, BarterItem?>>? createBarterItem(
-      BarterItem barterItem) async {
+      BarterItem barterItem, String authToken, String refreshToken) async {
     try {
-      final result = await dataSource.createBarterItem(barterItem);
+      final result = await dataSource.createBarterItem(
+          barterItem, authToken, refreshToken);
       return Right(result);
-    } on ServerException catch (_) {
-      return const Left(ServerFailure(message: ''));
-    } on CacheException catch (_) {
-      return const Left(CacheFailure(message: ''));
+    } on Exception catch (e) {
+      return Left(handleException(e));
     }
   }
 
@@ -29,10 +29,8 @@ class BarterRepositoryImpl extends BarterRepository {
     try {
       final result = await dataSource.getBarterItem(id);
       return Right(result);
-    } on ServerException catch (_) {
-      return const Left(ServerFailure(message: ''));
-    } on CacheException catch (_) {
-      return const Left(CacheFailure(message: ''));
+    } on Exception catch (e) {
+      return Left(handleException(e));
     }
   }
 
@@ -55,10 +53,8 @@ class BarterRepositoryImpl extends BarterRepository {
     try {
       final result = await dataSource.updateBarterItem(barterItem);
       return Right(result);
-    } on ServerException catch (_) {
-      return const Left(ServerFailure(message: ''));
-    } on CacheException catch (_) {
-      return const Left(CacheFailure(message: ''));
+    } on Exception catch (e) {
+      return Left(handleException(e));
     }
   }
 
@@ -67,10 +63,8 @@ class BarterRepositoryImpl extends BarterRepository {
     try {
       final result = await dataSource.deleteBarterItem(id);
       return Right(result);
-    } on ServerException catch (_) {
-      return const Left(ServerFailure(message: ''));
-    } on CacheException catch (_) {
-      return const Left(CacheFailure(message: ''));
+    } on Exception catch (e) {
+      return Left(handleException(e));
     }
   }
 }

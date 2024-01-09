@@ -1,7 +1,10 @@
 import 'dart:convert';
 
+import 'package:bidex/api/endpoints.dart';
+import 'package:bidex/core/utils/decode.dart';
 import 'package:bidex/features/barter/domain/entities/barter_item.dart';
 import 'package:bidex/features/barter/data/models/barter_item_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 // ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
@@ -30,21 +33,21 @@ class BarterRemoteDataSourceImpl extends BarterRemoteDataSource {
   BarterRemoteDataSourceImpl();
 
   @override
-  Future<BarterItemModel?>? createBarterItem(BarterItem barterItem) async {
-    // http.Response response = await httpClient.post(
-    //     Uri.parse('www.example.com/'),
-    //     headers: {'Content-Type': 'application/json'});
-    try {
-      // if (response.body.isNotEmpty) {
-      //TODO: undo these
-      if (true) {
-        return BarterItemModel.fromBarterItem(barterItem);
-        // ignore: dead_code
-      } else {
-        return null;
-      }
-    } on PlatformException {
-      return null;
+  Future<BarterItemModel?>? createBarterItem(
+      BarterItem barterItem, String authToken, String refreshToken) async {
+    print("$authToken, $refreshToken");
+    http.Response response =
+        await httpClient.post(Uri.parse(EndPoints.createBarterUrl), headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $authToken',
+      'refresh-token': refreshToken,
+    });
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      debugPrint(response.body);
+      return BarterItemModel.fromMap(decode(response.body));
+    } else {
+      throw ServerException(message: parseApiError(response.body));
     }
   }
 
