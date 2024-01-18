@@ -8,11 +8,11 @@ abstract class CreatePostEvent extends Equatable {
 }
 
 class SwitchPostTypeEvent extends CreatePostEvent {
-  final int page;
-  const SwitchPostTypeEvent({required this.page});
+  final PostType type;
+  const SwitchPostTypeEvent({required this.type});
 
   @override
-  List<Object> get props => [page];
+  List<Object> get props => [type];
 }
 
 class SubmitPost extends CreatePostEvent {}
@@ -25,5 +25,3 @@ class PostSubmitted extends CreatePostEvent {
   @override
   List<Object> get props => [didSucceed, error];
 }
-
-class InitialiseCreatePost extends CreatePostEvent {}

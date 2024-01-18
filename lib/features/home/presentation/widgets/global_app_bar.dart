@@ -1,12 +1,11 @@
 import 'package:bidex/common/widgets/navbar/nav_action_button.dart';
 import 'package:bidex/common/widgets/translucent_app_bar.dart';
-import 'package:bidex/features/add_post/presentation/pages/add_post_page.dart';
+import 'package:bidex/features/add_post/presentation/pages/create_gift_page.dart';
 import 'package:bidex/features/direct_messages/presentation/pages/chat_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/transitions/route_transitions.dart';
-import '../../../direct_messages/presentation/pages/direct_messages_page.dart';
 
 class GlobalAppBar extends StatefulWidget {
   final bool implyLeading;
@@ -22,7 +21,11 @@ class GlobalAppBar extends StatefulWidget {
 
 class _GlobalAppBarState extends State<GlobalAppBar> {
   void navigateToCreatePostPage() {
-    Navigator.push(context, fadeInRoute(const AddPostPage()));
+    Navigator.push(
+        context,
+        fadeInRoute(const CreateGiftPage(
+          first: true,
+        )));
   }
 
   @override

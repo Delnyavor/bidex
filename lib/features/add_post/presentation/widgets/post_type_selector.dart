@@ -1,15 +1,18 @@
 import 'package:bidex/common/app_colors.dart';
 import 'package:bidex/common/transitions/route_transitions.dart';
+import 'package:bidex/core/utils/extensions_string.dart';
 import 'package:bidex/features/add_post/presentation/bloc/create_post_bloc.dart';
 import 'package:bidex/features/add_post/presentation/pages/create_auction_page.dart';
 import 'package:bidex/features/add_post/presentation/pages/create_gift_page.dart';
 import 'package:bidex/features/add_post/presentation/pages/create_barter_page.dart';
+import 'package:bidex/features/profile/domain/entities/user_post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PostTypeSelector extends StatefulWidget {
   final bool enabled;
-  const PostTypeSelector({super.key, this.enabled = true});
+  final PostType? type;
+  const PostTypeSelector({super.key, this.enabled = true, this.type});
 
   @override
   State<PostTypeSelector> createState() => _PostTypeSelectorState();
@@ -20,11 +23,8 @@ class _PostTypeSelectorState extends State<PostTypeSelector> {
   late CreatePostBloc bloc;
   double padding = 16;
 
-  List<String> types = [
-    'Gift',
-    'Auction',
-    'Barter',
-  ];
+  late List<PostType> types;
+
   List<IconData> icons = [
     Icons.card_giftcard,
     Icons.gavel_rounded,
@@ -36,7 +36,7 @@ class _PostTypeSelectorState extends State<PostTypeSelector> {
     CreateBarterPage(),
   ];
 
-  late int page;
+  late PostType type;
 
   @override
   void didChangeDependencies() {
@@ -44,7 +44,9 @@ class _PostTypeSelectorState extends State<PostTypeSelector> {
 
     width = MediaQuery.of(context).size.width - padding * 2;
     bloc = BlocProvider.of<CreatePostBloc>(context);
-    page = bloc.state.page;
+    types = PostType.values;
+    type = widget.type ?? bloc.state.type;
+    print(bloc.state.type);
   }
 
   @override
@@ -55,21 +57,10 @@ class _PostTypeSelectorState extends State<PostTypeSelector> {
     );
   }
 
-  Widget dropdown() {
-    return DropdownButton(
-      value: types[page],
-      items:
-          types.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
-      onChanged: (value) {
-        bloc.add(SwitchPostTypeEvent(page: types.indexOf(value!)));
-      },
-    );
-  }
-
   Widget menu() {
-    return DropdownMenu<String>(
+    return DropdownMenu<PostType>(
         enabled: widget.enabled,
-        initialSelection: types[page],
+        initialSelection: type,
         width: width,
         textStyle: textStyle(),
         inputDecorationTheme: InputDecorationTheme(
@@ -86,7 +77,7 @@ class _PostTypeSelectorState extends State<PostTypeSelector> {
             .map(
               (e) => DropdownMenuEntry(
                 value: e,
-                label: e,
+                label: e.name.toString().capitaliseFirst(),
                 leadingIcon: Icon(
                   icons[types.indexOf(e)],
                   color: Colors.black54,
@@ -100,9 +91,13 @@ class _PostTypeSelectorState extends State<PostTypeSelector> {
             )
             .toList(),
         onSelected: (value) {
-          bloc.add(SwitchPostTypeEvent(page: types.indexOf(value!)));
+          print(value);
+          setState(() {
+            type = value!;
+          });
+          bloc.add(SwitchPostTypeEvent(type: value!));
           Navigator.pushReplacement(
-              context, slideInRoute(routes[types.indexOf(value)]));
+              context, fadeInRoute(routes[types.indexOf(value)]));
         });
   }
 

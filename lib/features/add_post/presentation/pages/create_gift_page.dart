@@ -3,6 +3,7 @@ import 'package:bidex/common/widgets/input_field.dart';
 import 'package:bidex/features/giftings/data/models/gift_item_model.dart';
 import 'package:bidex/features/giftings/domain/entities/gift_item.dart';
 import 'package:bidex/features/giftings/presentation/bloc/giftings_bloc.dart';
+import 'package:bidex/features/profile/domain/entities/user_post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,9 +15,12 @@ import '../widgets/post_type_selector.dart';
 
 class CreateGiftPage extends StatefulWidget {
   final Gift? gift;
+  //first initialises the post type selector to this particular page
+  final bool? first;
   const CreateGiftPage({
     super.key,
     this.gift,
+    this.first = false,
   });
 
   @override
@@ -100,6 +104,7 @@ class _CreateGiftPage extends State<CreateGiftPage>
         child: body(),
       ),
       bottomNavbar: bottom(),
+      resizeToAvoidInsets: true,
     );
   }
 
@@ -108,7 +113,7 @@ class _CreateGiftPage extends State<CreateGiftPage>
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       children: [
         const SizedBox(height: 35),
-        const PostTypeSelector(),
+        const PostTypeSelector(type: PostType.gift),
         const SizedBox(height: 20),
         ImagePickerList(
           onRetrieved: (s) {

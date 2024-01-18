@@ -1,21 +1,30 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+// ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as path;
 
-class FormImage {
-  final String name;
-  final Uint8List data;
+class ApiImage {
+  final String? name;
+  final Uint8List? bytes;
+  final String? url;
 
-  FormImage({required this.name, required this.data});
+  ApiImage({this.name, this.bytes, this.url})
+      : assert(
+            (name == null && bytes == null) || (name != null && bytes != null));
 
-  factory FormImage.fromFile(File imageFile) {
-    return FormImage(
-        name: path.basename(imageFile.path), data: imageFile.readAsBytesSync());
+  factory ApiImage.fromFile(File imageFile) {
+    return ApiImage(
+        name: path.basename(imageFile.path),
+        bytes: imageFile.readAsBytesSync());
   }
-}
 
-class DataImage {
-  final String url;
-  DataImage({required this.url});
+  Map<String, dynamic> toJson() {
+    return {
+      'fileName': name,
+      'base64':
+          "/9j/4AAQSkZJRgABAQEAYABgAAD/${base64Encode(bytes as List<int>)}",
+    };
+  }
 }

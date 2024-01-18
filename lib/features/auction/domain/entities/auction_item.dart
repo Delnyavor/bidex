@@ -1,3 +1,4 @@
+import 'package:bidex/features/add_post/domain/entitites/image.dart';
 import 'package:equatable/equatable.dart';
 
 class AuctionItem extends Equatable {
@@ -11,7 +12,7 @@ class AuctionItem extends Equatable {
   final String description;
   final String location;
   final double rating;
-  final List<String> imageUrls;
+  final List<ApiImage> images;
   final List<String> tags;
 
   const AuctionItem({
@@ -21,7 +22,7 @@ class AuctionItem extends Equatable {
     required this.userImg,
     required this.location,
     required this.rating,
-    required this.imageUrls,
+    required this.images,
     required this.tags,
     required this.name,
     required this.category,
@@ -37,7 +38,7 @@ class AuctionItem extends Equatable {
         userImg,
         location,
         rating,
-        imageUrls,
+        images,
         tags,
         name,
         category,

@@ -22,7 +22,7 @@ class AuctionRemoteDataSourceImpl extends AuctionRemoteDataSource {
     "username": "username",
     "location": "location",
     "rating": 4.5,
-    "imageUrls": ["stock0.jpg", "stock1.jpg", "stock2.jpg", "stock3.jpg"],
+    "images": ["stock0.jpg", "stock1.jpg", "stock2.jpg", "stock3.jpg"],
     "tags": ["ps5", "ps4", "gaming pc", "xbox series"],
     "category": "",
     "description": "",
@@ -34,15 +34,20 @@ class AuctionRemoteDataSourceImpl extends AuctionRemoteDataSource {
   @override
   Future<AuctionItemModel?>? createAuction(
       AuctionItem auction, String authToken, String refreshToken) async {
-    http.Response response =
-        await httpClient.post(Uri.parse(EndPoints.createAuctionUrl), headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $authToken',
-      'refresh-token': refreshToken,
-    }).timeout(const Duration(seconds: 2));
+    http.Response response = await httpClient
+        .post(Uri.parse(EndPoints.createAuctionUrl),
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer $authToken',
+              'refresh-token': refreshToken,
+            },
+            body: jsonEncode((auction as AuctionItemModel).toMap()))
+        .timeout(const Duration(seconds: 5));
 
+    print(response.body);
+    print(jsonEncode((auction).toMap()));
+    // print(auction.images.first.bytes);
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      print(response.body);
       return AuctionItemModel.fromMap(decode(response.body));
     } else {
       throw ServerException(message: parseApiError(response.body));

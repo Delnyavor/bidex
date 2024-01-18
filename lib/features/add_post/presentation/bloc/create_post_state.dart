@@ -2,19 +2,20 @@ part of 'create_post_bloc.dart';
 
 class CreatePostState extends Equatable {
   const CreatePostState(
-      {this.page = 0, this.pageStatus = CreatePostPageStatus.initial});
-  final int page;
+      {this.type = PostType.gift,
+      this.pageStatus = CreatePostPageStatus.initial});
+  final PostType type;
   final CreatePostPageStatus pageStatus;
 
-  CreatePostState copyWith({int? page, CreatePostPageStatus? pageStatus}) {
+  CreatePostState copyWith({PostType? type, CreatePostPageStatus? pageStatus}) {
     return CreatePostState(
-      page: page ?? this.page,
+      type: type ?? this.type,
       pageStatus: pageStatus ?? this.pageStatus,
     );
   }
 
   @override
-  List<Object> get props => [page, pageStatus];
+  List<Object> get props => [type, pageStatus];
 }
 
 enum CreatePostPageStatus {

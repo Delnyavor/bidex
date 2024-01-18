@@ -1,3 +1,4 @@
+import 'package:bidex/features/add_post/domain/entitites/image.dart';
 import 'package:bidex/features/auction/domain/entities/auction_item.dart';
 
 class AuctionItemModel extends AuctionItem {
@@ -7,7 +8,7 @@ class AuctionItemModel extends AuctionItem {
       required super.userId,
       required super.location,
       required super.rating,
-      required super.imageUrls,
+      required super.images,
       required super.tags,
       required super.name,
       required super.category,
@@ -16,13 +17,17 @@ class AuctionItemModel extends AuctionItem {
       required super.userImg});
 
   factory AuctionItemModel.fromMap(Map data) {
+    var d = data['images'] as List<String>;
+
+    var imageList = d.map((e) => ApiImage(url: e)).toList();
+
     return AuctionItemModel(
       id: data['id'],
       userId: data['userId'],
       username: data['username'],
       location: data['location'],
       rating: data['rating'],
-      imageUrls: data['imageUrls'],
+      images: imageList,
       tags: data['tags'],
       category: data['category'],
       description: data['description'],
@@ -33,13 +38,15 @@ class AuctionItemModel extends AuctionItem {
   }
 
   Map<String, dynamic> toMap() {
+    var imagelist = images.map((e) => e.toJson()).toList();
+
     return {
       'id': id,
       'userId': userId,
       'username': username,
       'location': location,
       'rating': rating,
-      'imageUrls': imageUrls,
+      'images': imagelist,
       'tags': tags,
       'category': category,
       'description': description,

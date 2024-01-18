@@ -51,7 +51,7 @@ class _AuctionWidgetState extends State<AuctionWidget> {
           children: [
             Carousel(
               controller: controller,
-              images: widget.auction.imageUrls,
+              images: widget.auction.images.map((e) => e.url!).toList(),
             ),
             Padding(
               padding: const EdgeInsets.all(10),
@@ -61,7 +61,7 @@ class _AuctionWidgetState extends State<AuctionWidget> {
                   Expanded(child: overlayBuilder(itemDetails())),
                   CarouselIndicator(
                       controller: controller,
-                      count: widget.auction.imageUrls.length),
+                      count: widget.auction.images.length),
                   infoBar(),
                 ],
               ),

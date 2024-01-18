@@ -1,3 +1,4 @@
+import 'package:bidex/features/profile/domain/entities/user_post.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -9,12 +10,11 @@ class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
     on<SubmitPost>(onSubmitPostEvent);
     on<PostSubmitted>(onPostEventSubmitted);
     on<SwitchPostTypeEvent>(onSwitchPostTypeEvent);
-    on<InitialiseCreatePost>(onInitialise);
   }
 
   onSwitchPostTypeEvent(
       SwitchPostTypeEvent event, Emitter<CreatePostState> emit) {
-    emit(state.copyWith(page: event.page));
+    emit(state.copyWith(type: event.type));
   }
 
   onSubmitPostEvent(SubmitPost event, Emitter<CreatePostState> emit) {
@@ -31,9 +31,5 @@ class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
       ),
     );
     print('submitted');
-  }
-
-  onInitialise(InitialiseCreatePost event, Emitter<CreatePostState> emit) {
-    emit(state.copyWith(pageStatus: CreatePostPageStatus.initial, page: 0));
   }
 }

@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:bidex/core/utils/decode.dart';
 import 'package:bidex/features/giftings/domain/entities/gift_item.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import '../../../../core/error/exceptions.dart';
@@ -42,6 +42,8 @@ class GiftRemoteDataSourceImpl extends GiftRemoteDataSource {
           'refresh-token': refreshToken,
         },
         body: jsonEncode((gift as GiftModel).toMap()));
+
+    debugPrint(response.body);
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       return GiftModel.fromMap(decode(response.body));

@@ -3,8 +3,10 @@ import 'package:bidex/common/widgets/input_field.dart';
 import 'package:bidex/common/widgets/modal_form/button_cancel.dart';
 import 'package:bidex/common/widgets/modal_form/button_proceed.dart';
 import 'package:bidex/features/add_post/presentation/bloc/create_post_bloc.dart';
+import 'package:bidex/features/add_post/presentation/widgets/post_type_selector.dart';
 import 'package:bidex/features/barter/domain/entities/barter_item.dart';
 import 'package:bidex/features/home/presentation/widgets/global_app_bar.dart';
+import 'package:bidex/features/profile/domain/entities/user_post.dart';
 import 'package:bidex/features/scaffolding/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -120,14 +122,18 @@ class _CreateBarterPageState extends State<CreateBarterPage> {
         },
         child: body(),
       ),
+      resizeToAvoidInsets: true,
       bottomNavbar: bottom(),
     );
   }
 
   Widget body() {
-    return Column(
+    return ListView(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
       children: [
         const SizedBox(height: 35),
+        const PostTypeSelector(),
+        const SizedBox(height: 20),
         ImagePickerList(
           onRetrieved: (s) {
             images.add(s);

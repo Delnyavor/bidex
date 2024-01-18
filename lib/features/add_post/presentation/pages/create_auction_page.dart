@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:bidex/common/widgets/image_picker_list.dart';
 import 'package:bidex/common/widgets/input_field.dart';
+import 'package:bidex/features/add_post/domain/entitites/image.dart';
+import 'package:bidex/features/auction/data/models/auction_item_model.dart';
 import 'package:bidex/features/auction/domain/entities/auction_item.dart';
 import 'package:bidex/features/auction/presentation/bloc/auction_bloc.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +33,7 @@ class _CreateAuctionPage extends State<CreateAuctionPage>
   TextEditingController description = TextEditingController();
   TextEditingController location = TextEditingController();
   TextEditingController starting = TextEditingController();
-  List<String> images = [];
+  List<ApiImage> images = [];
   late AuctionBloc bloc;
   bool isEditing = false;
 
@@ -97,6 +101,7 @@ class _CreateAuctionPage extends State<CreateAuctionPage>
         },
         child: body(),
       ),
+      resizeToAvoidInsets: true,
       bottomNavbar: bottom(),
     );
   }
@@ -110,10 +115,12 @@ class _CreateAuctionPage extends State<CreateAuctionPage>
         const SizedBox(height: 20),
         ImagePickerList(
           onRetrieved: (s) {
-            images.add(s);
+            images.add(ApiImage.fromFile(File(s)));
           },
           onRemoved: (s) {
-            images.remove(s);
+            images.removeWhere(
+              (image) => s.contains(image.name!),
+            );
           },
         ),
         InputField(label: 'Name', controller: name),
@@ -142,14 +149,14 @@ class _CreateAuctionPage extends State<CreateAuctionPage>
             onPressed: () {
               bloc.add(
                 CreateAuctionEvent(
-                  item: AuctionItem(
+                  item: AuctionItemModel(
                     id: 1,
                     userId: "userId",
                     username: "username",
                     location: "location",
                     rating: 0,
                     userImg: "userImg",
-                    imageUrls: images,
+                    images: images,
                     description: description.text,
                     tags: const [],
                     category: '',

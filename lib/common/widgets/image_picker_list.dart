@@ -1,13 +1,18 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:bidex/common/widgets/image_picker_widget.dart';
 import 'package:flutter/material.dart';
 
 class ImagePickerList extends StatefulWidget {
   const ImagePickerList(
-      {super.key, required this.onRetrieved, required this.onRemoved});
+      {super.key,
+      required this.onRetrieved,
+      required this.onRemoved,
+      this.limit = 4});
   final Function(String) onRetrieved;
   final Function(String) onRemoved;
+  final int limit;
 
   @override
   State<ImagePickerList> createState() => _ImagePickerListState();
@@ -40,7 +45,7 @@ class _ImagePickerListState extends State<ImagePickerList> {
         ),
         scrollDirection: Axis.horizontal,
         itemBuilder: (ctx, index) {
-          if (index == images.length) {
+          if (index == images.length && index != widget.limit) {
             return ImagePickerWidget(
               onRetrieved: (i) {
                 onRetrieved(i, index);
@@ -50,7 +55,7 @@ class _ImagePickerListState extends State<ImagePickerList> {
             return image(images[index]);
           }
         },
-        itemCount: images.length + 1,
+        itemCount: min(images.length + 1, widget.limit),
       ),
     );
   }
