@@ -19,7 +19,7 @@ class AuthState extends Equatable {
     this.verificationPageStatus = VerificationPageStatus.none,
     this.registrationUserDetailsPageStatus =
         RegistrationUserDetailsPageStatus.none,
-    this.user = UserModel.empty,
+    this.user,
   }) : super();
   final RegistrationPageStatus pageStatus;
   // final FormzStatus formzStatus;
@@ -37,7 +37,7 @@ class AuthState extends Equatable {
   final bool hasBeenVerified;
   final VerificationPageStatus verificationPageStatus;
   final RegistrationUserDetailsPageStatus registrationUserDetailsPageStatus;
-  final User user;
+  final User? user;
 
   AuthState copyWith({
     RegistrationPageStatus? pageStatus,
@@ -82,7 +82,7 @@ class AuthState extends Equatable {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         pageStatus,
         // formzStatus,
         email,

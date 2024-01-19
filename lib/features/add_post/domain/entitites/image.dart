@@ -20,6 +20,11 @@ class ApiImage {
         bytes: imageFile.readAsBytesSync());
   }
 
+  factory ApiImage.fromPath(String path) {
+    var imageFile = File(path);
+    return ApiImage.fromFile(imageFile);
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'fileName': name,

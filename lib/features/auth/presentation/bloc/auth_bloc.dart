@@ -1,3 +1,4 @@
+import 'package:bidex/features/add_post/domain/entitites/image.dart';
 import 'package:bidex/features/auth/data/datasources/local_data_source_impl.dart';
 import 'package:bidex/features/auth/data/models/email.dart';
 import 'package:bidex/features/auth/data/models/image.dart';
@@ -178,7 +179,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     return UserModel(
       id: currentUser.id,
-      photo: '',
+      photo: ApiImage.fromPath(state.image.value),
       firstName: state.firstName.value,
       lastName: state.lastName.value,
       username: state.username.value,

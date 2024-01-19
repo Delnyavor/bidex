@@ -1,3 +1,4 @@
+import 'package:bidex/features/add_post/domain/entitites/image.dart';
 import 'package:equatable/equatable.dart';
 
 class User extends Equatable {
@@ -9,7 +10,7 @@ class User extends Equatable {
   final String refreshToken;
   final String idToken;
   final String phone;
-  final String photo;
+  final ApiImage photo;
 
   const User({
     required this.id,

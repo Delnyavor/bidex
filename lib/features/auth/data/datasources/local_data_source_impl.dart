@@ -1,3 +1,4 @@
+import 'package:bidex/features/add_post/domain/entitites/image.dart';
 import 'package:bidex/features/auth/data/datasources/local_data_source.dart';
 import 'package:bidex/features/auth/domain/entities/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,7 +32,7 @@ class LocalAuthSourceImpl extends LocalAuthSource {
     return User(
       id: prefs.getString(CacheKeys.loggedId) ?? '',
       email: prefs.getString(CacheKeys.loggedUser) ?? '',
-      photo: prefs.getString(CacheKeys.photo) ?? '',
+      photo: ApiImage(url: prefs.getString(CacheKeys.photo)),
       firstName: prefs.getString(CacheKeys.firstName) ?? '',
       lastName: prefs.getString(CacheKeys.lastName) ?? '',
       username: prefs.getString(CacheKeys.username) ?? '',
@@ -54,7 +55,7 @@ class LocalAuthSourceImpl extends LocalAuthSource {
     await prefs.setString(CacheKeys.firstName, user.firstName);
     await prefs.setString(CacheKeys.lastName, user.lastName);
     await prefs.setString(CacheKeys.phone, user.phone);
-    await prefs.setString(CacheKeys.photo, user.photo);
+    await prefs.setString(CacheKeys.photo, user.photo.url ?? '');
   }
 }
 

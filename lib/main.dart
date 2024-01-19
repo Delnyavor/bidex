@@ -107,7 +107,7 @@ class Landing extends StatelessWidget {
     Future.delayed(const Duration(seconds: 1), () {
       Navigator.push(
         context,
-        // fadeInRoute(isLogged ? const HomePage() : const HomePage()),
+        // fadeInRoute(isLogged ? const RegistrationPage() : const HomePage()),
         fadeInRoute(isLogged ? const HomePage() : const LoginPage()),
       );
     });
