@@ -9,7 +9,8 @@ abstract class BarterRemoteDataSource {
   ///saves the [BarterItem] onto the local device
   ///
   ///Throws [CacheException] if not data is present
-  Future<BarterItem?>? createBarterItem(BarterItem barterItem);
+  Future<BarterItem?>? createBarterItem(
+      BarterItem barter, String authToken, String refreshToken);
 
   ///gets the cached [BarterItem] saved on the local device
   ///

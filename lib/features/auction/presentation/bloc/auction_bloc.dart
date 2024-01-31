@@ -51,7 +51,6 @@ class AuctionBloc extends Bloc<AuctionEvent, AuctionState> {
 
   onCreateAuctionEvent(
       CreateAuctionEvent event, Emitter<AuctionState> emit) async {
-    print('called');
     User user = await localAuthSource.getUser();
     final res = await createAuction(
       auctionItem: event.item,

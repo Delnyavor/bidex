@@ -1,5 +1,6 @@
 import 'package:bidex/core/error/failures.dart';
-import 'package:bidex/di/injection_container.dart';
+import 'package:bidex/features/auth/data/datasources/local_data_source.dart';
+import 'package:bidex/features/auth/domain/entities/user.dart';
 import 'package:bidex/features/barter/domain/entities/barter_item.dart';
 import 'package:bidex/features/barter/domain/usecases/get_all_barters.dart';
 import 'package:bidex/features/barter/domain/usecases/get_barter.dart';
@@ -20,6 +21,7 @@ class BarterBloc extends Bloc<BarterEvent, BarterState> {
   final CreateBarter createBarter;
   final DeleteBarter deleteBarter;
   final UpdateBarter updateBarter;
+  final LocalAuthSource localAuthSource;
 
   BarterBloc({
     required this.getAllBarters,
@@ -27,6 +29,7 @@ class BarterBloc extends Bloc<BarterEvent, BarterState> {
     required this.createBarter,
     required this.deleteBarter,
     required this.updateBarter,
+    required this.localAuthSource,
   }) : super(const BarterState()) {
     on<FetchBarterItems>(onFetchItemsEvent, transformer: (events, mapper) {
       return events
@@ -47,9 +50,14 @@ class BarterBloc extends Bloc<BarterEvent, BarterState> {
 
   void onCreateBarterEvent(
       CreateBarterEvent event, Emitter<BarterState> emit) async {
-    final res = await createBarter(barterItem: event.item);
+    User user = await localAuthSource.getUser();
+    final result = await createBarter(
+      barterItem: event.item,
+      authToken: user.idToken,
+      refreshToken: user.refreshToken,
+    );
 
-    if (res is Failure) {
+    if (result is Failure) {
       emit(
         state.copyWith(createBarterStatus: CreateBarterStatus.creationError),
       );

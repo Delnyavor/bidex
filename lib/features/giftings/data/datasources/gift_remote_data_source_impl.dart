@@ -34,14 +34,19 @@ class GiftRemoteDataSourceImpl extends GiftRemoteDataSource {
   @override
   Future<GiftModel?>? createGift(
       Gift gift, String authToken, String refreshToken) async {
-    http.Response response = await httpClient.post(
-        Uri.parse('https://bidex.up.railway.app/api/posts/'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $authToken',
-          'refresh-token': refreshToken,
-        },
-        body: jsonEncode((gift as GiftModel).toMap()));
+    var payload = jsonEncode((gift as GiftModel).toMap());
+
+    debugPrint(payload);
+
+    http.Response response = await httpClient
+        .post(Uri.parse('https://bidex.up.railway.app/api/posts/'),
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer $authToken',
+              'refresh-token': refreshToken,
+            },
+            body: payload)
+        .timeout(const Duration(seconds: 15));
 
     debugPrint(response.body);
 

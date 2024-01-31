@@ -1,12 +1,15 @@
+import 'dart:io';
+
 import 'package:bidex/common/widgets/image_picker_list.dart';
 import 'package:bidex/common/widgets/input_field.dart';
 import 'package:bidex/common/widgets/modal_form/button_cancel.dart';
 import 'package:bidex/common/widgets/modal_form/button_proceed.dart';
+import 'package:bidex/features/add_post/domain/entitites/image.dart';
 import 'package:bidex/features/add_post/presentation/bloc/create_post_bloc.dart';
 import 'package:bidex/features/add_post/presentation/widgets/post_type_selector.dart';
+import 'package:bidex/features/barter/data/models/barter_item_model.dart';
 import 'package:bidex/features/barter/domain/entities/barter_item.dart';
 import 'package:bidex/features/home/presentation/widgets/global_app_bar.dart';
-import 'package:bidex/features/profile/domain/entities/user_post.dart';
 import 'package:bidex/features/scaffolding/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,7 +30,7 @@ class _CreateBarterPageState extends State<CreateBarterPage> {
   TextEditingController description = TextEditingController();
   TextEditingController location = TextEditingController();
   TextEditingController desiredItemCtrl = TextEditingController();
-  List<String> images = [];
+  List<ApiImage> images = [];
   List<String> desiredItems = [];
   bool hasDesiredItem = false;
 
@@ -136,10 +139,12 @@ class _CreateBarterPageState extends State<CreateBarterPage> {
         const SizedBox(height: 20),
         ImagePickerList(
           onRetrieved: (s) {
-            images.add(s);
+            images.add(ApiImage.fromFile(File(s)));
           },
           onRemoved: (s) {
-            images.remove(s);
+            images.removeWhere(
+              (image) => s.contains(image.name!),
+            );
           },
         ),
         InputField(label: 'Name', controller: name),
@@ -178,9 +183,9 @@ class _CreateBarterPageState extends State<CreateBarterPage> {
             onPressed: () {
               bloc.add(
                 CreateBarterEvent(
-                  item: BarterItem(
+                  item: BarterItemModel(
                     id: 1,
-                    imageUrls: images,
+                    images: images,
                     userId: '',
                     username: '',
                     itemName: name.text,

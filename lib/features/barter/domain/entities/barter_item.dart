@@ -1,3 +1,4 @@
+import 'package:bidex/features/add_post/domain/entitites/image.dart';
 import 'package:equatable/equatable.dart';
 
 class BarterItem extends Equatable {
@@ -7,7 +8,7 @@ class BarterItem extends Equatable {
   final String itemName;
   final String location;
   final double rating;
-  final List<String> imageUrls;
+  final List<ApiImage> images;
   final List<String> tags;
   final String description;
   final String category;
@@ -20,7 +21,7 @@ class BarterItem extends Equatable {
     required this.itemName,
     required this.location,
     required this.rating,
-    required this.imageUrls,
+    required this.images,
     required this.tags,
     required this.description,
     required this.category,
@@ -34,7 +35,7 @@ class BarterItem extends Equatable {
         itemName,
         location,
         rating,
-        imageUrls,
+        images,
         tags,
         description,
         category,

@@ -76,11 +76,11 @@ class _BarterDetailsPageState extends State<BarterDetailsPage>
         child: Stack(
           children: [
             Carousel(
-              images: widget.item.imageUrls,
+              images: widget.item.images.map((e) => e.url!).toList(),
               controller: controller,
             ),
             CarouselIndicator(
-                controller: controller, count: widget.item.imageUrls.length),
+                controller: controller, count: widget.item.images.length),
           ],
         ),
       ),

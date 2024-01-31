@@ -67,7 +67,7 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
         child: Stack(
           children: [
             Carousel(
-              images: widget.barterItem.imageUrls,
+              images: widget.barterItem.images.map((e) => e.url!).toList(),
               controller: controller,
             ),
             if (isOpen) ...[overlayBuilder(backdrop())],
@@ -78,7 +78,7 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
                   Flexible(child: overlayBuilder(itemDetails())),
                   CarouselIndicator(
                       controller: controller,
-                      count: widget.barterItem.imageUrls.length),
+                      count: widget.barterItem.images.length),
                 ],
               ),
             ),

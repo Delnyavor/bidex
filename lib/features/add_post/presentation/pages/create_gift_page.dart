@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:bidex/common/widgets/image_picker_list.dart';
 import 'package:bidex/common/widgets/input_field.dart';
+import 'package:bidex/features/add_post/domain/entitites/image.dart';
 import 'package:bidex/features/giftings/data/models/gift_item_model.dart';
 import 'package:bidex/features/giftings/domain/entities/gift_item.dart';
 import 'package:bidex/features/giftings/presentation/bloc/giftings_bloc.dart';
@@ -34,7 +37,7 @@ class _CreateGiftPage extends State<CreateGiftPage>
   TextEditingController description = TextEditingController();
   TextEditingController criteria = TextEditingController();
   TextEditingController location = TextEditingController();
-  List<String> images = [];
+  List<ApiImage> images = [];
 
   late GiftingsBloc bloc;
 
@@ -117,10 +120,12 @@ class _CreateGiftPage extends State<CreateGiftPage>
         const SizedBox(height: 20),
         ImagePickerList(
           onRetrieved: (s) {
-            images.add(s);
+            images.add(ApiImage.fromFile(File(s)));
           },
           onRemoved: (s) {
-            images.remove(s);
+            images.removeWhere(
+              (image) => s.contains(image.name!),
+            );
           },
         ),
         InputField(label: 'Name', controller: name),
@@ -143,7 +148,7 @@ class _CreateGiftPage extends State<CreateGiftPage>
           id: '1',
           userId: "",
           username: "",
-          location: "",
+          location: location.text,
           userProfileImg: "",
           images: images,
           name: name.text,

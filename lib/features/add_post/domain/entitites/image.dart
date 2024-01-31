@@ -28,8 +28,7 @@ class ApiImage {
   Map<String, dynamic> toJson() {
     return {
       'fileName': name,
-      'base64':
-          "/9j/4AAQSkZJRgABAQEAYABgAAD/${base64Encode(bytes as List<int>)}",
+      'base64': base64Encode(bytes as List<int>),
     };
   }
 }

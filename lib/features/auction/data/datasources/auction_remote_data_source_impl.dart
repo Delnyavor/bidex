@@ -5,6 +5,7 @@ import 'package:bidex/core/utils/decode.dart';
 import 'package:bidex/features/auction/data/datasources/auction_remote_data_source.dart';
 import 'package:bidex/features/auction/data/models/auction_item_model.dart';
 import 'package:bidex/features/auction/domain/entities/auction_item.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 // ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
@@ -42,11 +43,9 @@ class AuctionRemoteDataSourceImpl extends AuctionRemoteDataSource {
               'refresh-token': refreshToken,
             },
             body: jsonEncode((auction as AuctionItemModel).toMap()))
-        .timeout(const Duration(seconds: 5));
+        .timeout(const Duration(seconds: 15));
 
-    print(response.body);
-    print(jsonEncode((auction).toMap()));
-    // print(auction.images.first.bytes);
+    debugPrint(response.body);
     if (response.statusCode >= 200 && response.statusCode < 300) {
       return AuctionItemModel.fromMap(decode(response.body));
     } else {

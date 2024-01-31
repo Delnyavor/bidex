@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bidex/features/auth/data/datasources/auth_data_source.dart';
 import 'package:bidex/features/auth/data/datasources/local_data_source.dart';
 import 'package:bidex/features/auth/domain/entities/user.dart';
@@ -113,6 +115,12 @@ Failure handleException(Exception e) {
     case FirebaseException:
       {
         result = ServerFailure(message: e.toString());
+      }
+      break;
+    case TimeoutException:
+      {
+        result =
+            const ServerFailure(message: 'Request timeout. Please try again.');
       }
       break;
     default:

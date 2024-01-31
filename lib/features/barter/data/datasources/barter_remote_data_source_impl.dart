@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:bidex/core/utils/decode.dart';
 import 'package:bidex/features/barter/domain/entities/barter_item.dart';
 import 'package:bidex/features/barter/data/models/barter_item_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 // ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
@@ -19,7 +21,7 @@ class BarterRemoteDataSourceImpl extends BarterRemoteDataSource {
     "username": "username",
     "location": "location",
     "rating": 4.5,
-    "imageUrls": ["stock0.jpg", "stock1.jpg", "stock2.jpg", "stock3.jpg"],
+    "images": ["stock0.jpg", "stock1.jpg", "stock2.jpg", "stock3.jpg"],
     "tags": ["ps5", "ps4", "gaming pc", "xbox series"],
     "item_name": "The Blue Dragon",
     "category": 'category',
@@ -30,21 +32,29 @@ class BarterRemoteDataSourceImpl extends BarterRemoteDataSource {
   BarterRemoteDataSourceImpl();
 
   @override
-  Future<BarterItemModel?>? createBarterItem(BarterItem barterItem) async {
-    // http.Response response = await httpClient.post(
-    //     Uri.parse('www.example.com/'),
-    //     headers: {'Content-Type': 'application/json'});
-    try {
-      // if (response.body.isNotEmpty) {
-      //TODO: undo these
-      if (true) {
-        return BarterItemModel.fromBarterItem(barterItem);
-        // ignore: dead_code
-      } else {
-        return null;
-      }
-    } on PlatformException {
-      return null;
+  @override
+  Future<BarterItemModel?>? createBarterItem(
+      BarterItem barter, String authToken, String refreshToken) async {
+    var payload = jsonEncode((barter as BarterItemModel).toMap());
+
+    debugPrint(payload);
+
+    http.Response response = await httpClient
+        .post(Uri.parse('https://bidex.up.railway.app/api/posts/'),
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer $authToken',
+              'refresh-token': refreshToken,
+            },
+            body: payload)
+        .timeout(const Duration(seconds: 15));
+
+    debugPrint(response.body);
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return BarterItemModel.fromMap(decode(response.body));
+    } else {
+      throw ServerException(message: parseApiError(response.body));
     }
   }
 

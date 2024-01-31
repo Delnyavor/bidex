@@ -4,6 +4,7 @@ import 'package:bidex/features/auction/data/datasources/auction_remote_data_sour
 import 'package:bidex/features/auction/domain/repositories/auction_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:bidex/features/auction/domain/entities/auction_item.dart';
+import 'package:flutter/foundation.dart';
 
 class AuctionRepositoryImpl extends AuctionRepository {
   final AuctionRemoteDataSource dataSource;
@@ -18,7 +19,7 @@ class AuctionRepositoryImpl extends AuctionRepository {
           await dataSource.createAuction(auctionItem, authToken, refreshToken);
       return Right(result);
     } on Exception catch (e) {
-      print(e);
+      debugPrint(e.toString());
       return Left(handleException(e));
     }
   }

@@ -1,3 +1,4 @@
+import 'package:bidex/features/add_post/domain/entitites/image.dart';
 import 'package:bidex/features/barter/domain/entities/barter_item.dart';
 
 class BarterItemModel extends BarterItem {
@@ -9,19 +10,23 @@ class BarterItemModel extends BarterItem {
       required super.location,
       required super.rating,
       required super.itemName,
-      required super.imageUrls,
+      required super.images,
       required super.tags,
       required super.desiredItems,
       required super.id});
 
   factory BarterItemModel.fromMap(Map data) {
+    var d = data['images'] as List<dynamic>;
+
+    var imageList = d.map((e) => ApiImage(url: e)).toList();
+
     return BarterItemModel(
       userId: data['userId'],
       username: data['username'],
       location: data['location'],
       rating: data['rating'],
       itemName: data['item_name'],
-      imageUrls: data['imageUrls'],
+      images: imageList,
       tags: data['tags'],
       category: data['category'],
       description: data['description'],
@@ -32,30 +37,33 @@ class BarterItemModel extends BarterItem {
 
   factory BarterItemModel.fromBarterItem(BarterItem item) {
     return BarterItemModel(
-        id: item.id,
-        description: item.description,
-        category: item.category,
-        userId: item.userId,
-        username: item.username,
-        location: item.location,
-        rating: item.rating,
-        itemName: item.itemName,
-        imageUrls: item.imageUrls,
-        tags: item.tags,
-        desiredItems: item.desiredItems);
+      id: item.id,
+      description: item.description,
+      category: item.category,
+      userId: item.userId,
+      username: item.username,
+      location: item.location,
+      rating: item.rating,
+      itemName: item.itemName,
+      images: item.images,
+      tags: item.tags,
+      desiredItems: item.desiredItems,
+    );
   }
 
   Map<String, dynamic> toMap() {
+    var imagelist = images.map((e) => e.toJson()).toList();
+    print(images);
     return {
       'id': id,
       'userId': userId,
       'username': username,
       'location': location,
       'rating': rating,
-      'imageUrls': imageUrls,
+      'images': imagelist,
       'item_name': itemName,
       'tags': tags,
-      'category': category,
+      'category': 'clryy3pci0001mc0zmdv2rsf5',
       'description': description,
       'desired_items': desiredItems,
     };

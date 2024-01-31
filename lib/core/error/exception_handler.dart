@@ -10,6 +10,7 @@ Failure handleException(Exception e) {
       return CacheFailure(message: e.toString());
 
     default:
-      return const GenericOperationFailure(message: 'An error occurred');
+      return const GenericOperationFailure(
+          message: 'An error occurred, plese try again in a few minutes');
   }
 }

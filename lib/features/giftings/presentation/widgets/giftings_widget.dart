@@ -103,7 +103,7 @@ class _GiftWidgetState extends State<GiftWidget> {
         borderRadius: BorderRadius.circular(8),
         child: Stack(children: [
           Carousel(
-            images: widget.gift.images,
+            images: widget.gift.images.map((e) => e.url!).toList(),
             controller: controller,
           ),
           CarouselIndicator(

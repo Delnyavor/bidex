@@ -17,7 +17,7 @@ class AuctionItemModel extends AuctionItem {
       required super.userImg});
 
   factory AuctionItemModel.fromMap(Map data) {
-    var d = data['images'] as List<String>;
+    var d = data['images'] as List<dynamic>;
 
     var imageList = d.map((e) => ApiImage(url: e)).toList();
 
@@ -48,7 +48,7 @@ class AuctionItemModel extends AuctionItem {
       'rating': rating,
       'images': imagelist,
       'tags': tags,
-      'category': category,
+      'category': 'clryy3pci0001mc0zmdv2rsf5',
       'description': description,
       'name': name,
       'starting_price': startingPrice,

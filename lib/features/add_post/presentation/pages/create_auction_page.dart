@@ -155,7 +155,7 @@ class _CreateAuctionPage extends State<CreateAuctionPage>
                     username: "username",
                     location: "location",
                     rating: 0,
-                    userImg: "userImg",
+                    userImg: "",
                     images: images,
                     description: description.text,
                     tags: const [],
