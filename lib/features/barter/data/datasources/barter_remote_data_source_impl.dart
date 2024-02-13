@@ -35,7 +35,6 @@ class BarterRemoteDataSourceImpl extends BarterRemoteDataSource {
   @override
   Future<BarterItemModel?>? createBarterItem(
       BarterItem barterItem, String authToken, String refreshToken) async {
-    print("$authToken, $refreshToken");
     http.Response response =
         await httpClient.post(Uri.parse(EndPoints.createBarterUrl), headers: {
       'Content-Type': 'application/json',

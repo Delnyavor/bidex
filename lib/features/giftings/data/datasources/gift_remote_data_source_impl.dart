@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'dart:io';
 
+import 'package:bidex/api/endpoints.dart';
 import 'package:bidex/core/utils/decode.dart';
 import 'package:bidex/features/giftings/domain/entities/gift_item.dart';
 import 'package:flutter/services.dart';
@@ -34,14 +34,14 @@ class GiftRemoteDataSourceImpl extends GiftRemoteDataSource {
   @override
   Future<GiftModel?>? createGift(
       Gift gift, String authToken, String refreshToken) async {
-    http.Response response = await httpClient.post(
-        Uri.parse('https://bidex.up.railway.app/api/posts/'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $authToken',
-          'refresh-token': refreshToken,
-        },
-        body: jsonEncode((gift as GiftModel).toMap()));
+    http.Response response =
+        await httpClient.post(Uri.parse(EndPoints.createPost),
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer $authToken',
+              'refresh-token': refreshToken,
+            },
+            body: jsonEncode((gift as GiftModel).toMap()));
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       return GiftModel.fromMap(decode(response.body));
