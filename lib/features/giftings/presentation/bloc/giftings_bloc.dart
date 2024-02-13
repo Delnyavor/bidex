@@ -53,7 +53,11 @@ class GiftingsBloc extends Bloc<GiftingsEvent, GiftingsState> {
   }
 
   void onCreateGift(CreateGiftEvent event, Emitter<GiftingsState> emit) async {
-    print('called');
+    emit(
+      state.copyWith(
+        createGiftStatus: CreateGiftStatus.loading,
+      ),
+    );
     User user = await localAuthSource.getUser();
     final result = await createGift(
       gift: event.item,
@@ -66,15 +70,17 @@ class GiftingsBloc extends Bloc<GiftingsEvent, GiftingsState> {
           createGiftStatus: CreateGiftStatus.creationError,
           errorMessage: l.message));
     }, (r) async {
-      emit(state.copyWith(createGiftStatus: CreateGiftStatus.creationSuccess));
+      emit(
+        state.copyWith(
+            createGiftStatus: CreateGiftStatus.creationSuccess, result: r),
+      );
     });
   }
 
   //FETCH AND DISPLAY A SINGLE GIFT
   void onFetchItem(FetchGiftEvent event, Emitter<GiftingsState> emit) async {
     // TODO: undo
-    emit(state.copyWith(
-        item: state.items[0], giftPageStatus: GiftingsPageStatus.giftLoaded));
+
     // final result = await getGift(id: event.id);
 
     // result!.fold((l) async {}, (r) async {

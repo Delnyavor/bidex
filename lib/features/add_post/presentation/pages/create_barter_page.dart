@@ -111,7 +111,10 @@ class _CreateBarterPageState extends State<CreateBarterPage> {
   void listener(BarterState state) {
     if (state.createBarterStatus == CreateBarterStatus.creationSuccess) {
       clear();
-    } else if (state.createBarterStatus == CreateBarterStatus.creationError) {}
+    } else if (state.createBarterStatus == CreateBarterStatus.creationError) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(state.errorMessage)));
+    }
   }
 
   @override
@@ -132,9 +135,8 @@ class _CreateBarterPageState extends State<CreateBarterPage> {
 
   Widget body() {
     return ListView(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 35),
       children: [
-        const SizedBox(height: 35),
         const PostTypeSelector(),
         const SizedBox(height: 20),
         ImagePickerList(
@@ -154,20 +156,56 @@ class _CreateBarterPageState extends State<CreateBarterPage> {
           controller: desiredItemCtrl,
           suffix: addToDesiredItems(),
         ),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Wrap(
-            alignment: WrapAlignment.start,
-            children: desiredItems
-                .map((e) => Padding(
-                    padding: const EdgeInsets.only(right: 10, top: 6),
-                    child: Text(e)))
-                .toList(),
-          ),
+        Wrap(
+          alignment: WrapAlignment.start,
+          children: desiredItems
+              .map((e) => Padding(
+                  padding: const EdgeInsets.only(right: 10, top: 6),
+                  child: chip(e)))
+              .toList(),
         ),
         InputField(label: 'Description', controller: description, maxLines: 6),
         InputField(label: 'Location', controller: location),
       ],
+    );
+  }
+
+  Widget chip(String value) {
+    return Chip(
+      label: Text(value),
+      labelStyle: const TextStyle(color: Colors.black54),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      side: const BorderSide(width: 0, color: Colors.black54),
+      deleteIcon: const Icon(
+        Icons.close,
+        color: Colors.black87,
+        size: 18,
+      ),
+      onDeleted: () {
+        setState(() {
+          desiredItems.remove(value);
+        });
+      },
+    );
+  }
+
+  void createBarter() {
+    bloc.add(
+      CreateBarterEvent(
+        item: BarterItemModel(
+          id: 1,
+          images: images,
+          userId: '',
+          username: '',
+          itemName: name.text,
+          location: location.text,
+          rating: 0.0,
+          tags: const [],
+          category: '',
+          description: description.text,
+          desiredItems: desiredItems,
+        ),
+      ),
     );
   }
 
@@ -181,31 +219,37 @@ class _CreateBarterPageState extends State<CreateBarterPage> {
           ProceedButton(
             text: 'ADD',
             onPressed: () {
-              bloc.add(
-                CreateBarterEvent(
-                  item: BarterItemModel(
-                    id: 1,
-                    images: images,
-                    userId: '',
-                    username: '',
-                    itemName: name.text,
-                    location: location.text,
-                    rating: 0.0,
-                    tags: const [],
-                    category: '',
-                    description: description.text,
-                    desiredItems: desiredItems,
-                  ),
-                ),
-              );
-              // TODO: block interactivity duting submission
-              // Overlay.of(context).insert(buildEntry()!);
-              // controller.forward();
+              createBarter();
+
+              showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (ctx) {
+                    return BlocListener<BarterBloc, BarterState>(
+                        bloc: bloc,
+                        listener: (BuildContext context, state) {
+                          uploadListener(state);
+                        },
+                        child: const Center(
+                          child: CircularProgressIndicator(),
+                        ));
+                  });
             },
           )
         ],
       ),
     );
+  }
+
+  void uploadListener(BarterState state) {
+    Navigator.pop(context);
+    if (state.createBarterStatus == CreateBarterStatus.creationError) {
+    } else if (state.createBarterStatus == CreateBarterStatus.creationSuccess) {
+      // TODO: Create barter page
+      // Navigator.pushReplacement(
+      //     context, slideInRoute(Barter(id: state.result!.id)));
+      Navigator.pop(context);
+    }
   }
 
   Widget addToDesiredItems() {

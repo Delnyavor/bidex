@@ -51,6 +51,11 @@ class AuctionBloc extends Bloc<AuctionEvent, AuctionState> {
 
   onCreateAuctionEvent(
       CreateAuctionEvent event, Emitter<AuctionState> emit) async {
+    emit(
+      state.copyWith(
+        createAuctionStatus: CreateAuctionStatus.initial,
+      ),
+    );
     User user = await localAuthSource.getUser();
     final res = await createAuction(
       auctionItem: event.item,
@@ -58,16 +63,14 @@ class AuctionBloc extends Bloc<AuctionEvent, AuctionState> {
       refreshToken: user.refreshToken,
     );
 
-    if (res is Failure) {
-      emit(
-        state.copyWith(createAuctionStatus: CreateAuctionStatus.creationError),
-      );
-    } else {
-      emit(
-        state.copyWith(
-            createAuctionStatus: CreateAuctionStatus.creationSuccess),
-      );
-    }
+    res!.fold((l) {
+      emit(state.copyWith(
+          createAuctionStatus: CreateAuctionStatus.creationError,
+          errorMessage: l.message));
+    }, (r) {
+      emit(state.copyWith(
+          createAuctionStatus: CreateAuctionStatus.creationSuccess));
+    });
   }
 
   //FETCH AND DISPLAY A SINGLE Auction

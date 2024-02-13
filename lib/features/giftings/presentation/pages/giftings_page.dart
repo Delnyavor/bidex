@@ -87,19 +87,16 @@ class _GiftingsPageState extends State<GiftingsPage>
     );
   }
 
-  Future<bool> onWillPop() async {
+  void onWillPop(bool value) {
     if (pageController.page == 1) {
       jumpToPage(0);
-      return false;
-    } else {
-      return true;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: onWillPop,
+    return PopScope(
+      onPopInvoked: onWillPop,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: BlocListener<GiftingsBloc, GiftingsState>(
@@ -122,7 +119,10 @@ class _GiftingsPageState extends State<GiftingsPage>
     return PageView(
       physics: const NeverScrollableScrollPhysics(),
       controller: pageController,
-      children: [body(), const GiftPage()],
+      children: [
+        body(),
+        // const GiftPage(),
+      ],
     );
   }
 

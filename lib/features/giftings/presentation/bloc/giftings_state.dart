@@ -5,7 +5,7 @@ class GiftingsState extends Equatable {
   final GiftingsPageStatus giftPageStatus;
   final CreateGiftStatus createGiftStatus;
   final List<Gift> items;
-  final Gift? item;
+  final Gift? result;
   final String errorMessage;
   final bool hasReachedMax;
 
@@ -14,7 +14,7 @@ class GiftingsState extends Equatable {
     this.giftPageStatus = GiftingsPageStatus.loading,
     this.createGiftStatus = CreateGiftStatus.initial,
     this.items = const [],
-    this.item,
+    this.result,
     this.errorMessage = '',
     this.hasReachedMax = false,
   });
@@ -24,7 +24,7 @@ class GiftingsState extends Equatable {
       GiftingsPageStatus? giftPageStatus,
       CreateGiftStatus? createGiftStatus,
       List<Gift>? items,
-      Gift? item,
+      Gift? result,
       String? errorMessage,
       bool? hasReachedMax}) {
     return GiftingsState(
@@ -32,7 +32,7 @@ class GiftingsState extends Equatable {
       giftPageStatus: giftPageStatus ?? this.giftPageStatus,
       createGiftStatus: createGiftStatus ?? this.createGiftStatus,
       items: items ?? this.items,
-      item: item ?? this.item,
+      result: result ?? this.result,
       errorMessage: errorMessage ?? this.errorMessage,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
     );
@@ -44,7 +44,7 @@ class GiftingsState extends Equatable {
         giftPageStatus,
         createGiftStatus,
         items,
-        item,
+        result,
         errorMessage,
         hasReachedMax
       ];
@@ -68,6 +68,7 @@ enum GiftingsPageStatus {
 
 enum CreateGiftStatus {
   initial,
+  loading,
   creationSuccess,
   creationError,
 }

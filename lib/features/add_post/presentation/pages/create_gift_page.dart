@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:bidex/common/transitions/route_transitions.dart';
 import 'package:bidex/common/widgets/image_picker_list.dart';
 import 'package:bidex/common/widgets/input_field.dart';
 import 'package:bidex/features/add_post/domain/entitites/image.dart';
 import 'package:bidex/features/giftings/data/models/gift_item_model.dart';
 import 'package:bidex/features/giftings/domain/entities/gift_item.dart';
 import 'package:bidex/features/giftings/presentation/bloc/giftings_bloc.dart';
+import 'package:bidex/features/giftings/presentation/pages/gift_page.dart';
 import 'package:bidex/features/profile/domain/entities/user_post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,11 +21,10 @@ import '../widgets/post_type_selector.dart';
 class CreateGiftPage extends StatefulWidget {
   final Gift? gift;
   //first initialises the post type selector to this particular page
-  final bool? first;
+
   const CreateGiftPage({
     super.key,
     this.gift,
-    this.first = false,
   });
 
   @override
@@ -41,7 +42,10 @@ class _CreateGiftPage extends State<CreateGiftPage>
 
   late GiftingsBloc bloc;
 
+  late Gift gift;
+
   bool isEditing = false;
+  bool shouldClearImages = false;
 
   @override
   void initState() {
@@ -89,10 +93,16 @@ class _CreateGiftPage extends State<CreateGiftPage>
   void viewEditedPost() {
     // Navigator.pushReplacement(context, slideInRoute(route));
   }
+
   void listener(GiftingsState state) {
     if (state.createGiftStatus == CreateGiftStatus.creationSuccess) {
-      clear();
-    } else if (state.createGiftStatus == CreateGiftStatus.creationError) {}
+      setState(() {
+        gift = state.result!;
+      });
+    } else if (state.createGiftStatus == CreateGiftStatus.creationError) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(state.errorMessage)));
+    }
   }
 
   @override
@@ -113,12 +123,12 @@ class _CreateGiftPage extends State<CreateGiftPage>
 
   Widget body() {
     return ListView(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 35),
       children: [
-        const SizedBox(height: 35),
         const PostTypeSelector(type: PostType.gift),
         const SizedBox(height: 20),
         ImagePickerList(
+          clear: shouldClearImages,
           onRetrieved: (s) {
             images.add(ApiImage.fromFile(File(s)));
           },
@@ -136,7 +146,6 @@ class _CreateGiftPage extends State<CreateGiftPage>
         ),
         InputField(label: 'Description', controller: description, maxLines: 6),
         InputField(label: 'Location', controller: location),
-        const SizedBox(height: 35),
       ],
     );
   }
@@ -171,13 +180,33 @@ class _CreateGiftPage extends State<CreateGiftPage>
             text: 'ADD',
             onPressed: () {
               createGift();
-              // TODO: block interactivity duting submission
-              // Overlay.of(context).insert(buildEntry()!);
-              // controller.forward();
+
+              showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (ctx) {
+                    return BlocListener<GiftingsBloc, GiftingsState>(
+                        bloc: bloc,
+                        listener: (BuildContext context, state) {
+                          uploadListener(state);
+                        },
+                        child: const Center(
+                          child: CircularProgressIndicator(),
+                        ));
+                  });
             },
           )
         ],
       ),
     );
+  }
+
+  void uploadListener(GiftingsState state) {
+    Navigator.pop(context);
+    if (state.createGiftStatus == CreateGiftStatus.creationError) {
+    } else if (state.createGiftStatus == CreateGiftStatus.creationSuccess) {
+      Navigator.pushReplacement(
+          context, slideInRoute(GiftPage(id: state.result!.id)));
+    }
   }
 }

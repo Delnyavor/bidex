@@ -7,7 +7,8 @@ import '../../../../common/widgets/carousel_indicator.dart';
 import '../../domain/entities/gift_item.dart';
 
 class GiftPage extends StatefulWidget {
-  const GiftPage({Key? key}) : super(key: key);
+  final String id;
+  const GiftPage({Key? key, required this.id}) : super(key: key);
 
   @override
   State<GiftPage> createState() => _GiftPageState();
@@ -34,12 +35,12 @@ class _GiftPageState extends State<GiftPage> {
             );
           } else {
             if (state.giftPageStatus == GiftingsPageStatus.giftLoaded) {
-              if (state.item != null) {
-                return GiftDisplay(
-                  gift: state.item!,
-                  controller: controller,
-                );
-              }
+              // if (state.item != null) {
+              //   return GiftDisplay(
+              //     gift: state.item!,
+              //     controller: controller,
+              //   );
+              // }
             }
           }
           return Container(

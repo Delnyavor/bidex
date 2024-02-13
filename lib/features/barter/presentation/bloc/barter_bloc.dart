@@ -50,6 +50,12 @@ class BarterBloc extends Bloc<BarterEvent, BarterState> {
 
   void onCreateBarterEvent(
       CreateBarterEvent event, Emitter<BarterState> emit) async {
+    emit(
+      state.copyWith(
+        createBarterStatus: CreateBarterStatus.initial,
+      ),
+    );
+
     User user = await localAuthSource.getUser();
     final result = await createBarter(
       barterItem: event.item,
@@ -57,15 +63,14 @@ class BarterBloc extends Bloc<BarterEvent, BarterState> {
       refreshToken: user.refreshToken,
     );
 
-    if (result is Failure) {
-      emit(
-        state.copyWith(createBarterStatus: CreateBarterStatus.creationError),
-      );
-    } else {
-      emit(
-        state.copyWith(createBarterStatus: CreateBarterStatus.creationSuccess),
-      );
-    }
+    result!.fold((l) {
+      emit(state.copyWith(
+          createBarterStatus: CreateBarterStatus.creationError,
+          errorMessage: l.message));
+    }, (r) {
+      emit(state.copyWith(
+          createBarterStatus: CreateBarterStatus.creationSuccess));
+    });
   }
 
   void onFetchItemsEvent(

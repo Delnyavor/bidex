@@ -21,11 +21,7 @@ class GlobalAppBar extends StatefulWidget {
 
 class _GlobalAppBarState extends State<GlobalAppBar> {
   void navigateToCreatePostPage() {
-    Navigator.push(
-        context,
-        fadeInRoute(const CreateGiftPage(
-          first: true,
-        )));
+    Navigator.push(context, fadeInRoute(const CreateGiftPage()));
   }
 
   @override

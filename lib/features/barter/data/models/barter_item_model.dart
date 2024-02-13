@@ -53,19 +53,14 @@ class BarterItemModel extends BarterItem {
 
   Map<String, dynamic> toMap() {
     var imagelist = images.map((e) => e.toJson()).toList();
-    print(images);
+
     return {
-      'id': id,
-      'userId': userId,
-      'username': username,
-      'location': location,
-      'rating': rating,
-      'images': imagelist,
-      'item_name': itemName,
-      'tags': tags,
-      'category': 'clryy3pci0001mc0zmdv2rsf5',
+      'name': itemName,
+      'categoryId': 'clryy3pci0001mc0zmdv2rsf5',
       'description': description,
-      'desired_items': desiredItems,
+      'location': location,
+      'barters': desiredItems,
+      'images': imagelist,
     };
   }
 }

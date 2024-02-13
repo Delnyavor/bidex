@@ -108,9 +108,8 @@ class _CreateAuctionPage extends State<CreateAuctionPage>
 
   Widget body() {
     return ListView(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 35),
       children: [
-        const SizedBox(height: 35),
         const PostTypeSelector(),
         const SizedBox(height: 20),
         ImagePickerList(
@@ -132,7 +131,6 @@ class _CreateAuctionPage extends State<CreateAuctionPage>
         ),
         InputField(label: 'Description', controller: description, maxLines: 6),
         InputField(label: 'Location', controller: location),
-        const SizedBox(height: 35),
       ],
     );
   }

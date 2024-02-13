@@ -7,12 +7,14 @@ import 'package:flutter/material.dart';
 class ImagePickerList extends StatefulWidget {
   const ImagePickerList(
       {super.key,
+      this.clear = false,
       required this.onRetrieved,
       required this.onRemoved,
       this.limit = 4});
   final Function(String) onRetrieved;
   final Function(String) onRemoved;
   final int limit;
+  final bool? clear;
 
   @override
   State<ImagePickerList> createState() => _ImagePickerListState();
@@ -31,6 +33,19 @@ class _ImagePickerListState extends State<ImagePickerList> {
     images.remove(path);
     widget.onRemoved(path);
     setState(() {});
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    print("first:  ${widget.clear}");
+
+    if (widget.clear!) {
+      print(widget.clear);
+      setState(() {
+        images.clear();
+      });
+    }
   }
 
   @override

@@ -48,7 +48,7 @@ class AuctionItemModel extends AuctionItem {
       'rating': rating,
       'images': imagelist,
       'tags': tags,
-      'category': 'clryy3pci0001mc0zmdv2rsf5',
+      'categoryId': 'clryy3pci0001mc0zmdv2rsf5',
       'description': description,
       'name': name,
       'starting_price': startingPrice,
