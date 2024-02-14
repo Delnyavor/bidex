@@ -1,4 +1,5 @@
 import 'package:bidex/core/error/failures.dart';
+import 'package:bidex/di/injection_container.dart';
 import 'package:bidex/features/auth/data/datasources/local_data_source.dart';
 import 'package:bidex/features/auth/domain/entities/user.dart';
 import 'package:bidex/features/barter/domain/entities/barter_item.dart';

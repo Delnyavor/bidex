@@ -6,4 +6,7 @@ class EndPoints {
 
   // AUCTION ENDPOINTS
   static String createAuctionUrl = createPost;
+
+  // BARTER ENDPOINTS
+  static String createBarterUrl = createPost;
 }

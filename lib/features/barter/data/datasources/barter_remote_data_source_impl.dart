@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:bidex/api/endpoints.dart';
 import 'package:bidex/core/utils/decode.dart';
 import 'package:bidex/features/barter/domain/entities/barter_item.dart';
 import 'package:bidex/features/barter/data/models/barter_item_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 // ignore: depend_on_referenced_packages

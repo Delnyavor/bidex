@@ -9,15 +9,11 @@ class CreateBarter {
 
   CreateBarter({required this.repository});
 
-  Future<Either<Failure, BarterItem?>?>? call({
-    required BarterItem barterItem,
-    required String authToken,
-    required String refreshToken,
-  }) async {
+  Future<Either<Failure, BarterItem?>?>? call(
+      {required BarterItem barterItem,
+      required String authToken,
+      required String refreshToken}) async {
     return await repository.createBarterItem(
-      barterItem,
-      authToken,
-      refreshToken,
-    );
+        barterItem, authToken, refreshToken);
   }
 }

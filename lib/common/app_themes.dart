@@ -6,6 +6,7 @@ final ThemeData lightTheme = _buildLightTheme();
 
 ThemeData _buildLightTheme() {
   final ThemeData base = ThemeData.light();
+
   return base.copyWith(
     // colorScheme: base.colorScheme.copyWith(
     //     primary: AppColors.darkBlue,

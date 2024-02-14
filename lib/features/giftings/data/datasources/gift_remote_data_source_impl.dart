@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bidex/api/endpoints.dart';
 import 'package:bidex/core/utils/decode.dart';
 import 'package:bidex/features/giftings/domain/entities/gift_item.dart';
 import 'package:flutter/foundation.dart';

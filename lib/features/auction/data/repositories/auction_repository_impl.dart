@@ -19,7 +19,6 @@ class AuctionRepositoryImpl extends AuctionRepository {
           await dataSource.createAuction(auctionItem, authToken, refreshToken);
       return Right(result);
     } on Exception catch (e) {
-      debugPrint(e.toString());
       return Left(handleException(e));
     }
   }
