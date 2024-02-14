@@ -16,7 +16,6 @@ ThemeData _buildLightTheme() {
 
     colorScheme: ColorScheme.fromSeed(seedColor: AppColors.blue),
 
-    // TODO: Add the text themes
     textTheme: GoogleFonts.dmSansTextTheme(
         base.textTheme.apply(bodyColor: Colors.black)),
 
