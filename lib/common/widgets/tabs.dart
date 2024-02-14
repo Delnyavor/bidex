@@ -5,7 +5,12 @@ import '../app_colors.dart';
 class Tabs extends StatelessWidget {
   final TabController controller;
   final Function(int) onTap;
-  const Tabs({super.key, required this.controller, required this.onTap});
+  final List<String> labels;
+  const Tabs(
+      {super.key,
+      required this.controller,
+      required this.onTap,
+      required this.labels});
 
   @override
   Widget build(BuildContext context) {
@@ -17,15 +22,18 @@ class Tabs extends StatelessWidget {
       ),
       child: TabBar(
         controller: controller,
-        tabs: const [
-          Tab(text: 'Details', height: 35),
-          Tab(text: 'Bid', height: 35),
+        tabs: [
+          Tab(text: labels.first, height: 35),
+          Tab(text: labels.last, height: 35),
         ],
+        indicatorSize: TabBarIndicatorSize.tab,
         unselectedLabelColor: AppColors.darkBlue,
+        labelColor: AppColors.lightBlue,
         indicator: BoxDecoration(
           color: AppColors.darkBlue,
           borderRadius: BorderRadius.circular(18),
         ),
+        dividerHeight: 0,
         onTap: onTap,
       ),
     );

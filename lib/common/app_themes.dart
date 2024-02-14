@@ -6,14 +6,10 @@ final ThemeData lightTheme = _buildLightTheme();
 
 ThemeData _buildLightTheme() {
   final ThemeData base = ThemeData.light();
-  return base.copyWith(
-    colorScheme: base.colorScheme.copyWith(
-        primary: AppColors.darkBlue,
-        onPrimary: AppColors.darkBlue,
-        secondary: AppColors.buttonLightBlue,
-        error: AppColors.errorRed),
 
-    // TODO: Add the text themes
+  return base.copyWith(
+    colorScheme: ColorScheme.fromSeed(seedColor: AppColors.blue),
+
     textTheme: GoogleFonts.dmSansTextTheme(
         base.textTheme.apply(bodyColor: Colors.black)),
 

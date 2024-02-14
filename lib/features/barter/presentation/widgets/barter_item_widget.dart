@@ -71,18 +71,10 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
               controller: controller,
             ),
             if (isOpen) ...[overlayBuilder(backdrop())],
-            IgnorePointer(
-              ignoring: true,
-              child: Column(
-                children: [
-                  Flexible(child: overlayBuilder(itemDetails())),
-                  CarouselIndicator(
-                      controller: controller,
-                      count: widget.barterItem.imageUrls.length),
-                ],
-              ),
-            ),
             Align(alignment: Alignment.bottomRight, child: viewMoreButton()),
+            CarouselIndicator(
+                controller: controller,
+                count: widget.barterItem.imageUrls.length),
           ],
         ),
       ),
@@ -101,18 +93,22 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 30, sigmaY: 25),
       child: SizedBox.expand(
-        child: Container(color: Colors.white10),
+        child: Column(
+          children: [
+            Flexible(child: overlayBuilder(itemDetails())),
+          ],
+        ),
       ),
     );
   }
 
   Widget itemDetails() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+      padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
       child: DecoratedBox(
         decoration: BoxDecoration(
-            color: Colors.white.withOpacity(1),
-            borderRadius: BorderRadius.circular(8)),
+            color: Colors.white.withOpacity(0.5),
+            borderRadius: BorderRadius.circular(15)),
         child: const Padding(
           padding: EdgeInsets.all(17),
           child: Text(
@@ -133,21 +129,22 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: Colors.white.withOpacity(0.5)),
-        child: IconButton(
-          onPressed: viewMore,
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(minHeight: 33, minWidth: 33),
-          icon: isOpen
-              ? const Icon(Icons.keyboard_arrow_down)
-              : const Icon(Icons.menu),
+        child: GestureDetector(
+          onTap: viewMore,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: isOpen
+                ? const Icon(Icons.keyboard_arrow_down)
+                : const Icon(Icons.keyboard_arrow_up),
+          ),
         ),
       ),
     );
   }
 
   Widget controls() {
-    return Row(
-      children: const [
+    return const Row(
+      children: [
         IconButton(
             constraints: BoxConstraints(maxWidth: 35),
             onPressed: null,
@@ -170,7 +167,7 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
 
   BoxDecoration decoration() {
     return BoxDecoration(
-        color: Colors.white,
+        color: Colors.white70,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.grey.shade300, width: 0.5));
   }

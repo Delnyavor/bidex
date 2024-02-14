@@ -59,7 +59,7 @@ class _BarterDetailsPageState extends State<BarterDetailsPage>
 
   Widget body() {
     return ListView(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       children: [
         carousel(),
         tabs(),
@@ -76,6 +76,7 @@ class _BarterDetailsPageState extends State<BarterDetailsPage>
         child: Stack(
           children: [
             Carousel(
+              radius: 4,
               images: widget.item.imageUrls,
               controller: controller,
             ),
@@ -90,6 +91,7 @@ class _BarterDetailsPageState extends State<BarterDetailsPage>
   Widget tabs() {
     return Tabs(
       controller: tabController,
+      labels: const ["Details", "Comments"],
       onTap: (index) {
         changePage(index);
       },
@@ -127,7 +129,7 @@ Weight:2.75 lb | 1.25 kg Condition: New
 Im looking for the listed items alright but if you have anything of comparable value lets talk''',
       overflow: TextOverflow.ellipsis,
       maxLines: 16,
-      style: TextStyle(color: Colors.black87),
+      style: TextStyle(color: Colors.black87, letterSpacing: 0),
     );
   }
 
