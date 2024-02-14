@@ -70,11 +70,11 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
               images: widget.barterItem.imageUrls,
               controller: controller,
             ),
-            if (isOpen) ...[overlayBuilder(backdrop())],
-            Align(alignment: Alignment.bottomRight, child: viewMoreButton()),
             CarouselIndicator(
                 controller: controller,
                 count: widget.barterItem.imageUrls.length),
+            if (isOpen) ...[overlayBuilder(backdrop())],
+            Align(alignment: Alignment.bottomRight, child: viewMoreButton()),
           ],
         ),
       ),
@@ -91,31 +91,38 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
 
   Widget backdrop() {
     return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 30, sigmaY: 25),
+      filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
       child: SizedBox.expand(
-        child: Column(
-          children: [
-            Flexible(child: overlayBuilder(itemDetails())),
-          ],
-        ),
+        child: overlayBuilder(itemDetails()),
       ),
     );
   }
 
   Widget itemDetails() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+      padding: const EdgeInsets.only(top: 40),
       child: DecoratedBox(
         decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.5),
-            borderRadius: BorderRadius.circular(15)),
-        child: const Padding(
-          padding: EdgeInsets.all(17),
-          child: Text(
-            descriptionText,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 17,
-            style: TextStyle(color: Colors.black87, height: 1.4),
+            color: Colors.white.withOpacity(0.8),
+            borderRadius:
+                const BorderRadius.vertical(top: Radius.circular(15))),
+        child: Padding(
+          padding: const EdgeInsets.all(2),
+          child: ListView(
+            padding: const EdgeInsets.all(15),
+            children: const [
+              Text(
+                descriptionText,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 50,
+                style: TextStyle(
+                  color: Colors.black87,
+                  height: 1.4,
+                  letterSpacing: 0,
+                  fontSize: 13.5,
+                ),
+              ),
+            ],
           ),
         ),
       ),
