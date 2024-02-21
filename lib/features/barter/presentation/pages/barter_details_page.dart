@@ -1,3 +1,4 @@
+import 'package:bidex/features/comments/presentation/widgets/comment_list.dart';
 import 'package:bidex/features/direct_messages/presentation/widgets/bottom_text_input.dart';
 import 'package:bidex/features/scaffolding/scaffold.dart';
 import 'package:flutter/material.dart';
@@ -100,7 +101,12 @@ class _BarterDetailsPageState extends State<BarterDetailsPage>
   Widget views() {
     return IndexedStack(
       index: tabController.index,
-      children: [description(), Container()],
+      children: [
+        description(),
+        const CommentList(
+          postId: '',
+        )
+      ],
     );
   }
 

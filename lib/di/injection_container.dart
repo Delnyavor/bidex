@@ -19,6 +19,14 @@ import 'package:bidex/features/barter/domain/usecases/delete_barter.dart';
 import 'package:bidex/features/barter/domain/usecases/get_all_barters.dart';
 import 'package:bidex/features/barter/domain/usecases/get_barter.dart';
 import 'package:bidex/features/barter/domain/usecases/update_barter.dart';
+import 'package:bidex/features/comments/data/datasources/comments_remote_data_source.dart';
+import 'package:bidex/features/comments/data/datasources/comments_remote_data_source_impl.dart';
+import 'package:bidex/features/comments/data/repositories/comments_repo_impl.dart';
+import 'package:bidex/features/comments/domain/repositories/comments_repository.dart';
+import 'package:bidex/features/comments/domain/usecases/add_comment.dart';
+import 'package:bidex/features/comments/domain/usecases/add_reply.dart';
+import 'package:bidex/features/comments/domain/usecases/get_comments.dart';
+import 'package:bidex/features/comments/domain/usecases/get_replies.dart';
 import 'package:bidex/features/profile/data/datasources/user_posts_datasource.dart';
 import 'package:bidex/features/profile/domain/usecases/get_user_posts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -63,6 +71,25 @@ void initFeatures() {
   initBarterFeature();
   initGiftingsFeature();
   initProfileFeature();
+  initCommentsFeature();
+}
+
+void initCommentsFeature() {
+  sl.registerLazySingleton<CommentsRemoteDataSource>(
+      () => CommentsRemoteSourceImpl(sl<LocalAuthSource>()));
+
+  sl.registerLazySingleton<CommentsRepository>(() => CommentsRepositoryImpl(
+        dataSource: sl<CommentsRemoteDataSource>(),
+      ));
+
+  sl.registerLazySingleton(
+      () => AddComment(repository: sl<CommentsRepository>()));
+  sl.registerLazySingleton(
+      () => AddReply(repository: sl<CommentsRepository>()));
+  sl.registerLazySingleton(
+      () => GetComments(repository: sl<CommentsRepository>()));
+  sl.registerLazySingleton(
+      () => GetReplies(repository: sl<CommentsRepository>()));
 }
 
 //
