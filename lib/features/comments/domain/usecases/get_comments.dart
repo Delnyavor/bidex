@@ -9,7 +9,7 @@ class GetComments {
 
   GetComments({required this.repository});
 
-  Future<Either<Failure, List<Comment>?>?>? call({required String id}) async {
+  Future<Either<Failure, List<Comment>>?>? call({required String id}) async {
     return await repository.fetchComments(id);
   }
 }

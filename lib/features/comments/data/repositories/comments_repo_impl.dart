@@ -10,9 +10,12 @@ class CommentsRepositoryImpl extends CommentsRepository {
 
   CommentsRepositoryImpl({required this.dataSource});
   @override
-  Future<Either<Failure, Comment?>?>? addComment(Comment comment) async {
+  Future<Either<Failure, Comment>>? addComment(Comment comment) async {
     try {
       final result = await dataSource.addComment(comment);
+      if (result == null) {
+        throw const GenericOperationFailure(message: 'Something went wrong');
+      }
       return Right(result);
     } on Exception catch (e) {
       return Left(handleException(e));
@@ -20,9 +23,12 @@ class CommentsRepositoryImpl extends CommentsRepository {
   }
 
   @override
-  Future<Either<Failure, List<Comment>?>?>? fetchComments(String id) async {
+  Future<Either<Failure, List<Comment>>?>? fetchComments(String id) async {
     try {
       final result = await dataSource.fetchComments(id);
+      if (result == null) {
+        throw const GenericOperationFailure(message: 'Something went wrong');
+      }
       return Right(result);
     } on Exception catch (e) {
       return Left(handleException(e));
@@ -30,9 +36,12 @@ class CommentsRepositoryImpl extends CommentsRepository {
   }
 
   @override
-  Future<Either<Failure, Comment?>?>? addReply(Comment comment) async {
+  Future<Either<Failure, Comment>?>? addReply(Comment comment) async {
     try {
       final result = await dataSource.addReply(comment);
+      if (result == null) {
+        throw const GenericOperationFailure(message: 'Something went wrong');
+      }
       return Right(result);
     } on Exception catch (e) {
       return Left(handleException(e));
@@ -40,10 +49,13 @@ class CommentsRepositoryImpl extends CommentsRepository {
   }
 
   @override
-  Future<Either<Failure, List<Comment>?>?>? fetchReplies(
+  Future<Either<Failure, List<Comment>>?>? fetchReplies(
       String postId, String commentId) async {
     try {
       final result = await dataSource.fetchReplies(postId, commentId);
+      if (result == null) {
+        throw const GenericOperationFailure(message: 'Something went wrong');
+      }
       return Right(result);
     } on Exception catch (e) {
       return Left(handleException(e));

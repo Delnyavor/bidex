@@ -46,18 +46,12 @@ class _CommentWidgetState extends State<CommentWidget> {
               children: [
                 counter(),
                 const SizedBox(width: 9),
-                reply(),
-                const SizedBox(width: 9),
-                viewReplies(),
+                // reply(),
+                // const SizedBox(width: 9),
+                // viewReplies(),
               ],
             ),
             const SizedBox(height: 12),
-            canViewReplies
-                ? const CommentList(
-                    postId: 'postId',
-                    commentId: '',
-                  )
-                : SizedBox.shrink(),
           ],
         ),
       ],

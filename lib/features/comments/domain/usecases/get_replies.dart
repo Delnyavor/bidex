@@ -9,7 +9,7 @@ class GetReplies {
 
   GetReplies({required this.repository});
 
-  Future<Either<Failure, List<Comment>?>?>? call(
+  Future<Either<Failure, List<Comment>>?>? call(
       {required String postId, required String commentId}) async {
     return await repository.fetchReplies(postId, commentId);
   }

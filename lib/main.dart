@@ -9,6 +9,7 @@ import 'package:bidex/di/injection_container.dart';
 import 'package:bidex/features/auth/presentation/pages/login_page.dart';
 import 'package:bidex/features/auth/presentation/pages/registration_page.dart';
 import 'package:bidex/features/barter/presentation/bloc/barter_bloc.dart';
+import 'package:bidex/features/comments/presentation/bloc/comment_bloc.dart';
 import 'package:bidex/features/home/presentation/bloc/navigation_bloc.dart/bloc/navigation_bloc.dart';
 import 'package:bidex/features/home/presentation/pages/home_page.dart';
 import 'package:bidex/features/profile/presentation/bloc/profile_bloc.dart';
@@ -82,6 +83,14 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<ChatBloc>(
           create: (context) => ChatBloc(),
+        ),
+        BlocProvider<CommentBloc>(
+          create: (context) => CommentBloc(
+            getComments: sl(),
+            addComment: sl(),
+            addReply: sl(),
+            getReplies: sl(),
+          ),
         ),
         BlocProvider<ProfileBloc>(create: (context) => ProfileBloc()),
         BlocProvider<CreatePostBloc>(create: (context) => CreatePostBloc()),

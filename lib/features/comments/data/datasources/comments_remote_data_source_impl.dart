@@ -20,7 +20,7 @@ class CommentsRemoteSourceImpl extends CommentsRemoteDataSource {
     String authToken =
         await localAuthSource.getUser().then((value) => value.idToken);
 
-    http.Response response = await http
+    http.Response response = await http.Client()
         .post(Uri.parse(EndPoints.createComment(comment.postId)),
             headers: {
               'Content-Type': 'application/json',

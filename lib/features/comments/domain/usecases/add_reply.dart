@@ -9,7 +9,7 @@ class AddReply {
 
   AddReply({required this.repository});
 
-  Future<Either<Failure, Comment?>?>? call({required Comment comment}) async {
+  Future<Either<Failure, Comment>?>? call({required Comment comment}) async {
     return await repository.addReply(comment);
   }
 }

@@ -1,9 +1,6 @@
-import 'package:bidex/di/injection_container.dart';
-import 'package:bidex/features/comments/domain/entities/comment.dart';
-import 'package:bidex/features/comments/domain/repositories/comments_repository.dart';
-import 'package:bidex/features/comments/domain/usecases/get_comments.dart';
-import 'package:bidex/features/comments/presentation/widgets/comment_widget.dart';
+import 'package:bidex/features/comments/presentation/bloc/comment_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CommentList extends StatefulWidget {
   final String postId;
@@ -15,54 +12,21 @@ class CommentList extends StatefulWidget {
 }
 
 class _CommentListState extends State<CommentList> {
-  late GetComments getComments;
-  late List<int> comments;
-  late Future fetch;
+  late CommentBloc bloc;
 
   @override
   void initState() {
     super.initState();
-    getComments = GetComments(repository: sl<CommentsRepository>());
-    fetch = getData();
-  }
-
-  getData() async {
-    return await Future.delayed(const Duration(seconds: 5), () {
-      return List.generate(10, (index) => index + 1);
-    });
-
-    // final res = await getComments(id: widget.postId);
-    // res!.fold((l) => null, (r) {
-    //   comments = r;
-    // });
+    bloc = BlocProvider.of<CommentBloc>(context);
+    bloc.add(FetchComments(postId: widget.postId));
   }
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      comments = await getData();
-      print(comments);
-    });
-    return FutureBuilder(
-        future: fetch,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasData) {
-              // print(snapshot.data);
-              return Column(
-                children: snapshot.data
-                    .map<Widget>((e) => CommentWidget(data: e.toString()))
-                    .toList(),
-              );
-            }
-          }
-          return Center(
-              child: widget.commentId == null
-                  ? const CircularProgressIndicator()
-                  : const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator()));
-        });
+    return Center(
+        child: widget.commentId == null
+            ? const CircularProgressIndicator()
+            : const SizedBox(
+                width: 20, height: 20, child: CircularProgressIndicator()));
   }
 }
