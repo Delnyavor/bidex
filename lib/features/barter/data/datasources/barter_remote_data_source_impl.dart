@@ -6,6 +6,7 @@ import 'package:bidex/features/auth/data/datasources/local_data_source.dart';
 import 'package:bidex/features/auth/domain/entities/user.dart';
 import 'package:bidex/features/barter/domain/entities/barter_item.dart';
 import 'package:bidex/features/barter/data/models/barter_item_model.dart';
+import 'package:bidex/features/profile/domain/entities/user_post.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 // ignore: depend_on_referenced_packages
@@ -124,8 +125,7 @@ List<BarterItemModel> _parseItems(String responseBody) {
   final parsed = decode(responseBody) as List;
   List<BarterItemModel> result = [];
   for (dynamic item in parsed) {
-    if (item["type"] == "barter") {
-      print(item);
+    if (item["type"] == PostType.barter.name) {
       result.add(BarterItemModel.fromMap(item));
     }
   }

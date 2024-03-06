@@ -56,14 +56,13 @@ enum GiftingsPageStatus {
   empty,
   error,
   initialError,
+}
+
+enum GiftPageStatus {
   giftLoading,
   giftLoaded,
   giftEmpty,
   giftError,
-  submitting,
-  submitted,
-  submissionError,
-  submissionInitial
 }
 
 enum CreateGiftStatus {

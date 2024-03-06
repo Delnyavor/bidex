@@ -1,174 +1,184 @@
-import 'package:bidex/common/widgets/carousel_indicator.dart';
-import 'package:bidex/common/widgets/image.dart';
+import 'dart:ui';
 
+import 'package:bidex/common/transitions/route_transitions.dart';
+import 'package:bidex/common/widgets/carousel_indicator.dart';
+import 'package:bidex/features/giftings/domain/entities/gift_item.dart';
+import 'package:bidex/common/widgets/carousel.dart';
+import 'package:bidex/common/widgets/tags_widget.dart';
+import 'package:bidex/features/giftings/presentation/pages/gift_page.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../common/widgets/carousel.dart';
-import '../../domain/entities/gift_item.dart';
+import '../../../../common/utils/description_text.dart';
 
-class GiftWidget extends StatefulWidget {
-  final Gift gift;
-  final void Function()? ontap;
-  const GiftWidget({Key? key, required this.gift, this.ontap})
-      : super(key: key);
+class GiftItemWidget extends StatefulWidget {
+  final Gift item;
+  const GiftItemWidget({Key? key, required this.item}) : super(key: key);
 
   @override
-  State<GiftWidget> createState() => _GiftWidgetState();
+  State<GiftItemWidget> createState() => _GiftItemWidgetState();
 }
 
-class _GiftWidgetState extends State<GiftWidget> {
+class _GiftItemWidgetState extends State<GiftItemWidget> {
   PageController controller = PageController();
+  Duration duration = const Duration(milliseconds: 100);
+  bool isOpen = false;
+
+  void viewMore() {
+    setState(() {
+      isOpen = !isOpen;
+    });
+  }
+
+  void onTap() {
+    Navigator.push(context, slideInRoute(GiftPage(item: widget.item)));
+  }
 
   @override
   Widget build(BuildContext context) {
-    return body();
-  }
-
-  Widget body() {
     return GestureDetector(
-      onTap: widget.ontap,
+      onTap: onTap,
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: decoration(),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            itemHeader(),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.0),
+              // child: ItemHeader(giftItem: widget.giftItem),
+            ),
             center(),
             controls(),
+            // tags(),
           ],
         ),
       ),
     );
   }
 
-  Widget itemHeader() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(15, 10, 15, 6),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(50),
-            child: const DisplayImage(
-              path: 'assets/images/stock0.jpg',
-              height: 35,
-              width: 35,
+  Widget center() {
+    return AspectRatio(
+      aspectRatio: 1.4,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(15),
+        child: Stack(
+          children: [
+            Carousel(
+              images: widget.item.images.map((e) => e.url!).toList(),
+              controller: controller,
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.gift.username,
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black87,
-                      ),
-                ),
-                Text(
-                  widget.gift.location,
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: Colors.black87,
-                      ),
-                ),
-              ],
-            ),
-          ),
-          Flexible(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const Icon(
-                  Icons.star_rate_rounded,
-                  size: 20,
-                ),
-                Text(
-                  'null',
-                  style: Theme.of(context).textTheme.bodySmall,
-                )
-              ],
-            ),
-          )
-        ],
+            CarouselIndicator(
+                controller: controller, count: widget.item.images.length),
+            if (isOpen) ...[overlayBuilder(backdrop())],
+            Align(alignment: Alignment.bottomRight, child: viewMoreButton()),
+          ],
+        ),
       ),
     );
   }
 
-  Widget center() {
-    return AspectRatio(
-      aspectRatio: 1,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: Stack(children: [
-          Carousel(
-            images: widget.gift.images.map((e) => e.url!).toList(),
-            controller: controller,
+  Widget overlayBuilder(Widget child) {
+    return AnimatedOpacity(
+      opacity: isOpen ? 1 : 0,
+      duration: duration,
+      child: child,
+    );
+  }
+
+  Widget backdrop() {
+    return BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
+      child: SizedBox.expand(
+        child: overlayBuilder(itemDetails()),
+      ),
+    );
+  }
+
+  Widget itemDetails() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 40),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.8),
+            borderRadius:
+                const BorderRadius.vertical(top: Radius.circular(15))),
+        child: Padding(
+          padding: const EdgeInsets.all(2),
+          child: ListView(
+            padding: const EdgeInsets.all(15),
+            children: const [
+              Text(
+                descriptionText,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 50,
+                style: TextStyle(
+                  color: Colors.black87,
+                  height: 1.4,
+                  letterSpacing: 0,
+                  fontSize: 13.5,
+                ),
+              ),
+            ],
           ),
-          CarouselIndicator(
-            controller: controller,
-            count: widget.gift.images.length,
-          )
-        ]),
+        ),
+      ),
+    );
+  }
+
+  Widget viewMoreButton() {
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.white.withOpacity(0.5)),
+        child: GestureDetector(
+          onTap: viewMore,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: isOpen
+                ? const Icon(Icons.keyboard_arrow_down)
+                : const Icon(Icons.keyboard_arrow_up),
+          ),
+        ),
       ),
     );
   }
 
   Widget controls() {
-    return Row(
-      children: const [
+    return const Row(
+      children: [
         IconButton(
-          constraints: BoxConstraints(maxWidth: 35),
-          onPressed: null,
-          iconSize: 22,
-          icon: Icon(
-            Icons.favorite,
-          ),
-        ),
+            constraints: BoxConstraints(maxWidth: 35),
+            onPressed: null,
+            iconSize: 22,
+            icon: Icon(Icons.favorite)),
         IconButton(
-          constraints: BoxConstraints(maxWidth: 35),
-          onPressed: null,
-          iconSize: 22,
-          icon: Icon(
-            Icons.swap_vert,
-          ),
-        ),
+            constraints: BoxConstraints(maxWidth: 35),
+            onPressed: null,
+            iconSize: 22,
+            icon: Icon(Icons.swap_vert)),
         Expanded(
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: IconButton(
-              iconSize: 20,
-              onPressed: null,
-              icon: Icon(
-                Icons.share,
-              ),
-            ),
-          ),
-        )
+            child: Align(
+          alignment: Alignment.centerRight,
+          child: IconButton(
+              iconSize: 20, onPressed: null, icon: Icon(Icons.share)),
+        ))
       ],
     );
   }
 
   BoxDecoration decoration() {
     return BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade300, width: 0.5)
-        // boxShadow: [
-        //   const BoxShadow(
-        //     color: Colors.black38,
-        //     spreadRadius: -1,
-        //     blurRadius: 1,
-        //     offset: Offset(0, 0.5),
-        //   ),
-        //   BoxShadow(
-        //     color: Colors.black12.withOpacity(0.2),
-        //     spreadRadius: -5,
-        //     blurRadius: 8,
-        //     offset: Offset(0, 1),
-        //   ),
-        // ],
-        );
+        color: Colors.white70,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.grey.shade300, width: 0.5));
   }
+
+  // Widget tags() {
+  //   return Padding(
+  //     padding: const EdgeInsets.fromLTRB(15, 0, 15, 20),
+  //     child: TagsWidget(tags: widget.giftItem),
+  //   );
+  // }
 }

@@ -206,7 +206,10 @@ class _CreateGiftPage extends State<CreateGiftPage>
     if (state.createGiftStatus == CreateGiftStatus.creationError) {
     } else if (state.createGiftStatus == CreateGiftStatus.creationSuccess) {
       Navigator.pushReplacement(
-          context, slideInRoute(GiftPage(id: state.result!.id)));
+          context,
+          slideInRoute(GiftPage(
+            item: state.result!,
+          )));
     }
   }
 }

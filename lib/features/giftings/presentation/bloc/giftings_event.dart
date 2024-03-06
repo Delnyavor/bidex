@@ -14,6 +14,9 @@ class FetchGiftsEvent extends GiftingsEvent {
 class FetchGiftEvent extends GiftingsEvent {
   final String id;
   const FetchGiftEvent({required this.id});
+
+  @override
+  List<Object> get props => [id];
 }
 
 class CreateGiftEvent extends GiftingsEvent {
@@ -27,11 +30,15 @@ class CreateGiftEvent extends GiftingsEvent {
 class DeleteGiftEvent extends GiftingsEvent {
   final String id;
   const DeleteGiftEvent({required this.id});
+  @override
+  List<Object> get props => [id];
 }
 
 class UpdateGiftEvent extends GiftingsEvent {
   final Gift item;
   const UpdateGiftEvent({required this.item});
+  @override
+  List<Object> get props => [item];
 }
 
 class InitGiftCreation extends GiftingsEvent {

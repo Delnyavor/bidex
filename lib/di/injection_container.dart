@@ -161,7 +161,7 @@ void initBarterFeature() {
 // INITIALISE GIFTINGS
 void initGiftingsFeature() {
   sl.registerLazySingleton<GiftRemoteDataSource>(
-      () => GiftRemoteDataSourceImpl());
+      () => GiftRemoteDataSourceImpl(sl()));
 
   sl.registerLazySingleton<GiftRepository>(
       () => GiftRepositoryImpl(dataSource: sl()));

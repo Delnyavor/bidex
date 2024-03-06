@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../common/app_colors.dart';
-
 class Scaffolding extends StatefulWidget {
   final Widget appBar;
   final Widget body;

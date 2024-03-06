@@ -1,151 +1,216 @@
-import 'package:bidex/common/widgets/carousel.dart';
-import 'package:bidex/features/giftings/presentation/bloc/giftings_bloc.dart';
+import 'package:bidex/common/widgets/image.dart';
+import 'package:bidex/features/comments/domain/entities/comment.dart';
+import 'package:bidex/features/comments/presentation/bloc/comment_bloc.dart';
+import 'package:bidex/features/comments/presentation/widgets/comment_list.dart';
+import 'package:bidex/features/direct_messages/presentation/widgets/bottom_text_input.dart';
+import 'package:bidex/features/giftings/domain/entities/gift_item.dart';
+import 'package:bidex/features/profile/domain/entities/user_post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
+import '../../../../common/widgets/carousel.dart';
 import '../../../../common/widgets/carousel_indicator.dart';
-import '../../domain/entities/gift_item.dart';
 
 class GiftPage extends StatefulWidget {
-  final String id;
-  const GiftPage({Key? key, required this.id}) : super(key: key);
+  final Gift item;
+  const GiftPage({super.key, required this.item});
 
   @override
   State<GiftPage> createState() => _GiftPageState();
 }
 
-class _GiftPageState extends State<GiftPage> {
-  late GiftingsBloc bloc;
+class _GiftPageState extends State<GiftPage>
+    with SingleTickerProviderStateMixin {
   PageController controller = PageController();
+  late TextEditingController textController;
+  late CommentBloc commentBloc;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    bloc = BlocProvider.of<GiftingsBloc>(context);
+  void initState() {
+    super.initState();
+    textController = TextEditingController();
+    commentBloc = BlocProvider.of<CommentBloc>(context);
+  }
+
+  @override
+  void dispose() {
+    textController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<GiftingsBloc, GiftingsState>(
-        builder: (context, state) {
-          if (state.giftPageStatus == GiftingsPageStatus.giftLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else {
-            if (state.giftPageStatus == GiftingsPageStatus.giftLoaded) {
-              // if (state.item != null) {
-              //   return GiftDisplay(
-              //     gift: state.item!,
-              //     controller: controller,
-              //   );
-              // }
-            }
-          }
-          return Container(
-            color: Colors.red,
-          );
-        },
+      appBar: AppBar(
+        surfaceTintColor: Colors.white,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(Icons.keyboard_arrow_left, size: 26),
+        ),
+        title: pageTitle(),
+        titleSpacing: 0,
+        toolbarHeight: 70,
       ),
+      body: body(),
+      // bottomNavigationBar: inputBar(),
     );
   }
-}
 
-class GiftDisplay extends StatelessWidget {
-  final Gift gift;
-  final PageController controller;
-  const GiftDisplay({
-    Key? key,
-    required this.gift,
-    required this.controller,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.all(16),
+  Widget pageTitle() {
+    return Row(
       children: [
-        profile(),
-        const SizedBox(height: 8),
-        userdetails(context),
-        const SizedBox(height: 20),
-        itemTitle(context),
-        const SizedBox(height: 6),
-        slideshow(),
-        description(context),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(50),
+          child: const DisplayImage(
+            path: 'assets/images/stock0.jpg',
+            height: 35,
+            width: 35,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Flexible(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.item.id,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black87,
+                    ),
+              ),
+              Text(
+                widget.item.location,
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: Colors.black87,
+                    ),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }
 
-  Widget slideshow() {
+  Widget body() {
+    return SlidingUpPanel(
+      minHeight: 56,
+      maxHeight: 500,
+      backdropEnabled: true,
+      body: background(),
+      borderRadius: BorderRadius.circular(15),
+      padding: const EdgeInsets.all(0),
+      panel: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(56),
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+            decoration: const BoxDecoration(
+                border: Border(bottom: BorderSide(width: 0.05))),
+            child: title('Comments'),
+          ),
+        ),
+        body: CommentList(
+          postId: widget.item.id,
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+        ),
+        bottomNavigationBar: inputBar(),
+        resizeToAvoidBottomInset: true,
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.2),
+          spreadRadius: -8,
+          blurRadius: 12,
+        )
+      ],
+    );
+  }
+
+  Widget background() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          carousel(),
+          title('Details'),
+          description(),
+        ],
+      ),
+    );
+  }
+
+  Widget carousel() {
     return AspectRatio(
-      aspectRatio: 1,
+      aspectRatio: 1.4,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(15),
         child: Stack(
           children: [
             Carousel(
-              images: gift.images.map((e) => e.url!).toList(),
+              images: widget.item.images.map((e) => e.url!).toList(),
               controller: controller,
             ),
             CarouselIndicator(
-              controller: controller,
-              count: gift.images.length,
-            )
+                controller: controller, count: widget.item.images.length),
           ],
         ),
       ),
     );
   }
 
-  Widget profile() {
-    return const CircleAvatar(
-      radius: 50,
-      backgroundImage: AssetImage(
-        'assets/images/prof.jpg',
+  Widget title(String text, {Color? color}) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 16.0, bottom: 10),
+      child: Text(
+        text,
+        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              color: color ?? Colors.black.withOpacity(0.75),
+              fontWeight: FontWeight.bold,
+            ),
       ),
     );
   }
 
-  Widget userdetails(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          'Nii Kpapo',
-          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                color: Colors.black87,
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-        Text(
-          'Labone, accra',
-          style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                color: Colors.black54,
-              ),
-        )
-      ],
+  Widget description() {
+    return Text(
+      widget.item.description,
+      overflow: TextOverflow.ellipsis,
+      maxLines: 16,
+      style: const TextStyle(
+        color: Colors.black87,
+        letterSpacing: 0,
+      ),
     );
   }
 
-  Widget itemTitle(BuildContext context) {
-    return Text(
-      'Custom built desktop',
-      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-            color: Colors.black87,
-            fontWeight: FontWeight.w900,
-            fontSize: 18,
-          ),
-    );
-  }
+  Widget inputBar() {
+    return Container(
+      color: Colors.grey.shade100,
+      child: DMInput(
+        onSubmit: () {
+          commentBloc.add(
+            CreateComment(
+              Comment(
+                content: textController.text,
+                userId: widget.item.userId,
+                postId: widget.item.id,
+                type: PostType.gift.name,
+              ),
+            ),
+          );
 
-  Widget description(BuildContext context) {
-    return Text(
-      'description',
-      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-            color: Colors.black87,
-          ),
+          textController.clear();
+        },
+        controller: textController,
+      ),
     );
   }
 }

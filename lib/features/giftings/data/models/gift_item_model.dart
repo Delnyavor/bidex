@@ -1,3 +1,5 @@
+import 'package:bidex/features/auth/data/models/user_model.dart';
+
 import '../../domain/entities/gift_item.dart';
 import 'package:bidex/features/add_post/domain/entitites/image.dart';
 
@@ -13,6 +15,7 @@ class GiftModel extends Gift {
     required super.description,
     required super.criteria,
     required super.category,
+    super.user,
   });
 
   factory GiftModel.fromMap(Map data) {
@@ -20,17 +23,17 @@ class GiftModel extends Gift {
 
     var imageList = d.map((e) => ApiImage(url: e)).toList();
     return GiftModel(
-      id: data['id'] ?? '',
-      userId: data['userId'] ?? '',
-      username: data['username'] ?? '',
-      userProfileImg: data['userProfileImg'] ?? '',
-      location: data['location'] ?? '',
-      images: imageList,
-      name: data['name'] ?? '',
-      description: data['description'] ?? '',
-      criteria: data['recipient_criteria'] ?? '',
-      category: data['category'] ?? '',
-    );
+        id: data['id'] ?? '',
+        userId: data['userId'] ?? '',
+        username: data['username'] ?? '',
+        userProfileImg: data['userProfileImg'] ?? '',
+        location: data['location'] ?? '',
+        images: imageList,
+        name: data['name'] ?? '',
+        description: data['description'] ?? '',
+        criteria: data['recipient_criteria'] ?? '',
+        category: data['category'] ?? '',
+        user: data['user'] != null ? UserModel.fromMap(data['user']) : null);
   }
 
   factory GiftModel.fromGift(Gift item) {

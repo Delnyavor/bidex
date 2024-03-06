@@ -1,5 +1,7 @@
+import 'package:bidex/features/auth/domain/entities/user.dart';
 import 'package:equatable/equatable.dart';
 import 'package:bidex/features/add_post/domain/entitites/image.dart';
+
 class Gift extends Equatable {
   final String id;
   final String userId;
@@ -11,6 +13,7 @@ class Gift extends Equatable {
   final String description;
   final String criteria;
   final String category;
+  final User? user;
 
   const Gift({
     required this.id,
@@ -23,6 +26,7 @@ class Gift extends Equatable {
     required this.description,
     required this.criteria,
     required this.category,
+    this.user,
   });
 
   @override
@@ -37,5 +41,6 @@ class Gift extends Equatable {
         description,
         criteria,
         category,
+        user,
       ];
 }

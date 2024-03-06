@@ -107,13 +107,16 @@ class GiftingsBloc extends Bloc<GiftingsEvent, GiftingsState> {
     result!.fold(
       (l) async {},
       (r) async {
-        //handle the initial or empty state
-        if (state.items.isEmpty) {
-          fetchItemsInitial(r, emit);
-        } else {
-          //handle the loaded state
-          fetchItemsPostInitial(r, emit);
-        }
+        emit(state.copyWith(
+            items: r, giftingsPageStatus: GiftingsPageStatus.loaded));
+
+        // //handle the initial or empty state
+        // if (state.items.isEmpty) {
+        //   fetchItemsInitial(r, emit);
+        // } else {
+        //   //handle the loaded state
+        //   fetchItemsPostInitial(r, emit);
+        // }
       },
     );
   }

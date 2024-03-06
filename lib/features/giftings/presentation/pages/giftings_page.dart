@@ -74,55 +74,22 @@ class _GiftingsPageState extends State<GiftingsPage>
     }
   }
 
-  void onTap(String id) {
-    jumpToPage(1);
-    bloc.add(FetchGiftEvent(id: id));
-  }
-
-  void jumpToPage(int page) {
-    pageController.animateToPage(
-      page,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    );
-  }
-
-  void onWillPop(bool value) {
-    if (pageController.page == 1) {
-      jumpToPage(0);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      onPopInvoked: onWillPop,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: BlocListener<GiftingsBloc, GiftingsState>(
-          listener: (context, state) {
-            stateListener(state);
-          },
-          child: buildStack(),
-        ),
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: BlocListener<GiftingsBloc, GiftingsState>(
+        listener: (context, state) {
+          stateListener(state);
+        },
+        child: buildStack(),
       ),
     );
   }
 
   Widget buildStack() {
     return Stack(
-      children: [primaryPage(), LoadingPage(controller: controller)],
-    );
-  }
-
-  Widget primaryPage() {
-    return PageView(
-      physics: const NeverScrollableScrollPhysics(),
-      controller: pageController,
-      children: [
-        body(),
-        // const GiftPage(),
-      ],
+      children: [body(), LoadingPage(controller: controller)],
     );
   }
 
@@ -136,13 +103,8 @@ class _GiftingsPageState extends State<GiftingsPage>
           itemBuilder: (context, index) {
             return index >= state.items.length
                 ? bottomLoader()
-                : GiftWidget(
-                    gift: state.items[index],
-                    ontap: () {
-                      onTap(
-                        state.items[index].id,
-                      );
-                    },
+                : GiftItemWidget(
+                    item: state.items[index],
                   );
           },
           itemCount:

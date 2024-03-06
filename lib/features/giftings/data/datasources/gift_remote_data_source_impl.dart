@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:bidex/api/endpoints.dart';
 import 'package:bidex/core/utils/decode.dart';
+import 'package:bidex/features/auth/data/datasources/local_data_source.dart';
+import 'package:bidex/features/auth/domain/entities/user.dart';
 import 'package:bidex/features/giftings/domain/entities/gift_item.dart';
+import 'package:bidex/features/profile/domain/entities/user_post.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
@@ -15,22 +18,9 @@ import 'package:http/http.dart' as http;
 
 class GiftRemoteDataSourceImpl extends GiftRemoteDataSource {
   final http.Client httpClient = http.Client();
+  final LocalAuthSource localAuthSource;
 
-  final sampleData = {
-    "id": "1",
-    "userId": "userId",
-    "username": "username",
-    "location": "location",
-    "images": ["stock0.jpg", "stock1.jpg", "stock2.jpg", "stock3.jpg"],
-    "userProfileImg": "stock0.jpg",
-    "title": 'Custom Built Desktop',
-    "description":
-        "Lorem ipsum dolor sit amet lorem ipsum, dolor sit amet lorem ipsum dolor sit amet, lorem ipsum dolor sit amet",
-    "criteria": "Athlete",
-    "category": "category"
-  };
-
-  GiftRemoteDataSourceImpl();
+  GiftRemoteDataSourceImpl(this.localAuthSource);
 
   @override
   Future<GiftModel?>? createGift(
@@ -40,7 +30,7 @@ class GiftRemoteDataSourceImpl extends GiftRemoteDataSource {
     debugPrint(payload);
 
     http.Response response = await httpClient
-        .post(Uri.parse('https://bidex.up.railway.app/api/posts/'),
+        .post(Uri.parse(EndPoints.fetchPosts),
             headers: {
               'Content-Type': 'application/json',
               'Authorization': 'Bearer $authToken',
@@ -76,32 +66,23 @@ class GiftRemoteDataSourceImpl extends GiftRemoteDataSource {
 
   @override
   Future<List<GiftModel>?>? getAllItems([int index = 0]) async {
-    //TODO: revert these changes
+    User user = await localAuthSource.getUser();
+    String authToken = user.idToken;
+    String refreshToken = user.refreshToken;
 
-    // http.Response response = await httpClient.get(Uri.parse('www.example.com/'),
-    //     headers: {'Content-Type': 'application/json'});
-    try {
-      // if (response.body.isNotEmpty) {}
+    http.Response response =
+        await httpClient.get(Uri.parse(EndPoints.fetchPosts), headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $authToken',
+      'refresh-token': refreshToken,
+    }).timeout(const Duration(seconds: 15));
+    debugPrint(response.body);
 
-      if (true) {
-        // var res = jsonDecode(readFixture('barter_fixture.json'));
-        // return compute(_parseItems, response.body);
-        var item = GiftModel.fromMap(sampleData);
-
-        Future.delayed(const Duration(seconds: 0), () {});
-        return List<GiftModel>.generate(2, (index) => item);
-      } else {
-        // throw ServerException(code: response.statusCode);
-      }
-    } on PlatformException {
-      return null;
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return compute(_parseItems, response.body);
+    } else {
+      throw ServerException(message: parseApiError(response.body));
     }
-  }
-
-  List<GiftModel> _parseItems(String responseBody) {
-    final parsed = jsonDecode(responseBody).cast < Map<String, dynamic>;
-
-    return parsed.map((item) => GiftModel.fromMap(item));
   }
 
   @override
@@ -114,7 +95,7 @@ class GiftRemoteDataSourceImpl extends GiftRemoteDataSource {
         if (response.body.isNotEmpty) {
           // TODO: change back to 'response,body'
           // return GiftModel.fromMap(jsonDecode(response.body));
-          return GiftModel.fromMap(sampleData);
+          return GiftModel.fromMap({});
         } else {
           return null;
         }
@@ -141,4 +122,16 @@ class GiftRemoteDataSourceImpl extends GiftRemoteDataSource {
       return null;
     }
   }
+}
+
+List<GiftModel> _parseItems(String responseBody) {
+  final parsed = decode(responseBody) as List;
+  List<GiftModel> result = [];
+  for (dynamic item in parsed) {
+    if (item["type"] == PostType.gift.name) {
+      result.add(GiftModel.fromMap(item));
+    }
+  }
+
+  return result;
 }
