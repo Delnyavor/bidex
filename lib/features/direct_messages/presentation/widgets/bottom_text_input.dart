@@ -11,7 +11,7 @@ class DMInput extends StatefulWidget {
   final Function(String)? onChanged;
   final String? errorText;
   final bool preventFocus;
-  final Function? onSubmit;
+  final Function()? onSubmit;
 
   const DMInput(
       {Key? key,
@@ -183,14 +183,7 @@ class DMInputState extends State<DMInput> with SingleTickerProviderStateMixin {
     return IconButton(
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
-      onPressed: () {
-        bloc.add(CreateChat(Chat(
-            text: widget.controller.text,
-            created: DateTime.now(),
-            user: '0000')));
-
-        widget.controller.clear();
-      },
+      onPressed: widget.onSubmit,
       icon: const Icon(
         Icons.send_rounded,
         color: Colors.black87,

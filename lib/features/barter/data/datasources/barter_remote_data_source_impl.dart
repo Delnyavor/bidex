@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:bidex/api/endpoints.dart';
 import 'package:bidex/core/utils/decode.dart';
+import 'package:bidex/features/auth/data/datasources/local_data_source.dart';
+import 'package:bidex/features/auth/domain/entities/user.dart';
 import 'package:bidex/features/barter/domain/entities/barter_item.dart';
 import 'package:bidex/features/barter/data/models/barter_item_model.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 // ignore: depend_on_referenced_packages
@@ -13,36 +14,21 @@ import 'package:http/http.dart' as http;
 import '../../../../core/error/exceptions.dart';
 import 'barter_remote_data_source.dart';
 
-// TODO: clarify the endpoint return types for each function
 class BarterRemoteDataSourceImpl extends BarterRemoteDataSource {
   final http.Client httpClient = http.Client();
+  final LocalAuthSource localAuthSource;
 
-  final sampleData = {
-    "id": 1,
-    "userId": "userId",
-    "username": "username",
-    "location": "location",
-    "rating": 4.5,
-    "images": ["stock0.jpg", "stock1.jpg", "stock2.jpg", "stock3.jpg"],
-    "tags": ["ps5", "ps4", "gaming pc", "xbox series"],
-    "item_name": "The Blue Dragon",
-    "category": 'category',
-    "description": 'description',
-    "desired_items": ["ps5", "gaming pc", "ps4", "xbox series", "iPhone 13"]
-  };
+  BarterRemoteDataSourceImpl(this.localAuthSource);
 
-  BarterRemoteDataSourceImpl();
-
-  @override
   @override
   Future<BarterItemModel?>? createBarterItem(
-      BarterItem barter, String authToken, String refreshToken) async {
-    var payload = jsonEncode((barter as BarterItemModel).toMap());
+      BarterItem barterItem, String authToken, String refreshToken) async {
+    var payload = jsonEncode((barterItem as BarterItemModel).toMap());
 
     debugPrint(payload);
 
     http.Response response = await httpClient
-        .post(Uri.parse('https://bidex.up.railway.app/api/posts/'),
+        .post(Uri.parse(EndPoints.fetchPosts),
             headers: {
               'Content-Type': 'application/json',
               'Authorization': 'Bearer $authToken',
@@ -78,31 +64,23 @@ class BarterRemoteDataSourceImpl extends BarterRemoteDataSource {
 
   @override
   Future<List<BarterItemModel>?>? getAllItems([int index = 0]) async {
-    //TODO: revert these changes
+    User user = await localAuthSource.getUser();
+    String authToken = user.idToken;
+    String refreshToken = user.refreshToken;
 
-    // http.Response response = await httpClient.get(Uri.parse('www.example.com/'),
-    //     headers: {'Content-Type': 'application/json'});
-    try {
-      // if (response.body.isNotEmpty) {}
+    http.Response response =
+        await httpClient.get(Uri.parse(EndPoints.fetchPosts), headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $authToken',
+      'refresh-token': refreshToken,
+    }).timeout(const Duration(seconds: 15));
+    debugPrint(response.body);
 
-      if (true) {
-        // var res = jsonDecode(readFixture('barter_fixture.json'));
-        // return compute(_parseItems, response.body);
-        var item = BarterItemModel.fromMap(sampleData);
-
-        return List<BarterItemModel>.generate(2, (index) => item);
-      } else {
-        // throw ServerException(code: response.statusCode);
-      }
-    } on PlatformException {
-      return null;
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return compute(_parseItems, response.body);
+    } else {
+      throw ServerException(message: parseApiError(response.body));
     }
-  }
-
-  List<BarterItemModel> _parseItems(String responseBody) {
-    final parsed = jsonDecode(responseBody).cast < Map<String, dynamic>;
-
-    return parsed.map((item) => BarterItemModel.fromMap(item));
   }
 
   @override
@@ -140,4 +118,17 @@ class BarterRemoteDataSourceImpl extends BarterRemoteDataSource {
       return null;
     }
   }
+}
+
+List<BarterItemModel> _parseItems(String responseBody) {
+  final parsed = decode(responseBody) as List;
+  List<BarterItemModel> result = [];
+  for (dynamic item in parsed) {
+    if (item["type"] == "barter") {
+      print(item);
+      result.add(BarterItemModel.fromMap(item));
+    }
+  }
+
+  return result;
 }

@@ -33,7 +33,7 @@ class _GlobalAppBarState extends State<GlobalAppBar> {
       backgroundColor: Colors.transparent,
       centerTitle: true,
       leading: leading(),
-      // leadingWidth: 30,
+      leadingWidth: widget.implyLeading ? 30 : 50,
       title: widget.title ?? title(),
       actions: widget.actions ?? actions(),
     );
@@ -43,6 +43,8 @@ class _GlobalAppBarState extends State<GlobalAppBar> {
     return Padding(
       padding: const EdgeInsets.only(
         left: 15,
+        top: 10,
+        bottom: 5,
       ),
       child: IconButton(
         onPressed: () {

@@ -1,5 +1,4 @@
 import 'package:bidex/core/error/failures.dart';
-import 'package:bidex/di/injection_container.dart';
 import 'package:bidex/features/auth/data/datasources/local_data_source.dart';
 import 'package:bidex/features/auth/domain/entities/user.dart';
 import 'package:bidex/features/barter/domain/entities/barter_item.dart';
@@ -10,6 +9,7 @@ import 'package:bidex/features/barter/domain/usecases/create_barter.dart';
 import 'package:bidex/features/barter/domain/usecases/delete_barter.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:stream_transform/stream_transform.dart';
 
@@ -70,7 +70,7 @@ class BarterBloc extends Bloc<BarterEvent, BarterState> {
           errorMessage: l.message));
     }, (r) {
       emit(state.copyWith(
-          createBarterStatus: CreateBarterStatus.creationSuccess));
+          item: r, createBarterStatus: CreateBarterStatus.creationSuccess));
     });
   }
 
@@ -87,12 +87,13 @@ class BarterBloc extends Bloc<BarterEvent, BarterState> {
 
     result!.fold((l) async {}, (r) async {
       //handle the initial or empty state
-      if (state.items.isEmpty) {
-        handleInitial(r, emit);
-      } else {
-        //handle the loaded state
-        handleNonInitial(r, emit);
-      }
+      emit(state.copyWith(items: r, barterPageStatus: BarterPageStatus.loaded));
+      // if (state.items.isEmpty) {
+      //   handleInitial(r, emit);
+      // } else {
+      //   //handle the loaded state
+      //   handleNonInitial(r, emit);
+      // }
     });
   }
 
@@ -158,7 +159,7 @@ class BarterBloc extends Bloc<BarterEvent, BarterState> {
           items: state.items + result,
         ),
       );
-      print(state.items.length);
+      debugPrint(state.items.length.toString());
     }
   }
 }

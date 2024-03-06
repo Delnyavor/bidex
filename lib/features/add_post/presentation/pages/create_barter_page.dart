@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bidex/common/transitions/route_transitions.dart';
 import 'package:bidex/common/widgets/image_picker_list.dart';
 import 'package:bidex/common/widgets/input_field.dart';
 import 'package:bidex/common/widgets/modal_form/button_cancel.dart';
@@ -9,6 +10,7 @@ import 'package:bidex/features/add_post/presentation/bloc/create_post_bloc.dart'
 import 'package:bidex/features/add_post/presentation/widgets/post_type_selector.dart';
 import 'package:bidex/features/barter/data/models/barter_item_model.dart';
 import 'package:bidex/features/barter/domain/entities/barter_item.dart';
+import 'package:bidex/features/barter/presentation/pages/barter_detail_page.dart';
 import 'package:bidex/features/home/presentation/widgets/global_app_bar.dart';
 import 'package:bidex/features/scaffolding/scaffold.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +33,7 @@ class _CreateBarterPageState extends State<CreateBarterPage> {
   TextEditingController location = TextEditingController();
   TextEditingController desiredItemCtrl = TextEditingController();
   List<ApiImage> images = [];
-  List<String> desiredItems = [];
+  List<String> barters = [];
   bool hasDesiredItem = false;
 
   late CreatePostBloc createPostBloc;
@@ -58,7 +60,7 @@ class _CreateBarterPageState extends State<CreateBarterPage> {
     bloc = BlocProvider.of<BarterBloc>(context);
 
     desiredItemCtrl.addListener(() {
-      bool check = desiredItems.contains(desiredItemCtrl.text);
+      bool check = barters.contains(desiredItemCtrl.text);
 
       if (check) {
         if (!hasDesiredItem) {
@@ -87,16 +89,16 @@ class _CreateBarterPageState extends State<CreateBarterPage> {
   }
 
   void populateFields() {
-    name.text = widget.barterItem!.itemName;
-    category.text = widget.barterItem!.category;
+    name.text = widget.barterItem!.name;
+    category.text = widget.barterItem!.categoryId;
     description.text = widget.barterItem!.description;
     location.text = widget.barterItem!.location;
-    desiredItems = widget.barterItem!.desiredItems;
+    barters = widget.barterItem!.barters;
   }
 
   void clear() {
     images.clear();
-    desiredItems.clear();
+    barters.clear();
     name.clear();
     category.clear();
     description.clear();
@@ -154,11 +156,11 @@ class _CreateBarterPageState extends State<CreateBarterPage> {
         InputField(
           label: 'Desired Items',
           controller: desiredItemCtrl,
-          suffix: addToDesiredItems(),
+          suffix: addTobarters(),
         ),
         Wrap(
           alignment: WrapAlignment.start,
-          children: desiredItems
+          children: barters
               .map((e) => Padding(
                   padding: const EdgeInsets.only(right: 10, top: 6),
                   child: chip(e)))
@@ -183,7 +185,7 @@ class _CreateBarterPageState extends State<CreateBarterPage> {
       ),
       onDeleted: () {
         setState(() {
-          desiredItems.remove(value);
+          barters.remove(value);
         });
       },
     );
@@ -193,17 +195,23 @@ class _CreateBarterPageState extends State<CreateBarterPage> {
     bloc.add(
       CreateBarterEvent(
         item: BarterItemModel(
-          id: 1,
+          id: '1',
           images: images,
           userId: '',
-          username: '',
-          itemName: name.text,
+          name: name.text,
           location: location.text,
-          rating: 0.0,
-          tags: const [],
-          category: '',
+          categoryId: '',
           description: description.text,
-          desiredItems: desiredItems,
+          barters: barters,
+          createdAt: '',
+          updatedAt: '',
+          startingPrice: 0,
+          priceCurrency: '',
+          recipientCriteria: '',
+          type: '',
+          status: '',
+          likeCount: 0,
+          viewerCount: 0,
         ),
       ),
     );
@@ -245,21 +253,20 @@ class _CreateBarterPageState extends State<CreateBarterPage> {
     Navigator.pop(context);
     if (state.createBarterStatus == CreateBarterStatus.creationError) {
     } else if (state.createBarterStatus == CreateBarterStatus.creationSuccess) {
-      // TODO: Create barter page
-      // Navigator.pushReplacement(
-      //     context, slideInRoute(Barter(id: state.result!.id)));
-      Navigator.pop(context);
+      Navigator.pushReplacement(
+          context, slideInRoute(BarterDetailPage(item: state.item!)));
+      // Navigator.pop(context);
     }
   }
 
-  Widget addToDesiredItems() {
+  Widget addTobarters() {
     return IconButton(
       onPressed: () {
         if (desiredItemCtrl.text.isNotEmpty) {
           if (hasDesiredItem) {
-            desiredItems.remove(desiredItemCtrl.text);
+            barters.remove(desiredItemCtrl.text);
           } else {
-            desiredItems.add(desiredItemCtrl.text);
+            barters.add(desiredItemCtrl.text);
           }
           desiredItemCtrl.clear();
           setState(() {});

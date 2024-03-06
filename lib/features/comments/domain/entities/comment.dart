@@ -1,24 +1,24 @@
 import 'package:equatable/equatable.dart';
 
 class Comment extends Equatable {
-  final String createdAt;
-  final String updatedAt;
-  final String id;
+  final String? createdAt;
+  final String? updatedAt;
+  final String? id;
   final String content;
-  final String likeCount;
+  final String? likeCount;
   final String userId;
-  final String commentId;
+  final String? commentId;
   final String postId;
   final String type;
 
   const Comment(
-      {required this.createdAt,
-      required this.updatedAt,
-      required this.id,
+      {this.createdAt,
+      this.updatedAt,
+      this.id,
       required this.content,
-      required this.likeCount,
+      this.likeCount,
       required this.userId,
-      required this.commentId,
+      this.commentId,
       required this.postId,
       required this.type});
 
@@ -51,6 +51,6 @@ class Comment extends Equatable {
   }
 
   Map<String, dynamic> toJson() {
-    return {'commentId': commentId};
+    return {'content': content};
   }
 }

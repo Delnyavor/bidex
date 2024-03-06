@@ -142,7 +142,7 @@ void initAuctionsFeature() {
 // INITIALISE BARTERS
 void initBarterFeature() {
   sl.registerLazySingleton<BarterRemoteDataSource>(
-      () => BarterRemoteDataSourceImpl());
+      () => BarterRemoteDataSourceImpl(sl<LocalAuthSource>()));
 
   sl.registerLazySingleton<BarterRepository>(
       () => BarterRepositoryImpl(dataSource: sl()));

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-Map<String, dynamic> decode(String response) {
+dynamic decode(String response) {
   return jsonDecode(response)["data"];
 }
 

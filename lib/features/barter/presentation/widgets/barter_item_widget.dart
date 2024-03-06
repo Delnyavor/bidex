@@ -5,7 +5,7 @@ import 'package:bidex/common/widgets/carousel_indicator.dart';
 import 'package:bidex/features/barter/domain/entities/barter_item.dart';
 import 'package:bidex/common/widgets/carousel.dart';
 import 'package:bidex/common/widgets/tags_widget.dart';
-import 'package:bidex/features/barter/presentation/pages/barter_details_page.dart';
+import 'package:bidex/features/barter/presentation/pages/barter_detail_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/utils/description_text.dart';
@@ -33,7 +33,7 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
 
   void onTap() {
     Navigator.push(
-        context, slideInRoute(BarterDetailsPage(item: widget.barterItem)));
+        context, slideInRoute(BarterDetailPage(item: widget.barterItem)));
   }
 
   @override
@@ -52,7 +52,7 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
             ),
             center(),
             controls(),
-            tags(),
+            // tags(),
           ],
         ),
       ),
@@ -61,7 +61,7 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
 
   Widget center() {
     return AspectRatio(
-      aspectRatio: 1,
+      aspectRatio: 1.4,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15),
         child: Stack(
@@ -178,10 +178,10 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
         border: Border.all(color: Colors.grey.shade300, width: 0.5));
   }
 
-  Widget tags() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(15, 0, 15, 20),
-      child: TagsWidget(tags: widget.barterItem.tags),
-    );
-  }
+  // Widget tags() {
+  //   return Padding(
+  //     padding: const EdgeInsets.fromLTRB(15, 0, 15, 20),
+  //     child: TagsWidget(tags: widget.barterItem),
+  //   );
+  // }
 }

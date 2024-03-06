@@ -1,10 +1,10 @@
 import 'package:bidex/common/app_colors.dart';
-import 'package:bidex/features/comments/presentation/widgets/comment_list.dart';
+import 'package:bidex/features/comments/domain/entities/comment.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CommentWidget extends StatefulWidget {
-  final String data;
+  final Comment data;
   const CommentWidget({super.key, required this.data});
 
   @override
@@ -24,9 +24,9 @@ class _CommentWidgetState extends State<CommentWidget> {
       children: [
         const CircleAvatar(
           backgroundImage: AssetImage('assets/images/prof.jpg'),
-          radius: 20,
+          radius: 16,
         ),
-        const SizedBox(width: 14),
+        const SizedBox(width: 12),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -34,12 +34,15 @@ class _CommentWidgetState extends State<CommentWidget> {
               'Kong',
               style: Theme.of(context)
                   .textTheme
-                  .bodyLarge!
-                  .copyWith(fontWeight: FontWeight.bold),
+                  .bodySmall!
+                  .copyWith(fontWeight: FontWeight.bold, color: Colors.black87),
             ),
-            const Text(
-              'Love the name',
-              style: TextStyle(fontSize: 13),
+            Text(
+              widget.data.content,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .copyWith(color: Colors.black.withOpacity(0.7)),
             ),
             const SizedBox(height: 6),
             Row(

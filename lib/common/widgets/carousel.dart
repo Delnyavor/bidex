@@ -23,8 +23,6 @@ class _CarouselState extends State<Carousel> {
     return PageView(
       controller: widget.controller,
       children: widget.images.map((e) => child(e)).toList(),
-      // itemBuilder: (context, index) => child(widget.images[index]),
-      // itemCount: widget.images.length,
     );
   }
 
@@ -36,12 +34,8 @@ class _CarouselState extends State<Carousel> {
           borderRadius: BorderRadius.circular(widget.radius),
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: ResizeImage(
-              AssetImage(
-                'assets/images/$path',
-              ),
-              height: 675,
-              width: 676,
+            image: NetworkImage(
+              path,
             ),
           ),
         ),

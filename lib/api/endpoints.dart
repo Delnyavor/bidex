@@ -3,6 +3,7 @@ class EndPoints {
 
   // POST
   static String createPost = "$baseUrl/posts/";
+  static String fetchPosts = "$baseUrl/posts?user=true";
 
   // AUCTION ENDPOINTS
   static String createAuctionUrl = createPost;
@@ -14,8 +15,8 @@ class EndPoints {
 
   // same endpoint for fetching data. Change to get or post as needed
   static String createComment(String postId) =>
-      '$baseUrl/api/posts/$postId/comments';
+      '$baseUrl/posts/$postId/comments?user=true';
 
   static String createReply(String postId, String commentId) =>
-      '$baseUrl/api/posts/$postId/comments/$commentId';
+      '$baseUrl/posts/$postId/comments/$commentId?user=true';
 }

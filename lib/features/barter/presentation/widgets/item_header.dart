@@ -29,7 +29,8 @@ class ItemHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  barterItem.username,
+                  "${barterItem.user?.firstName} ${barterItem.user?.lastName}",
+                  overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         fontWeight: FontWeight.w600,
                         color: Colors.black87,
@@ -54,7 +55,7 @@ class ItemHeader extends StatelessWidget {
                         size: 20,
                       ),
                       Text(
-                        barterItem.rating.toString(),
+                        barterItem.likeCount.toString(),
                         style: Theme.of(context)
                             .textTheme
                             .bodySmall!

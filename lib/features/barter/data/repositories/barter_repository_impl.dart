@@ -40,6 +40,7 @@ class BarterRepositoryImpl extends BarterRepository {
       [int index = 0]) async {
     try {
       final result = await dataSource.getAllItems(index);
+      print(result);
       return Right(result);
     } on ServerException catch (_) {
       return const Left(ServerFailure(message: 'Something went wrong'));

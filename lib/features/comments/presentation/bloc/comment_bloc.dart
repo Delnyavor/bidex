@@ -25,7 +25,6 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
     on<CreateComment>(_onCreateComment);
     on<FetchComments>(_onFetchComments);
     on<FetchReplies>(_onFetchReplies);
-    on<InitialiseComments>(_onInitialise);
   }
   void _onInitialise(InitialiseComments event, Emitter<CommentState> emit) {
     emit(state.copyWith(
@@ -46,14 +45,18 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
             ? CommentsStatus.error
             : CommentsStatus.loadedError,
       ));
-
-      emit(state.copyWith(commentsStatus: CommentsStatus.loaded));
     }, (r) {
-      state.comments.addAll(r);
+      late CommentsStatus status;
+
+      if (r.isNotEmpty) {
+        status = CommentsStatus.loaded;
+      } else {
+        if (state.comments.isEmpty) {
+          status = CommentsStatus.empty;
+        }
+      }
       emit(
-        state.copyWith(
-          comments: state.comments,
-        ),
+        state.copyWith(comments: r.reversed.toList(), commentsStatus: status),
       );
     });
   }
@@ -86,6 +89,9 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
   }
 
   void _onCreateComment(CreateComment event, Emitter<CommentState> emit) async {
+    state.comments.insert(0, event.comment);
+    emit(state.copyWith(commentsStatus: CommentsStatus.loading));
+
     final result = await addComment(comment: event.comment);
 
     result!.fold((l) {
@@ -93,14 +99,12 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
         errorMessage: l.message,
         commentsStatus: CommentsStatus.loadedError,
       ));
-
-      emit(state.copyWith(commentsStatus: CommentsStatus.loaded));
     }, (r) {
-      state.comments.add(r);
+      state.comments.removeAt(0);
+      state.comments.insert(0, r);
       emit(
         state.copyWith(
-          comments: state.comments,
-        ),
+            comments: state.comments, commentsStatus: CommentsStatus.loaded),
       );
     });
   }

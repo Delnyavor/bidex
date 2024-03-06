@@ -98,6 +98,7 @@ class _BarterPage extends State<BarterPage>
 
   Widget body() {
     return BlocBuilder<BarterBloc, BarterState>(
+      buildWhen: (c, p) => c != p,
       bloc: bloc,
       builder: (context, state) {
         return ListView.builder(
@@ -119,7 +120,7 @@ class _BarterPage extends State<BarterPage>
 
   Widget bottomLoader() {
     return const SizedBox(
-      height: 40,
+      height: 60,
       width: 40,
       child: Center(
         child: SizedBox(

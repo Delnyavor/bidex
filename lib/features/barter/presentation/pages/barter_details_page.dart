@@ -1,14 +1,18 @@
+import 'package:bidex/common/widgets/image.dart';
+import 'package:bidex/features/comments/domain/entities/comment.dart';
+import 'package:bidex/features/comments/presentation/bloc/comment_bloc.dart';
 import 'package:bidex/features/comments/presentation/widgets/comment_list.dart';
 import 'package:bidex/features/direct_messages/presentation/widgets/bottom_text_input.dart';
+import 'package:bidex/features/profile/domain/entities/user_post.dart';
 import 'package:bidex/features/scaffolding/scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/widgets/carousel.dart';
 import '../../../../common/widgets/carousel_indicator.dart';
 import '../../../../common/widgets/tabs.dart';
 import '../../../home/presentation/widgets/global_app_bar.dart';
 import '../../domain/entities/barter_item.dart';
-import '../widgets/item_header.dart';
 
 class BarterDetailsPage extends StatefulWidget {
   final BarterItem item;
@@ -24,12 +28,15 @@ class _BarterDetailsPageState extends State<BarterDetailsPage>
   bool isPageFirst = true;
   late TabController tabController;
   late TextEditingController textController;
+  late CommentBloc commentBloc;
 
   @override
   void initState() {
     super.initState();
     tabController = TabController(length: 2, vsync: this);
     textController = TextEditingController();
+
+    commentBloc = BlocProvider.of<CommentBloc>(context);
   }
 
   void changePage(int index) {
@@ -48,24 +55,69 @@ class _BarterDetailsPageState extends State<BarterDetailsPage>
     return Scaffolding(
       appBar: GlobalAppBar(
         implyLeading: true,
-        title: ItemHeader(
-          barterItem: widget.item,
-          showLast: false,
-        ),
+        title: title(),
+        // title: ItemHeader(
+        //   barterItem: widget.item,
+        //   showLast: false,
+        // ),
       ),
       body: body(),
       bottomNavbar: inputBar(),
+      resizeToAvoidInsets: true,
+    );
+  }
+
+  Widget title() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(50),
+            child: const DisplayImage(
+              path: 'assets/images/stock0.jpg',
+              height: 35,
+              width: 35,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.item.id,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87,
+                      ),
+                ),
+                Text(
+                  widget.item.location,
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: Colors.black87,
+                      ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   Widget body() {
-    return ListView(
+    return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-      children: [
-        carousel(),
-        tabs(),
-        views(),
-      ],
+      child: Column(
+        children: [
+          carousel(),
+          tabs(),
+          views(),
+        ],
+      ),
     );
   }
 
@@ -103,47 +155,43 @@ class _BarterDetailsPageState extends State<BarterDetailsPage>
       index: tabController.index,
       children: [
         description(),
-        const CommentList(
-          postId: '',
+        CommentList(
+          postId: widget.item.id,
         )
       ],
     );
   }
 
   Widget description() {
-    return const Text(
-      '''Custom gaming pc build i like to call the blue dragon. It runs on 2 RTX 3090 cards for graphics and an Intel i9 508820HK for Logic.
-Predominantly blue configuration for RGB lights(hence the name), optional Liquid cooling and more ports than you could possibly need. Full Specs below.
-
-Height: 8.36” | 21.24 cm
-Width: 11.97” | 30.41 cm
-Depth: .61” | 1.56 cm
-Screen Size: 13.3”
-Resolution:2560 x 1600, 227 ppi
-Weight:2.75 lb | 1.25 kg Condition: New
-
- Im looking for the listed items alright but if you have anything of comparable value lets talk
- 
-Height: 8.36” | 21.24 cm
-Width: 11.97” | 30.41 cm
-Depth: .61” | 1.56 cm
-Screen Size: 13.3”
-Resolution:2560 x 1600, 227 ppi
-Weight:2.75 lb | 1.25 kg Condition: New
-
-Im looking for the listed items alright but if you have anything of comparable value lets talk''',
+    return Text(
+      widget.item.description,
       overflow: TextOverflow.ellipsis,
       maxLines: 16,
-      style: TextStyle(color: Colors.black87, letterSpacing: 0),
+      style: const TextStyle(color: Colors.black87, letterSpacing: 0),
     );
   }
 
   Widget inputBar() {
     return IgnorePointer(
-        ignoring: isPageFirst,
-        child: DMInput(
-          controller: textController,
-          preventFocus: isPageFirst,
-        ));
+      ignoring: isPageFirst,
+      child: DMInput(
+        controller: textController,
+        preventFocus: isPageFirst,
+        onSubmit: () {
+          //   commentBloc.add(
+          //     CreateComment(
+          //       Comment(
+          //         content: textController.text,
+          //         userId: widget.item.userId,
+          //         postId: widget.item.id,
+          //         type: PostType.barter.toString(),
+          //       ),
+          //     ),
+          //   );
+
+          // print(PostType.barter.toString());
+        },
+      ),
+    );
   }
 }
