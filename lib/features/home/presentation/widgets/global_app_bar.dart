@@ -36,6 +36,7 @@ class _GlobalAppBarState extends State<GlobalAppBar> {
       leadingWidth: widget.implyLeading ? 30 : 50,
       title: widget.title ?? title(),
       actions: widget.actions ?? actions(),
+      surfaceTintColor: Colors.transparent,
     );
   }
 

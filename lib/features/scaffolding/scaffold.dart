@@ -24,7 +24,7 @@ class _Scaffolding extends State<Scaffolding> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: widget.resizeToAvoidInsets,
-      // backgroundColor: Colors.white,
+      backgroundColor: Colors.grey.shade100,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: widget.appBar,
@@ -36,26 +36,13 @@ class _Scaffolding extends State<Scaffolding> {
   Widget body() {
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Colors.transparent,
-              widget.backgroundColour ?? Colors.transparent,
-            ],
-            stops: const [0, 0.2],
+      child: Column(
+        children: [
+          Flexible(
+            child: bodyDecoration(),
           ),
-        ),
-        child: Column(
-          children: [
-            Flexible(
-              child: bodyDecoration(),
-            ),
-            widget.bottomNavbar
-          ],
-        ),
+          widget.bottomNavbar
+        ],
       ),
     );
   }
@@ -72,22 +59,8 @@ class _Scaffolding extends State<Scaffolding> {
 
   BoxDecoration decoration() {
     return BoxDecoration(
-      color: Colors.white,
+      color: Colors.grey.shade100,
       borderRadius: BorderRadius.circular(30),
-      boxShadow: const [
-        BoxShadow(
-          spreadRadius: -5,
-          blurRadius: 8,
-          color: Colors.black26,
-          offset: Offset(0, 0),
-        ),
-        BoxShadow(
-          spreadRadius: 0,
-          blurRadius: 1,
-          color: Colors.black12,
-          offset: Offset(0, 0),
-        ),
-      ],
     );
   }
 }
