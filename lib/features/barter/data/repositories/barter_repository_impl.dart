@@ -1,6 +1,5 @@
 import 'package:bidex/core/error/exception_handler.dart';
 import 'package:bidex/core/error/failures.dart';
-import 'package:bidex/features/auth/data/repositories/auth_repository_implementation.dart';
 import 'package:bidex/features/barter/data/datasources/barter_remote_data_source.dart';
 import 'package:bidex/features/barter/domain/repositories/barter_repository.dart';
 import 'package:dartz/dartz.dart';
@@ -40,7 +39,6 @@ class BarterRepositoryImpl extends BarterRepository {
       [int index = 0]) async {
     try {
       final result = await dataSource.getAllItems(index);
-      print(result);
       return Right(result);
     } on ServerException catch (_) {
       return const Left(ServerFailure(message: 'Something went wrong'));
