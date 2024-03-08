@@ -1,3 +1,5 @@
+import 'package:bidex/features/auth/data/datasources/local_data_source.dart';
+import 'package:bidex/features/auth/data/datasources/local_data_source_impl.dart';
 import 'package:bidex/features/payment/presentation/pages/payment_page.dart';
 import 'package:bidex/features/profile/presentation/pages/edit_profile_page.dart';
 import 'package:bidex/features/profile/presentation/widgets/custom_dropdown.dart';
@@ -57,7 +59,11 @@ class _ProfileMenuDropdownState extends State<ProfileMenuDropdown> {
             ]),
           ),
           DropdownItem<Function>(
-            value: () {},
+            value: () async {
+              await LocalAuthSourceImpl().logout();
+// TODO: rewrite to include bloc
+              Navigator.pop(context);
+            },
             child: const Row(children: [
               Icon(Icons.logout),
               SizedBox(width: 10),

@@ -1,5 +1,6 @@
 import 'package:bidex/common/app_colors.dart';
 import 'package:bidex/common/widgets/image.dart';
+import 'package:bidex/features/barter/presentation/widgets/item_header.dart';
 import 'package:bidex/features/comments/domain/entities/comment.dart';
 import 'package:bidex/features/comments/presentation/bloc/comment_bloc.dart';
 import 'package:bidex/features/comments/presentation/widgets/comment_list.dart';
@@ -51,50 +52,15 @@ class _BarterDetailPageState extends State<BarterDetailPage>
           },
           child: const Icon(Icons.keyboard_arrow_left, size: 26),
         ),
-        title: pageTitle(),
+        title: ItemHeader(
+          item: widget.item,
+          showLast: true,
+        ),
         titleSpacing: 0,
         toolbarHeight: 70,
       ),
       body: body(),
       // bottomNavigationBar: inputBar(),
-    );
-  }
-
-  Widget pageTitle() {
-    return Row(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(50),
-          child: const DisplayImage(
-            path: 'assets/images/stock0.jpg',
-            height: 35,
-            width: 35,
-          ),
-        ),
-        const SizedBox(width: 8),
-        Flexible(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                widget.item.id,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black87,
-                    ),
-              ),
-              Text(
-                widget.item.location,
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: Colors.black87,
-                    ),
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 

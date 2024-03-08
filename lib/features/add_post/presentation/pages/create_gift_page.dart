@@ -74,10 +74,10 @@ class _CreateGiftPage extends State<CreateGiftPage>
 
   void populateFields() {
     name.text = widget.gift!.name;
-    category.text = widget.gift!.category;
+    category.text = widget.gift!.categoryId;
     description.text = widget.gift!.description;
     location.text = widget.gift!.location;
-    criteria.text = widget.gift!.criteria;
+    criteria.text = widget.gift!.recipientCriteria;
   }
 
   void clear() {
@@ -156,14 +156,21 @@ class _CreateGiftPage extends State<CreateGiftPage>
         item: GiftModel(
           id: '1',
           userId: "",
-          username: "",
           location: location.text,
-          userProfileImg: "",
           images: images,
           name: name.text,
           description: description.text,
-          criteria: criteria.text,
-          category: category.text,
+          categoryId: category.text,
+          createdAt: '',
+          updatedAt: '',
+          barters: const [],
+          startingPrice: 0,
+          priceCurrency: '',
+          recipientCriteria: criteria.text,
+          type: '',
+          status: '',
+          likeCount: 0,
+          viewerCount: 0,
         ),
       ),
     );

@@ -46,7 +46,6 @@ class _PostTypeSelectorState extends State<PostTypeSelector> {
     bloc = BlocProvider.of<CreatePostBloc>(context);
     types = PostType.values;
     type = widget.type ?? bloc.state.type;
-    print(bloc.state.type);
   }
 
   @override
@@ -63,9 +62,9 @@ class _PostTypeSelectorState extends State<PostTypeSelector> {
         initialSelection: type,
         width: width,
         textStyle: textStyle(),
-        inputDecorationTheme: InputDecorationTheme(
+        inputDecorationTheme: const InputDecorationTheme(
           filled: true,
-          fillColor: Colors.grey[100],
+          fillColor: Colors.white,
         ),
         menuStyle: MenuStyle(
           elevation: MaterialStateProperty.all<double>(2),
@@ -91,7 +90,6 @@ class _PostTypeSelectorState extends State<PostTypeSelector> {
             )
             .toList(),
         onSelected: (value) {
-          print(value);
           setState(() {
             type = value!;
           });

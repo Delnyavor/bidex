@@ -23,7 +23,10 @@ class AuctionRemoteDataSourceImpl extends AuctionRemoteDataSource {
     "username": "username",
     "location": "location",
     "rating": 4.5,
-    "images": ["stock0.jpg", "stock1.jpg", "stock2.jpg", "stock3.jpg"],
+    "images": [
+      "https://images.expertreviews.co.uk/wp-content/uploads/2023/10/Apple-iPhone-14-Pro-review-11.jpg?width=626&height=352&fit=crop&format=webply",
+      "https://cdn.britannica.com/09/241709-050-149181B1/apple-iphone-11-2019.jpg?w=400&h=300&c=crop"
+    ],
     "tags": ["ps5", "ps4", "gaming pc", "xbox series"],
     "category": "",
     "description": "",
@@ -73,7 +76,7 @@ class AuctionRemoteDataSourceImpl extends AuctionRemoteDataSource {
         // return compute(_parseItems, response.body);
         var item = AuctionItemModel.fromMap(sampleData);
 
-        await Future.delayed(const Duration(seconds: 0), () {});
+        await Future.delayed(const Duration(seconds: 2), () {});
         return List<AuctionItemModel>.generate(2, (index) => item);
         // ignore: dead_code
       } else {

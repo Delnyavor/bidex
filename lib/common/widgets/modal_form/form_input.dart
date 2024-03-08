@@ -74,7 +74,7 @@ class _ModalFormInputState extends State<ModalFormInput> {
       decoration: InputDecoration(
         hintText: widget.hint,
         filled: true,
-        fillColor: Colors.grey[100],
+        fillColor: Colors.white,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 12,
           vertical: 18,
@@ -100,12 +100,7 @@ class _ModalFormInputState extends State<ModalFormInput> {
   }
 
   BorderSide buildBorder() {
-    return widget.revealBorder
-        ? BorderSide(
-            width: hasfocus ? 1 : 0,
-            color: hasfocus ? AppColors.brightBlue : Colors.black26,
-          )
-        : BorderSide.none;
+    return BorderSide.none;
   }
 
   Widget suffixIcon() {

@@ -85,6 +85,7 @@ class BarterItemModel extends BarterItem {
       'location': location,
       'barters': barters,
       'images': imagelist,
+      'recipient_criteria': recipientCriteria,
     };
   }
 }

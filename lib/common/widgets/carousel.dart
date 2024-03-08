@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class Carousel extends StatefulWidget {
   final EdgeInsets margin;
@@ -29,15 +30,12 @@ class _CarouselState extends State<Carousel> {
   Widget child(String path) {
     return Padding(
       padding: widget.margin,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(widget.radius),
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: NetworkImage(
-              path,
-            ),
-          ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(widget.radius),
+        child: FadeInImage.memoryNetwork(
+          placeholder: kTransparentImage,
+          image: path,
+          fit: BoxFit.cover,
         ),
       ),
     );

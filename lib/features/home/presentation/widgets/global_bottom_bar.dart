@@ -14,9 +14,9 @@ class _GlobalBottomNavBarState extends State<GlobalBottomNavBar> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-      child: Row(
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: const [
+        children: [
           BottomNavButton(
             label: 'Barter',
             icon: Icons.swap_vert,

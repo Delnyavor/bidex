@@ -150,7 +150,7 @@ class _AuctionWidgetState extends State<AuctionWidget> {
 
   Widget controls() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 18),
+      padding: const EdgeInsets.symmetric(vertical: 11.0, horizontal: 18),
       child: Row(
         children: [
           const Icon(CupertinoIcons.person_3_fill),

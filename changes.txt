@@ -1,0 +1,6 @@
+swap like and interests functionality,
+info should show brter and item info
+add barter list
+take out comment likes
+item details and barter list
+auction should be free to enter

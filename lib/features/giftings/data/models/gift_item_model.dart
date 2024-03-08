@@ -5,16 +5,23 @@ import 'package:bidex/features/add_post/domain/entitites/image.dart';
 
 class GiftModel extends Gift {
   const GiftModel({
+    required super.createdAt,
+    required super.updatedAt,
     required super.id,
-    required super.userId,
-    required super.username,
-    required super.userProfileImg,
-    required super.location,
-    required super.images,
     required super.name,
     required super.description,
-    required super.criteria,
-    required super.category,
+    required super.barters,
+    required super.startingPrice,
+    required super.priceCurrency,
+    required super.recipientCriteria,
+    required super.type,
+    required super.status,
+    required super.likeCount,
+    required super.categoryId,
+    required super.userId,
+    required super.location,
+    required super.images,
+    required super.viewerCount,
     super.user,
   });
 
@@ -22,32 +29,49 @@ class GiftModel extends Gift {
     var d = data['images'] as List<dynamic>;
 
     var imageList = d.map((e) => ApiImage(url: e)).toList();
+
+    List<String> barters =
+        (data["barters"] as List<dynamic>).map((e) => e as String).toList();
     return GiftModel(
-        id: data['id'] ?? '',
-        userId: data['userId'] ?? '',
-        username: data['username'] ?? '',
-        userProfileImg: data['userProfileImg'] ?? '',
-        location: data['location'] ?? '',
+        createdAt: data['createdAt'],
+        updatedAt: data['updatedAt'],
+        id: data['id'],
+        name: data['name'],
+        description: data['description'],
+        barters: barters,
+        startingPrice: data['starting_price'] ?? 0,
+        priceCurrency: data['price_currency'] ?? '',
+        recipientCriteria: data['recipient_criteria'] ?? '',
+        type: data['type'],
+        status: data['status'],
+        likeCount: data['like_count'],
+        categoryId: data['categoryId'],
+        userId: data['userId'],
+        location: data['location'],
         images: imageList,
-        name: data['name'] ?? '',
-        description: data['description'] ?? '',
-        criteria: data['recipient_criteria'] ?? '',
-        category: data['category'] ?? '',
+        viewerCount: data['viewer_count'],
         user: data['user'] != null ? UserModel.fromMap(data['user']) : null);
   }
 
   factory GiftModel.fromGift(Gift item) {
     return GiftModel(
+      createdAt: item.createdAt,
+      updatedAt: item.updatedAt,
       id: item.id,
-      userId: item.userId,
-      username: item.username,
-      userProfileImg: item.userProfileImg,
-      location: item.location,
-      images: item.images,
       name: item.name,
       description: item.description,
-      criteria: item.criteria,
-      category: item.category,
+      barters: item.barters,
+      startingPrice: item.startingPrice,
+      priceCurrency: item.priceCurrency,
+      recipientCriteria: item.recipientCriteria,
+      type: item.type,
+      status: item.status,
+      likeCount: item.likeCount,
+      categoryId: item.categoryId,
+      userId: item.userId,
+      location: item.location,
+      images: item.images,
+      viewerCount: item.viewerCount,
     );
   }
 
@@ -57,7 +81,7 @@ class GiftModel extends Gift {
       'name': name,
       'categoryId': 'clryy3pci0001mc0zmdv2rsf5',
       'description': description,
-      'recipient_criteria': criteria,
+      'recipient_criteria': recipientCriteria,
       'location': location,
       'images': imagelist,
     };

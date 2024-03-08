@@ -1,4 +1,5 @@
 import 'package:bidex/common/widgets/image.dart';
+import 'package:bidex/features/barter/presentation/widgets/item_header.dart';
 import 'package:bidex/features/comments/domain/entities/comment.dart';
 import 'package:bidex/features/comments/presentation/bloc/comment_bloc.dart';
 import 'package:bidex/features/comments/presentation/widgets/comment_list.dart';
@@ -50,7 +51,10 @@ class _GiftPageState extends State<GiftPage>
           },
           child: const Icon(Icons.keyboard_arrow_left, size: 26),
         ),
-        title: pageTitle(),
+        title: ItemHeader(
+          item: widget.item,
+          showLast: true,
+        ),
         titleSpacing: 0,
         toolbarHeight: 70,
       ),

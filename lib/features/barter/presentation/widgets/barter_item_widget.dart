@@ -6,6 +6,7 @@ import 'package:bidex/features/barter/domain/entities/barter_item.dart';
 import 'package:bidex/common/widgets/carousel.dart';
 import 'package:bidex/common/widgets/tags_widget.dart';
 import 'package:bidex/features/barter/presentation/pages/barter_detail_page.dart';
+import 'package:bidex/features/direct_messages/presentation/pages/chat_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/utils/description_text.dart';
@@ -48,7 +49,7 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: ItemHeader(barterItem: widget.barterItem),
+              child: ItemHeader(item: widget.barterItem),
             ),
             center(),
             controls(),
@@ -149,23 +150,30 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
   }
 
   Widget controls() {
-    return const Row(
+    return Row(
       children: [
         IconButton(
-            constraints: BoxConstraints(maxWidth: 35),
-            onPressed: null,
+            constraints: const BoxConstraints(maxWidth: 35),
+            onPressed: () {
+             
+            },
             iconSize: 22,
-            icon: Icon(Icons.favorite)),
+            icon: const Icon(Icons.favorite)),
         IconButton(
-            constraints: BoxConstraints(maxWidth: 35),
-            onPressed: null,
+            constraints: const BoxConstraints(maxWidth: 35),
+            onPressed: () {
+               Navigator.push(
+                context,
+                slideInRoute(const ChatPage()),
+              );
+            },
             iconSize: 22,
-            icon: Icon(Icons.swap_vert)),
+            icon: const Icon(Icons.swap_vert)),
         Expanded(
             child: Align(
           alignment: Alignment.centerRight,
           child: IconButton(
-              iconSize: 20, onPressed: null, icon: Icon(Icons.share)),
+              iconSize: 20, onPressed: () {}, icon: const Icon(Icons.share)),
         ))
       ],
     );
@@ -173,24 +181,23 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
 
   BoxDecoration decoration() {
     return BoxDecoration(
-      color: Colors.white70,
-      borderRadius: BorderRadius.circular(20),
-      // border: Border.all(color: Colors.grey.shade300, width: 0.5),
-      // boxShadow: const [
-      //   BoxShadow(
-      //     spreadRadius: -5,
-      //     blurRadius: 8,
-      //     color: Colors.black26,
-      //     offset: Offset(0, 0),
-      //   ),
-      //   BoxShadow(
-      //     spreadRadius: 0,
-      //     blurRadius: 1,
-      //     color: Colors.black12,
-      //     offset: Offset(0, 0),
-      //   ),
-      // ]
-    );
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        // border: Border.all(color: Colors.grey.shade300, width: 0.5),
+        boxShadow: const [
+          BoxShadow(
+            spreadRadius: -7,
+            blurRadius: 8,
+            color: Colors.black12,
+            offset: Offset(0, 0),
+          ),
+          BoxShadow(
+            spreadRadius: -1,
+            blurRadius: 1,
+            color: Colors.black12,
+            offset: Offset(0, 0.5),
+          ),
+        ]);
   }
 
   // Widget tags() {
