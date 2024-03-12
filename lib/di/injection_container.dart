@@ -29,9 +29,7 @@ import 'package:bidex/features/comments/domain/usecases/get_comments.dart';
 import 'package:bidex/features/comments/domain/usecases/get_replies.dart';
 import 'package:bidex/features/profile/data/datasources/user_posts_datasource.dart';
 import 'package:bidex/features/profile/domain/usecases/get_user_posts.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
+
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -109,8 +107,7 @@ void initAuthFeature() {
   sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImplementation(
       authDataSource: sl(), localAuthSource: sl()));
 
-  sl.registerLazySingleton<AuthDataSource>(
-      () => AuthDataSourceImpl(firebaseDatabase: sl()));
+  sl.registerLazySingleton<AuthDataSource>(() => AuthDataSourceImpl());
 
   sl.registerLazySingleton<LocalAuthSource>(() => LocalAuthSourceImpl());
 }
@@ -198,8 +195,5 @@ void initProfileFeature() {
 //
 // INITIALISE EXTERNAL DEPENDENCIES
 Future<void> initExternal() async {
-  await Firebase.initializeApp();
-  sl.registerLazySingleton(() => FirebaseAuth.instance);
-  sl.registerLazySingleton(() => FirebaseDatabase.instance);
   sl.registerLazySingleton(() async => await SharedPreferences.getInstance());
 }

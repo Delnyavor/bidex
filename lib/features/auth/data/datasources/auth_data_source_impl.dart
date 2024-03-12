@@ -4,16 +4,14 @@ import 'package:bidex/core/error/exceptions.dart';
 import 'package:bidex/features/auth/data/datasources/auth_data_source.dart';
 import 'package:bidex/features/auth/data/models/user_model.dart';
 import 'package:bidex/features/auth/domain/entities/user.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../core/utils/decode.dart';
 
 class AuthDataSourceImpl implements AuthDataSource {
-  final FirebaseDatabase firebaseDatabase;
   final http.Client httpClient = http.Client();
 
-  AuthDataSourceImpl({required this.firebaseDatabase});
+  AuthDataSourceImpl();
 
   @override
   Future<User?> signIn(String email, String password) async {
