@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BidCount extends StatefulWidget {
-  const BidCount({Key? key}) : super(key: key);
+  const BidCount({super.key});
 
   @override
   State<BidCount> createState() => _BidCountState();

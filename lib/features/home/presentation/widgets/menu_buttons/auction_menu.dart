@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../barter/presentation/bloc/barter_bloc.dart';
 
 class BarterPopupMenu extends StatefulWidget {
-  const BarterPopupMenu({Key? key}) : super(key: key);
+  const BarterPopupMenu({super.key});
 
   @override
   State<BarterPopupMenu> createState() => BarterPopupMenuState();

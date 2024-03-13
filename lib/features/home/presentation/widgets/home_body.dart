@@ -9,7 +9,7 @@ import '../../../giftings/presentation/pages/giftings_page.dart';
 import '../../../profile/presentation/pages/profile_page.dart';
 
 class HomeBody extends StatefulWidget {
-  const HomeBody({Key? key}) : super(key: key);
+  const HomeBody({super.key});
 
   @override
   State<HomeBody> createState() => _HomeBodyState();

@@ -14,8 +14,7 @@ import 'item_header.dart';
 
 class BarterItemWidget extends StatefulWidget {
   final BarterItem barterItem;
-  const BarterItemWidget({Key? key, required this.barterItem})
-      : super(key: key);
+  const BarterItemWidget({super.key, required this.barterItem});
 
   @override
   State<BarterItemWidget> createState() => _BarterItemWidgetState();
@@ -154,15 +153,13 @@ class _BarterItemWidgetState extends State<BarterItemWidget> {
       children: [
         IconButton(
             constraints: const BoxConstraints(maxWidth: 35),
-            onPressed: () {
-             
-            },
+            onPressed: () {},
             iconSize: 22,
             icon: const Icon(Icons.favorite)),
         IconButton(
             constraints: const BoxConstraints(maxWidth: 35),
             onPressed: () {
-               Navigator.push(
+              Navigator.push(
                 context,
                 slideInRoute(const ChatPage()),
               );

@@ -13,7 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
 
 class BidPurchaseForm extends StatefulWidget {
-  const BidPurchaseForm({Key? key}) : super(key: key);
+  const BidPurchaseForm({super.key});
 
   @override
   State<BidPurchaseForm> createState() => _BidPurchaseFormState();

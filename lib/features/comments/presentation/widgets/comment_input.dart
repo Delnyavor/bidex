@@ -13,13 +13,12 @@ class CommentInput extends StatefulWidget {
   final Function? onSubmit;
 
   const CommentInput(
-      {Key? key,
+      {super.key,
       required this.controller,
       this.onChanged,
       this.errorText,
       this.preventFocus = false,
-      this.onSubmit})
-      : super(key: key);
+      this.onSubmit});
 
   @override
   State<CommentInput> createState() => CommentInputState();

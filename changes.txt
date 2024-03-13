@@ -1,5 +1,5 @@
-swap like and interests functionality,
-info should show brter and item info
+* swap like and interests functionality,
+info should show barter and item info
 add barter list
 take out comment likes
 item details and barter list

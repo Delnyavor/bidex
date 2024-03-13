@@ -11,7 +11,7 @@ import '../../../home/presentation/widgets/global_app_bar.dart';
 import '../../../scaffolding/scaffold.dart';
 
 class BiddingPage extends StatefulWidget {
-  const BiddingPage({Key? key}) : super(key: key);
+  const BiddingPage({super.key});
 
   @override
   State<BiddingPage> createState() => _BiddingPageState();

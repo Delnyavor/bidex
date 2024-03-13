@@ -10,7 +10,7 @@ import '../widgets/auction_widget.dart';
 import 'bidding_page.dart';
 
 class AuctionsPage extends StatefulWidget {
-  const AuctionsPage({Key? key}) : super(key: key);
+  const AuctionsPage({super.key});
 
   @override
   State<AuctionsPage> createState() => _AuctionsPageState();

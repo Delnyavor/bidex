@@ -4,9 +4,9 @@ class ModalDropDown extends StatefulWidget {
   final Function(String)? onChanged;
 
   const ModalDropDown({
-    Key? key,
+    super.key,
     this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   State<ModalDropDown> createState() => _ModalDropDownState();

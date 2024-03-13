@@ -14,7 +14,7 @@ import '../../../../common/utils/description_text.dart';
 
 class GiftItemWidget extends StatefulWidget {
   final Gift item;
-  const GiftItemWidget({Key? key, required this.item}) : super(key: key);
+  const GiftItemWidget({super.key, required this.item});
 
   @override
   State<GiftItemWidget> createState() => _GiftItemWidgetState();
@@ -152,17 +152,17 @@ class _GiftItemWidgetState extends State<GiftItemWidget> {
       children: [
         IconButton(
             constraints: const BoxConstraints(maxWidth: 35),
-            onPressed: () {
-             
-            },
+            onPressed: () {},
             iconSize: 22,
             icon: const Icon(Icons.favorite)),
         IconButton(
             constraints: const BoxConstraints(maxWidth: 35),
-            onPressed: () { Navigator.push(
+            onPressed: () {
+              Navigator.push(
                 context,
                 slideInRoute(const ChatPage()),
-              );},
+              );
+            },
             iconSize: 22,
             icon: const Icon(Icons.swap_vert)),
         Expanded(

@@ -34,13 +34,13 @@ class _FeedbackDialogState extends State<FeedbackDialog> {
     return const Material(
       color: Colors.white,
       child: Padding(
-        padding: const EdgeInsets.only(left: 18.0),
+        padding: EdgeInsets.only(left: 18.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
             // const ttl.Title(title: 'Payment Options'),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
             // radioSelector(options[0]),
             // radioSelector(options[1]),
             // radioSelector(options[2]),

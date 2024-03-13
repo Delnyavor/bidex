@@ -95,7 +95,7 @@ class GiftRemoteDataSourceImpl extends GiftRemoteDataSource {
         if (response.body.isNotEmpty) {
           // TODO: change back to 'response,body'
           // return GiftModel.fromMap(jsonDecode(response.body));
-          return GiftModel.fromMap({});
+          return GiftModel.fromMap(const {});
         } else {
           return null;
         }

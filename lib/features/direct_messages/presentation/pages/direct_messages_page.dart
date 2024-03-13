@@ -10,7 +10,7 @@ import '../../../home/presentation/widgets/global_app_bar.dart';
 import '../../../scaffolding/scaffold.dart';
 
 class DirectMessagesPage extends StatefulWidget {
-  const DirectMessagesPage({Key? key}) : super(key: key);
+  const DirectMessagesPage({super.key});
 
   @override
   createState() => _DirectMessagesPage();
@@ -66,12 +66,14 @@ class _DirectMessagesPage extends State<DirectMessagesPage> {
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
+                  return null;
+
                   // return ChatMessage(message: state.items[index]);
                 },
                 childCount: state.items.length,
               ),
             ),
-            SliverFillRemaining(
+            const SliverFillRemaining(
               child: SizedBox.expand(),
             )
           ],
@@ -89,8 +91,8 @@ class _DirectMessagesPage extends State<DirectMessagesPage> {
             backgroundImage: AssetImage('assets/images/prof.jpg'),
           ),
           const SizedBox(width: 8),
-          Column(
-            children: const [
+          const Column(
+            children: [
               Text(
                 'Frank Oshlie',
                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -110,9 +112,9 @@ class _DirectMessagesPage extends State<DirectMessagesPage> {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return Column(
+                          return const Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
+                            children: [
                               SafetyAlert(),
                             ],
                           );

@@ -12,8 +12,7 @@ class GlobalAppBar extends StatefulWidget {
   final List<Widget>? actions;
   final Widget? title;
   const GlobalAppBar(
-      {Key? key, this.implyLeading = false, this.title, this.actions})
-      : super(key: key);
+      {super.key, this.implyLeading = false, this.title, this.actions});
 
   @override
   State<GlobalAppBar> createState() => _GlobalAppBarState();

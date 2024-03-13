@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/barter_bloc.dart';
 
 class BarterPage extends StatefulWidget {
-  const BarterPage({Key? key}) : super(key: key);
+  const BarterPage({super.key});
 
   @override
   createState() => _BarterPage();

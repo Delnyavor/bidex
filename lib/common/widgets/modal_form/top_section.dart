@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 class TopSection extends StatelessWidget {
   final List<Widget> children;
   final bool flex;
-  const TopSection({Key? key, required this.children, this.flex = false})
-      : super(key: key);
+  const TopSection({super.key, required this.children, this.flex = false});
 
   @override
   Widget build(BuildContext context) {

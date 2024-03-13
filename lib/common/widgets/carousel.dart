@@ -7,12 +7,11 @@ class Carousel extends StatefulWidget {
   final List<String> images;
   final PageController controller;
   const Carousel(
-      {Key? key,
+      {super.key,
       required this.images,
       required this.controller,
       this.radius = 0.0,
-      this.margin = EdgeInsets.zero})
-      : super(key: key);
+      this.margin = EdgeInsets.zero});
 
   @override
   State<Carousel> createState() => _CarouselState();

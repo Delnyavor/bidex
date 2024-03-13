@@ -26,7 +26,7 @@ class CustomDropdown<T> extends StatefulWidget {
   final bool showSelectors;
 
   const CustomDropdown({
-    Key? key,
+    super.key,
     required this.items,
     required this.dropdownStyle,
     required this.dropdownButtonStyle,
@@ -35,7 +35,7 @@ class CustomDropdown<T> extends StatefulWidget {
     required this.parentKey,
     this.showSelectors = false,
     this.position,
-  }) : super(key: key);
+  });
 
   @override
   createState() => _CustomDropdownState<T>();
@@ -247,12 +247,11 @@ class DropdownItem<T> extends StatelessWidget {
   final bool isAddend;
 
   const DropdownItem(
-      {Key? key,
+      {super.key,
       required this.value,
       required this.child,
       this.center = false,
-      this.isAddend = false})
-      : super(key: key);
+      this.isAddend = false});
   @override
   Widget build(BuildContext context) {
     return child;

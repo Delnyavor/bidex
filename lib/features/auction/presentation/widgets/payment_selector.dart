@@ -6,7 +6,7 @@ import '../../../../common/widgets/modal_form/button_cancel.dart';
 import '../../../../common/widgets/modal_form/button_proceed.dart';
 
 class PaymentSelector extends StatefulWidget {
-  const PaymentSelector({Key? key}) : super(key: key);
+  const PaymentSelector({super.key});
 
   @override
   State<PaymentSelector> createState() => _PaymentSelectorState();

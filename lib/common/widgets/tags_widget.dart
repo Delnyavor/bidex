@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 class TagsWidget extends StatelessWidget {
   final List<String> tags;
   final bool tilt;
-  const TagsWidget({Key? key, required this.tags, this.tilt = true})
-      : super(key: key);
+  const TagsWidget({super.key, required this.tags, this.tilt = true});
 
   @override
   Widget build(BuildContext context) {

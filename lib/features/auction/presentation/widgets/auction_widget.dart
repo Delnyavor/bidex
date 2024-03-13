@@ -12,8 +12,7 @@ import '../../domain/entities/auction_item.dart';
 class AuctionWidget extends StatefulWidget {
   final AuctionItem auction;
   final void Function()? ontap;
-  const AuctionWidget({Key? key, required this.auction, this.ontap})
-      : super(key: key);
+  const AuctionWidget({super.key, required this.auction, this.ontap});
 
   @override
   State<AuctionWidget> createState() => _AuctionWidgetState();
@@ -149,20 +148,20 @@ class _AuctionWidgetState extends State<AuctionWidget> {
   }
 
   Widget controls() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 11.0, horizontal: 18),
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 11.0, horizontal: 18),
       child: Row(
         children: [
-          const Icon(CupertinoIcons.person_3_fill),
-          const SizedBox(width: 5),
-          const Text('15'),
+          Icon(CupertinoIcons.person_3_fill),
+          SizedBox(width: 5),
+          Text('15'),
           Expanded(
             child: Align(
               alignment: Alignment.centerRight,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Text('GHS 15,250',
                       style: TextStyle(fontWeight: FontWeight.w500)),
                   Text('GHS 10,000', style: TextStyle(fontSize: 10)),

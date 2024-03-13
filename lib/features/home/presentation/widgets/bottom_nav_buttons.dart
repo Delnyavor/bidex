@@ -8,11 +8,10 @@ class BottomNavButton extends StatefulWidget {
   final IconData icon;
   final int position;
   const BottomNavButton(
-      {Key? key,
+      {super.key,
       required this.label,
       required this.icon,
-      required this.position})
-      : super(key: key);
+      required this.position});
 
   @override
   State<BottomNavButton> createState() => _BottomNavButtonState();

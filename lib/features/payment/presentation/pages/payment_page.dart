@@ -68,8 +68,7 @@ class _PaymentPage extends State<PaymentPage> {
           ),
           const SizedBox(height: 10),
           ...transactions
-              .map((e) => padding(child: TransactionWidget(transaction: e)))
-              .toList(),
+              .map((e) => padding(child: TransactionWidget(transaction: e))),
         ],
       ),
       bottomNavbar: ProceedButton(

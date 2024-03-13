@@ -10,7 +10,7 @@ class CarouselIndicator extends StatefulWidget {
   final double? spacing;
   final EdgeInsets? padding;
   const CarouselIndicator({
-    Key? key,
+    super.key,
     required this.controller,
     required this.count,
     this.luminance = 0,
@@ -18,7 +18,7 @@ class CarouselIndicator extends StatefulWidget {
     this.width,
     this.spacing,
     this.padding,
-  }) : super(key: key);
+  });
 
   @override
   State<CarouselIndicator> createState() => _CarouselIndicatorState();
