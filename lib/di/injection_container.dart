@@ -29,10 +29,6 @@ import 'package:bidex/features/comments/domain/usecases/get_comments.dart';
 import 'package:bidex/features/comments/domain/usecases/get_replies.dart';
 import 'package:bidex/features/profile/data/datasources/user_posts_datasource.dart';
 import 'package:bidex/features/profile/domain/usecases/get_user_posts.dart';
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
