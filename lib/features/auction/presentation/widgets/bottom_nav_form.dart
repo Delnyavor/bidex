@@ -2,7 +2,7 @@ import 'package:bidex/common/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavBidForm extends StatefulWidget {
-  const BottomNavBidForm({Key? key}) : super(key: key);
+  const BottomNavBidForm({super.key});
 
   @override
   State<BottomNavBidForm> createState() => _BottomNavBidFormState();
@@ -76,11 +76,11 @@ class BottomBarInput extends StatefulWidget {
   final String? errorText;
 
   const BottomBarInput({
-    Key? key,
+    super.key,
     required this.controller,
     this.onChanged,
     this.errorText,
-  }) : super(key: key);
+  });
 
   @override
   State<BottomBarInput> createState() => BottomBarInputState();

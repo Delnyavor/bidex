@@ -13,15 +13,14 @@ class ImagePickerWidget extends StatefulWidget {
   final bool? showCancelOption;
   final Color? defaultBackgroundColor;
   const ImagePickerWidget(
-      {Key? key,
+      {super.key,
       required this.onRetrieved,
       this.defaultIcon,
       this.retrievedIcon,
       this.showRetrievedIcon,
       this.showCancelOption,
       this.defaultBackgroundColor,
-      this.onCancelled})
-      : super(key: key);
+      this.onCancelled});
 
   @override
   State<ImagePickerWidget> createState() => ImagePickerWidgetState();

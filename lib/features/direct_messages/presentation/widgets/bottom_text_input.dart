@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/app_colors.dart';
-import '../../domain/entities/chat.dart';
 import '../bloc/chat_bloc.dart';
 
 class DMInput extends StatefulWidget {
@@ -14,13 +13,12 @@ class DMInput extends StatefulWidget {
   final Function()? onSubmit;
 
   const DMInput(
-      {Key? key,
+      {super.key,
       required this.controller,
       this.onChanged,
       this.errorText,
       this.preventFocus = false,
-      this.onSubmit})
-      : super(key: key);
+      this.onSubmit});
 
   @override
   State<DMInput> createState() => DMInputState();

@@ -13,7 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
 
 class SessionForm extends StatefulWidget {
-  const SessionForm({Key? key}) : super(key: key);
+  const SessionForm({super.key});
 
   @override
   State<SessionForm> createState() => _SessionFormState();

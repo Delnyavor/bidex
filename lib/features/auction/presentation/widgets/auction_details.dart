@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AuctionDetailsWidget extends StatelessWidget {
-  const AuctionDetailsWidget({Key? key}) : super(key: key);
+  const AuctionDetailsWidget({super.key});
   final TextStyle s =
       const TextStyle(fontSize: 12, height: 1.45, wordSpacing: 0.5);
 

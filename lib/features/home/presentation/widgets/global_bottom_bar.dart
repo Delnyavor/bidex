@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class GlobalBottomNavBar extends StatefulWidget {
-  const GlobalBottomNavBar({Key? key}) : super(key: key);
+  const GlobalBottomNavBar({super.key});
 
   @override
   State<GlobalBottomNavBar> createState() => _GlobalBottomNavBarState();

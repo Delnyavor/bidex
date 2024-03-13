@@ -9,7 +9,7 @@ import '../../../../common/widgets/loading_page.dart';
 import 'gift_page.dart';
 
 class GiftingsPage extends StatefulWidget {
-  const GiftingsPage({Key? key}) : super(key: key);
+  const GiftingsPage({super.key});
 
   @override
   State<GiftingsPage> createState() => _GiftingsPageState();

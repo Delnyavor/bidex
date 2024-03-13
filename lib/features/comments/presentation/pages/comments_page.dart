@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CommentsPage extends StatefulWidget {
+  const CommentsPage({super.key});
+
   @override
   createState() => _CommentsPage();
 }

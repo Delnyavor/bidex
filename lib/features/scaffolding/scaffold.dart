@@ -7,13 +7,12 @@ class Scaffolding extends StatefulWidget {
   final Color? backgroundColour;
   final bool? resizeToAvoidInsets;
   const Scaffolding(
-      {Key? key,
+      {super.key,
       required this.appBar,
       required this.body,
       required this.bottomNavbar,
       this.backgroundColour,
-      this.resizeToAvoidInsets = false})
-      : super(key: key);
+      this.resizeToAvoidInsets = false});
 
   @override
   createState() => _Scaffolding();

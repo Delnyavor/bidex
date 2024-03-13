@@ -9,14 +9,14 @@ class AuthInput extends StatefulWidget {
   final String? errorText;
 
   const AuthInput({
-    Key? key,
+    super.key,
     this.validator,
     required this.controller,
     required this.hint,
     this.obscure,
     this.onChanged,
     this.errorText,
-  }) : super(key: key);
+  });
 
   @override
   State<AuthInput> createState() => _AuthInputState();

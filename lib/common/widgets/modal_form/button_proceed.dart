@@ -8,12 +8,12 @@ class ProceedButton extends StatelessWidget {
   final bool colored;
   final bool enabled;
   const ProceedButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.onPressed,
     this.colored = true,
     this.enabled = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

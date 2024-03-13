@@ -12,7 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../common/widgets/image_picker_widget.dart';
 
 class IdentityForm extends StatefulWidget {
-  const IdentityForm({Key? key}) : super(key: key);
+  const IdentityForm({super.key});
 
   @override
   State<IdentityForm> createState() => IdentityFormState();

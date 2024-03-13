@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class LoadingPage extends StatefulWidget {
   final AnimationController controller;
-  const LoadingPage({Key? key, required this.controller}) : super(key: key);
+  const LoadingPage({super.key, required this.controller});
 
   @override
   State<LoadingPage> createState() => _LoadingPageState();
@@ -46,9 +46,9 @@ class _LoadingPageState extends State<LoadingPage> {
       child: SizedBox.expand(
         child: Container(
           color: AppColors.appWhite,
-          child: Column(
+          child: const Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               SizedBox(
                 height: 50,
                 width: 50,

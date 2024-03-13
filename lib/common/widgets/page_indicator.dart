@@ -5,8 +5,7 @@ class PageIndicatorWidget extends StatefulWidget {
   final PageController controller;
   final int length;
   const PageIndicatorWidget(
-      {Key? key, required this.controller, required this.length})
-      : super(key: key);
+      {super.key, required this.controller, required this.length});
 
   @override
   State<PageIndicatorWidget> createState() => _PageIndicatorWidgetState();
@@ -23,7 +22,8 @@ class _PageIndicatorWidgetState extends State<PageIndicatorWidget> {
   List<Widget> generateChildren() {
     List<Widget> list = [];
     for (int i = 0; i < widget.length; i++) {
-      list.add(_Indicator(controller: widget.controller, position: i));
+      list.add(_Indicator(
+          controller: widget.controller, position: i, key: Key(i.toString())));
 
       if (i + 1 != widget.length) {
         list.add(const SizedBox(
@@ -38,8 +38,8 @@ class _PageIndicatorWidgetState extends State<PageIndicatorWidget> {
 class _Indicator extends StatefulWidget {
   final PageController controller;
   final int position;
-  const _Indicator({Key? key, required this.controller, required this.position})
-      : super(key: key);
+  const _Indicator(
+      {required super.key, required this.controller, required this.position});
 
   @override
   _IndicatorState createState() => _IndicatorState();

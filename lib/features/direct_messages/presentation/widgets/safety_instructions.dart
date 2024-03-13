@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../common/app_colors.dart';
 
 class SafetyAlert extends StatelessWidget {
-  const SafetyAlert({Key? key}) : super(key: key);
+  const SafetyAlert({super.key});
 
   @override
   Widget build(BuildContext context) {

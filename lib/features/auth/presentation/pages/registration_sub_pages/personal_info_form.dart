@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PersonalInfoForm extends StatefulWidget {
-  const PersonalInfoForm({Key? key}) : super(key: key);
+  const PersonalInfoForm({super.key});
 
   @override
   State<PersonalInfoForm> createState() => PersonalInfoFormState();

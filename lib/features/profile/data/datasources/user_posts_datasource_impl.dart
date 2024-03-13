@@ -20,7 +20,7 @@ class UserPostsDataSourceImpl implements UserPostsRemoteDataSource {
       if (response.body.isNotEmpty) {
         return compute(_parseItems, response.body);
       } else {
-        throw ServerException();
+        throw const ServerException();
       }
     } on PlatformException {
       return null;

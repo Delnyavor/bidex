@@ -3,10 +3,10 @@ import 'package:bidex/core/error/failures.dart';
 
 Failure handleException(Exception e) {
   switch (e.runtimeType) {
-    case ServerException:
+    case const (ServerException):
       return ServerFailure(message: e.toString());
 
-    case CacheException:
+    case const (CacheException):
       return CacheFailure(message: e.toString());
 
     default:

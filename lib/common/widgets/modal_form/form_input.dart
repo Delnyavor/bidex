@@ -16,7 +16,7 @@ class ModalFormInput extends StatefulWidget {
   final TextInputType? inputType;
 
   const ModalFormInput({
-    Key? key,
+    super.key,
     this.validator,
     required this.controller,
     required this.hint,
@@ -29,7 +29,7 @@ class ModalFormInput extends StatefulWidget {
     this.maxLines = 1,
     this.revealBorder = true,
     this.inputType,
-  }) : super(key: key);
+  });
 
   @override
   State<ModalFormInput> createState() => _ModalFormInputState();

@@ -6,8 +6,7 @@ class CancelButton extends StatelessWidget {
   final bool coloured;
   final Function? onPop;
   const CancelButton(
-      {Key? key, required this.text, this.coloured = true, this.onPop})
-      : super(key: key);
+      {super.key, required this.text, this.coloured = true, this.onPop});
 
   @override
   Widget build(BuildContext context) {
